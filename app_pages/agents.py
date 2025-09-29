@@ -4,7 +4,6 @@ from google.cloud import geminidataanalytics
 from state import fetch_agents_state
 from utils.agents import get_time_delta_string
 import uuid
-import time
 
 BIG_QUERY = "BigQuery"
 LOOKER = "Looker"
@@ -114,7 +113,7 @@ def agents_main():
             agent = geminidataanalytics.DataAgent()
             # TODO: Remove id/name setting after bug fixed where id starting with number fails the create convo endpoint
             id = f"a{uuid.uuid4()}"
-            agent.name=f"projects/{state.project_id}/locations/global/dataAgents/{id}"
+            agent.name=f"projects/{st.secrets.cloud.project_id}/locations/global/dataAgents/{id}"
             agent.display_name=display_name
             agent.description=description
 
@@ -139,7 +138,7 @@ def agents_main():
             agent.data_analytics_agent.published_context = published_context
             # TODO: Remove id/name setting after bug fixed where id starting with number fails the create convo endpoint
             request = geminidataanalytics.CreateDataAgentRequest(
-                parent=f"projects/{state.project_id}/locations/global",
+                parent=f"projects/{st.secrets.cloud.project_id}/locations/global",
                 data_agent_id=id,
                 data_agent=agent
             )

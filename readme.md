@@ -31,47 +31,33 @@ The local deployment option is ideal for:
 
 ### 1. Setup environment
 
-First, ensure you have the following prerequisites installed:
+You must have the following prerequisites installed in your local environment:
 - Python 3.11 or higher
 - Git
 - Google Cloud SDK (gcloud CLI)
 
-### 2. Configure permissions
+### 2. Configure everything Google Cloud
 
-1. Enable the required APIs in your Google Cloud project (charges may apply):
+1. Determine your Google Cloud billing project you will use for the quickstart app. Enable the required APIs on the Google Cloud billing project (charges may apply):
 
 ```bash
-gcloud services enable geminidataanalytics.googleapis.com bigquery.googleapis.com cloudaicompanion.googleapis.com people.googleapis.com aiplatform.googleapis.com --project=YOUR_PROJECT_ID
+gcloud services enable geminidataanalytics.googleapis.com bigquery.googleapis.com cloudaicompanion.googleapis.com --project=YOUR_PROJECT_ID
 ```
 
-2. Any user that will use the app must have these IAM roles depending on the data 
-source they will query in the app:
+2. Determine the user or service account the quickstart app will use to access cloud resources. Setup gcloud CLI application default credentials for the account. Check out these [steps](https://cloud.google.com/docs/authentication/set-up-adc-local-dev-environment#local-user-cred) for more context.
+```bash
+gcloud auth application-default login
+gcloud auth application-default set-quota-project YOUR_PROJECT_ID
+```
 
-BigQuery: Data Viewer, User 
-or
-Looker: Instance User
+3. Set the correct IAM roles on the user or service account from step 2 depending on the type of the data source the app will query:
 
-### 3. Configure OAuth
+    | Data source    | Roles |
+    | -------- | ------- |
+    | BigQuery  | `roles/bigquery.dataViewer` BigQuery Data Viewer <br >  `roles/bigquery.user` BigQuery User |
+    | Looker | `roles/looker.instanceUser` Looker Instance User |
 
-#### Create consent screen
-1. Navigate to the Google Cloud console and create an Oauth consent screen through the [consent screen wizard](https://console.cloud.google.com/auth/overview/create). If a consent screen already exists, adjust the following values accordingly through both the [branding](https://console.cloud.google.com/auth/branding) page and [audience](https://console.cloud.google.com/auth/audience) page.
-2. Set “App name” to your choice.
-3. Set “User support email” to your choice. 
-4. Set "Audience" to your choice.
-5. Set "Contact Information" to your choice.
-6. Select "Create" to create your consent screen.
-
-#### Create OAuth client
-
-1. Go to "APIs & Services" > "Credentials"
-2. Click "Create credentials" > "OAuth client ID"
-3. Select "Web application" as the “Application type”
-4. Configure the application name to your choice
-5. Add “http://localhost:8501” to "Authorized JavaScript origins"
-6. Add "http://localhost:8501  to "Authorized redirect URIs"
-7. Click "Create" and note down the Client ID and Client Secret for the next step.
-
-### 4. Setup local repository
+### 3. Setup local repository
 
 Clone the repository and navigate to the project directory:
 
@@ -80,25 +66,29 @@ git clone https://github.com/looker-open-source/ca-api-quickstarts.git
 cd ca-api-quickstarts
 ```
 
-### 5. Configure environment
+### 4. Configure secrets/environment
 
-Create a `.env` file in the project root with the following variables:
+Create a `secrets.toml` file in the `.streamlit` directory:
 
 ```
-PROJECT_ID=YOUR_PROJECT_ID
-GOOGLE_CLIENT_ID=YOUR_CLIENT_ID_FROM_PREVIOUS
-GOOGLE_CLIENT_SECRET=YOUR_CLIENT_SECRET_FROM_PREVIOUS
-REDIRECT_URI=http://localhost:8501
+[cloud]
+project_id = "YOUR_PROJECT_ID"
 
-# Uncomment next 2 lines, if using Looker as data source
-#LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
-#LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+# Uncomment next 3 lines if using Looker as data source
+#[looker]
+#client_id = "YOUR_LOOKER_CLIENT_ID"
+#client_secret = "YOUR_LOOKER_CLIENT_SECRET"
 ```
 
-If Looker will be a data source, retrieve the Looker client id and Looker client secret that will be used to access Looker. Read this [Looker authentication documentation](https://cloud.google.com/looker/docs/api-auth) if you need guidance.
+If you will use Looker as a data source:
 
+1. Determine the Looker account that will access Looker. 
+2. Ensure the Looker account has the [access_data](https://cloud.google.com/looker/docs/admin-panel-users-roles#access_data) and [gemini_in_looker](https://cloud.google.com/looker/docs/admin-panel-users-roles#gemini_in_looker) permissions. 
+3. Retrieve the [Looker account's client id and client secret](https://cloud.google.com/looker/docs/api-auth#authentication_with_an_sdk) and set it in the secrets.toml file.
 
-### 6. Install dependencies
+*The quickstart app auths with a [Looker API key](https://cloud.google.com/gemini/docs/conversational-analytics-api/authentication#looker-api-keys). The app DOES NOT use a [Looker access token](https://cloud.google.com/gemini/docs/conversational-analytics-api/authentication#looker-access-token).*
+
+### 5. Install dependencies
 
 Install the app's dependencies:
 
@@ -106,7 +96,7 @@ Install the app's dependencies:
 pip install -r requirements.txt
 ```
 
-### 7. Launch app
+### 6. Launch app
 
 Start the app locally:
 
@@ -116,43 +106,28 @@ streamlit run app.py
 
 Access the app at http://localhost:8501 in your web browser.
 
-
-### 8. Clean up
-
-If needed, you can clean up your OAuth configuration.
-
-1. In google cloud console, navigate to "APIs & Services" > "Credentials"
-2. Edit the OAuth 2.0 Client ID used for the application
-3. Remove the redirect URIs associated with the deployed application
-4. Save changes
-
-or 
-
-Delete the OAuth client. 
-
 ## App usage guide
 
 ### Create, update, view, and delete a data agent
 
-1. Select "Login with Google" and authorize the application
-2. You will land on the "Agents" page
-3. Scroll down to "Create Agent" form.
-4. Enter the "display name", "description", and "system instructions". [Tips for writing system instructions](https://cloud.google.com/gemini/docs/conversational-analytics-api/data-agent-system-instructions)
-5. If you want the agent to query Looker as a data source:
+1. Navigate to the "Agents" page
+2. Scroll down to "Create Agent" form.
+3. Enter the "display name", "description", and "system instructions". [Tips for writing system instructions](https://cloud.google.com/gemini/docs/conversational-analytics-api/data-agent-system-instructions)
+4. If you want the agent to query Looker as a data source:
    - Select "Looker" as the data source
    - Enter the Looker instance url. e.g. "myinstance.looker.com"
    - Enter the Looker model name
    - Enter the Looker explore name
-6. Or, if you want the agent to query BigQuery as a data source:
+5. Or, if you want the agent to query BigQuery as a data source:
    - Select "BigQuery" as the DataSource
    - Enter the id of the project containing the BigQuery dataset. e.g. "bigquery-public-data"
    - Enter the name of the dataset. e.g. "san_francisco_trees"
    - Enter the name of the table. e.g. "street_trees"
-7. Select "Create"
-8. View the data agents you've created in the agents page. 
-9. Select a data agent to expand it. 
-10. You can change all fields except "Data Source". Select "Update agent" after you've made your changes to save your changes to the agent.
-11. You can select "Delete agent" to delete the agent.
+6. Select "Create"
+7. View the data agents you've created in the agents page. 
+8. Select a data agent to expand it. 
+9. You can change all fields except "Data Source". Select "Update agent" after you've made your changes to save your changes to the agent.
+10. You can select "Delete agent" to delete the agent.
 
 ### Query your data
 
