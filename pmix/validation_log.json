@@ -1,0 +1,3842 @@
+[
+  {
+    "date": "2024-12-15",
+    "pdf": "pmix/pmix-senso-2024-12-15.pdf",
+    "timestamp": "2025-12-18T13:27:26.459511",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6551.1,
+    "pdf_total": null,
+    "record_count": 119,
+    "total_qty": 494,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 39,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 41,
+      "(Wine)": 12
+    }
+  },
+  {
+    "date": "2024-12-16",
+    "pdf": "pmix/pmix-senso-2024-12-16.pdf",
+    "timestamp": "2025-12-18T13:27:26.993656",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3343.85,
+    "pdf_total": 3343.85,
+    "record_count": 76,
+    "total_qty": 247,
+    "categories": {
+      "(Food)": 22,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 2,
+      "(Sushi)": 31,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2024-12-18",
+    "pdf": "pmix/pmix-senso-2024-12-18.pdf",
+    "timestamp": "2025-12-18T13:27:27.797159",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6112.25,
+    "pdf_total": null,
+    "record_count": 119,
+    "total_qty": 463,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 28,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 51,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2024-12-19",
+    "pdf": "pmix/pmix-senso-2024-12-19.pdf",
+    "timestamp": "2025-12-18T13:27:28.641632",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4434.7,
+    "pdf_total": null,
+    "record_count": 65,
+    "total_qty": 316,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 26,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 14
+    }
+  },
+  {
+    "date": "2024-12-21",
+    "pdf": "pmix/pmix-senso-2024-12-21.pdf",
+    "timestamp": "2025-12-18T13:27:29.686685",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10466.25,
+    "pdf_total": 10466.25,
+    "record_count": 139,
+    "total_qty": 808,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 32,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 53,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2024-12-22",
+    "pdf": "pmix/pmix-senso-2024-12-22.pdf",
+    "timestamp": "2025-12-18T13:27:30.611000",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5786.5,
+    "pdf_total": 5786.5,
+    "record_count": 117,
+    "total_qty": 442,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 33,
+      "(Liquor)": 13,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 45,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2024-12-23",
+    "pdf": "pmix/pmix-senso-2024-12-23.pdf",
+    "timestamp": "2025-12-18T13:27:31.491173",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6691.35,
+    "pdf_total": 6691.35,
+    "record_count": 114,
+    "total_qty": 539,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 28,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 45,
+      "(Wine)": 20
+    }
+  },
+  {
+    "date": "2024-12-26",
+    "pdf": "pmix/pmix-senso-2024-12-26.pdf",
+    "timestamp": "2025-12-18T13:27:32.497833",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7779.18,
+    "pdf_total": 7779.18,
+    "record_count": 133,
+    "total_qty": 630,
+    "categories": {
+      "(Beer)": 6,
+      "(Disregard)": 1,
+      "(Food)": 32,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 54,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2024-12-27",
+    "pdf": "pmix/pmix-senso-2024-12-27.pdf",
+    "timestamp": "2025-12-18T13:27:33.476634",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11188.1,
+    "pdf_total": 11188.1,
+    "record_count": 138,
+    "total_qty": 848,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 23,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 56,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2024-12-28",
+    "pdf": "pmix/pmix-senso-2024-12-28.pdf",
+    "timestamp": "2025-12-18T13:27:34.662031",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13127.9,
+    "pdf_total": 13127.9,
+    "record_count": 168,
+    "total_qty": 1045,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 39,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 64,
+      "(Wine)": 29
+    }
+  },
+  {
+    "date": "2024-12-29",
+    "pdf": "pmix/pmix-senso-2024-12-29.pdf",
+    "timestamp": "2025-12-18T13:27:35.688379",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 8109.3,
+    "pdf_total": 8109.3,
+    "record_count": 127,
+    "total_qty": 646,
+    "categories": {
+      "(Beer)": 4,
+      "(Disregard)": 1,
+      "(Food)": 29,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 50,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2024-12-30",
+    "pdf": "pmix/pmix-senso-2024-12-30.pdf",
+    "timestamp": "2025-12-18T13:27:36.786458",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7526.6,
+    "pdf_total": 7526.6,
+    "record_count": 137,
+    "total_qty": 597,
+    "categories": {
+      "(Beer)": 6,
+      "(Disregard)": 1,
+      "(Food)": 27,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 60,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-01-01",
+    "pdf": "pmix/pmix-senso-2025-01-01.pdf",
+    "timestamp": "2025-12-18T13:27:37.574125",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3689.55,
+    "pdf_total": 3689.55,
+    "record_count": 96,
+    "total_qty": 296,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 28,
+      "(Liquor)": 11,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 40,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-01-02",
+    "pdf": "pmix/pmix-senso-2025-01-02.pdf",
+    "timestamp": "2025-12-18T13:27:38.460179",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6453.51,
+    "pdf_total": null,
+    "record_count": 113,
+    "total_qty": 486,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 27,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 48,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-01-03",
+    "pdf": "pmix/pmix-senso-2025-01-03.pdf",
+    "timestamp": "2025-12-18T13:27:39.506459",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11241.1,
+    "pdf_total": 11241.1,
+    "record_count": 136,
+    "total_qty": 850,
+    "categories": {
+      "(Beer)": 5,
+      "(Disregard)": 1,
+      "(Food)": 30,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 51,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-01-04",
+    "pdf": "pmix/pmix-senso-2025-01-04.pdf",
+    "timestamp": "2025-12-18T13:27:40.660320",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14053.74,
+    "pdf_total": 14053.74,
+    "record_count": 158,
+    "total_qty": 1098,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 40,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 53,
+      "(Wine)": 30
+    }
+  },
+  {
+    "date": "2025-01-05",
+    "pdf": "pmix/pmix-senso-2025-01-05.pdf",
+    "timestamp": "2025-12-18T13:27:41.512962",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5195.91,
+    "pdf_total": 5195.91,
+    "record_count": 114,
+    "total_qty": 456,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 36,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 43,
+      "(Wine)": 12
+    }
+  },
+  {
+    "date": "2025-01-06",
+    "pdf": "pmix/pmix-senso-2025-01-06.pdf",
+    "timestamp": "2025-12-18T13:27:42.417071",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3232.85,
+    "pdf_total": 3232.85,
+    "record_count": 94,
+    "total_qty": 254,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 25,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 41,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-01-08",
+    "pdf": "pmix/pmix-senso-2025-01-08.pdf",
+    "timestamp": "2025-12-18T13:27:43.173779",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4285.0,
+    "pdf_total": 4285.0,
+    "record_count": 101,
+    "total_qty": 314,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 23,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 42,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-01-09",
+    "pdf": "pmix/pmix-senso-2025-01-09.pdf",
+    "timestamp": "2025-12-18T13:27:43.978129",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4601.65,
+    "pdf_total": 4601.65,
+    "record_count": 108,
+    "total_qty": 358,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 24,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 46,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-01-10",
+    "pdf": "pmix/pmix-senso-2025-01-10.pdf",
+    "timestamp": "2025-12-18T13:27:45.015512",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 9380.6,
+    "pdf_total": 9380.6,
+    "record_count": 133,
+    "total_qty": 777,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 26,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 53,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-01-11",
+    "pdf": "pmix/pmix-senso-2025-01-11.pdf",
+    "timestamp": "2025-12-18T13:27:46.402425",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14013.45,
+    "pdf_total": 14013.45,
+    "record_count": 160,
+    "total_qty": 1093,
+    "categories": {
+      "(Beer)": 5,
+      "(Disregard)": 1,
+      "(Food)": 33,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 60,
+      "(Wine)": 30
+    }
+  },
+  {
+    "date": "2025-01-12",
+    "pdf": "pmix/pmix-senso-2025-01-12.pdf",
+    "timestamp": "2025-12-18T13:27:47.377579",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3276.11,
+    "pdf_total": 3276.11,
+    "record_count": 98,
+    "total_qty": 273,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 25,
+      "(Liquor)": 10,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 39,
+      "(Wine)": 15
+    }
+  },
+  {
+    "date": "2025-01-13",
+    "pdf": "pmix/pmix-senso-2025-01-13.pdf",
+    "timestamp": "2025-12-18T13:27:48.336084",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2873.63,
+    "pdf_total": 2873.63,
+    "record_count": 92,
+    "total_qty": 233,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 27,
+      "(Liquor)": 9,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 35,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-01-15",
+    "pdf": "pmix/pmix-senso-2025-01-15.pdf",
+    "timestamp": "2025-12-18T13:27:49.333622",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3636.3,
+    "pdf_total": 3636.3,
+    "record_count": 106,
+    "total_qty": 293,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 31,
+      "(Liquor)": 7,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 54,
+      "(Wine)": 7
+    }
+  },
+  {
+    "date": "2025-01-17",
+    "pdf": "pmix/pmix-senso-2025-01-17.pdf",
+    "timestamp": "2025-12-18T13:27:50.504457",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10376.25,
+    "pdf_total": 10376.25,
+    "record_count": 135,
+    "total_qty": 813,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 30,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 55,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-01-18",
+    "pdf": "pmix/pmix-senso-2025-01-18.pdf",
+    "timestamp": "2025-12-18T13:27:51.572147",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10088.6,
+    "pdf_total": 10088.6,
+    "record_count": 149,
+    "total_qty": 777,
+    "categories": {
+      "(Beer)": 5,
+      "(Disregard)": 1,
+      "(Food)": 35,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 53,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-01-19",
+    "pdf": "pmix/pmix-senso-2025-01-19.pdf",
+    "timestamp": "2025-12-18T13:27:52.555377",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6109.2,
+    "pdf_total": 6109.2,
+    "record_count": 126,
+    "total_qty": 522,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 34,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 52,
+      "(Wine)": 20
+    }
+  },
+  {
+    "date": "2025-01-20",
+    "pdf": "pmix/pmix-senso-2025-01-20.pdf",
+    "timestamp": "2025-12-18T13:27:53.228276",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 1724.0,
+    "pdf_total": 1724.0,
+    "record_count": 78,
+    "total_qty": 152,
+    "categories": {
+      "(Beer)": 2,
+      "(Disregard)": 1,
+      "(Food)": 19,
+      "(Liquor)": 9,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 30,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-01-23",
+    "pdf": "pmix/pmix-senso-2025-01-23.pdf",
+    "timestamp": "2025-12-18T13:27:54.123295",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4748.75,
+    "pdf_total": 4748.75,
+    "record_count": 111,
+    "total_qty": 394,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 26,
+      "(Liquor)": 14,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 45,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-01-24",
+    "pdf": "pmix/pmix-senso-2025-01-24.pdf",
+    "timestamp": "2025-12-18T13:27:55.202437",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12688.2,
+    "pdf_total": 12688.2,
+    "record_count": 144,
+    "total_qty": 926,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 29,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 50,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-01-25",
+    "pdf": "pmix/pmix-senso-2025-01-25.pdf",
+    "timestamp": "2025-12-18T13:27:56.417473",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14742.33,
+    "pdf_total": 14742.33,
+    "record_count": 163,
+    "total_qty": 1127,
+    "categories": {
+      "(Beer)": 8,
+      "(Disregard)": 1,
+      "(Food)": 32,
+      "(Liquor)": 23,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 61,
+      "(Wine)": 31
+    }
+  },
+  {
+    "date": "2025-01-26",
+    "pdf": "pmix/pmix-senso-2025-01-26.pdf",
+    "timestamp": "2025-12-18T13:27:57.195273",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3842.2,
+    "pdf_total": 3842.2,
+    "record_count": 96,
+    "total_qty": 303,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 24,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 41,
+      "(Wine)": 8
+    }
+  },
+  {
+    "date": "2025-01-27",
+    "pdf": "pmix/pmix-senso-2025-01-27.pdf",
+    "timestamp": "2025-12-18T13:27:57.890925",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3493.05,
+    "pdf_total": 3493.05,
+    "record_count": 86,
+    "total_qty": 291,
+    "categories": {
+      "(Beer)": 1,
+      "(Disregard)": 1,
+      "(Food)": 23,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 33,
+      "(Wine)": 6
+    }
+  },
+  {
+    "date": "2025-01-29",
+    "pdf": "pmix/pmix-senso-2025-01-29.pdf",
+    "timestamp": "2025-12-18T13:27:58.744144",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4034.15,
+    "pdf_total": 4034.15,
+    "record_count": 100,
+    "total_qty": 316,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 20,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 35,
+      "(Wine)": 20
+    }
+  },
+  {
+    "date": "2025-01-30",
+    "pdf": "pmix/pmix-senso-2025-01-30.pdf",
+    "timestamp": "2025-12-18T13:27:59.723333",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3766.75,
+    "pdf_total": 3766.75,
+    "record_count": 108,
+    "total_qty": 271,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 24,
+      "(Liquor)": 13,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 43,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-01-31",
+    "pdf": "pmix/pmix-senso-2025-01-31.pdf",
+    "timestamp": "2025-12-18T13:28:01.064132",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10237.15,
+    "pdf_total": 10237.15,
+    "record_count": 150,
+    "total_qty": 800,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 33,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 60,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-02-01",
+    "pdf": "pmix/pmix-senso-2025-02-01.pdf",
+    "timestamp": "2025-12-18T13:28:02.589142",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15657.91,
+    "pdf_total": null,
+    "record_count": 167,
+    "total_qty": 1179,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 37,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 67,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-02-04",
+    "pdf": "pmix/pmix-senso-2025-02-04.pdf",
+    "timestamp": "2025-12-18T13:28:03.106390",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4391.0,
+    "pdf_total": 4391.0,
+    "record_count": 40,
+    "total_qty": 579,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 5,
+      "(Liquor)": 7,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 8,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-02-06",
+    "pdf": "pmix/pmix-senso-2025-02-06.pdf",
+    "timestamp": "2025-12-18T13:28:04.238713",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4906.0,
+    "pdf_total": 4906.0,
+    "record_count": 125,
+    "total_qty": 414,
+    "categories": {
+      "(Beer)": 4,
+      "(Disregard)": 1,
+      "(Food)": 28,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 50,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-02-07",
+    "pdf": "pmix/pmix-senso-2025-02-07.pdf",
+    "timestamp": "2025-12-18T13:28:05.284476",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 8830.45,
+    "pdf_total": 8830.45,
+    "record_count": 148,
+    "total_qty": 678,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 30,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 58,
+      "(Wine)": 31
+    }
+  },
+  {
+    "date": "2025-02-08",
+    "pdf": "pmix/pmix-senso-2025-02-08.pdf",
+    "timestamp": "2025-12-18T13:28:06.298096",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12087.75,
+    "pdf_total": 12087.75,
+    "record_count": 150,
+    "total_qty": 943,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 36,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 53,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-02-09",
+    "pdf": "pmix/pmix-senso-2025-02-09.pdf",
+    "timestamp": "2025-12-18T13:28:06.775868",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 1122.0,
+    "pdf_total": 1122.0,
+    "record_count": 58,
+    "total_qty": 88,
+    "categories": {
+      "(Beer)": 1,
+      "(Food)": 22,
+      "(Liquor)": 1,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 29,
+      "(Wine)": 2
+    }
+  },
+  {
+    "date": "2025-02-10",
+    "pdf": "pmix/pmix-senso-2025-02-10.pdf",
+    "timestamp": "2025-12-18T13:28:07.244325",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 1424.2,
+    "pdf_total": 1424.2,
+    "record_count": 55,
+    "total_qty": 118,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 14,
+      "(Liquor)": 9,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 20,
+      "(Wine)": 4
+    }
+  },
+  {
+    "date": "2025-02-13",
+    "pdf": "pmix/pmix-senso-2025-02-13.pdf",
+    "timestamp": "2025-12-18T13:28:08.216492",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6612.26,
+    "pdf_total": 6612.26,
+    "record_count": 132,
+    "total_qty": 502,
+    "categories": {
+      "(Beer)": 4,
+      "(Disregard)": 1,
+      "(Food)": 26,
+      "(Liquor)": 23,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 52,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-02-14",
+    "pdf": "pmix/pmix-senso-2025-02-14.pdf",
+    "timestamp": "2025-12-18T13:28:09.329628",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 16427.4,
+    "pdf_total": 16427.4,
+    "record_count": 158,
+    "total_qty": 1139,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 30,
+      "(Liquor)": 28,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 61,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-02-15",
+    "pdf": "pmix/pmix-senso-2025-02-15.pdf",
+    "timestamp": "2025-12-18T13:28:10.503832",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15529.71,
+    "pdf_total": 15529.71,
+    "record_count": 170,
+    "total_qty": 1188,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 37,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 64,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-02-16",
+    "pdf": "pmix/pmix-senso-2025-02-16.pdf",
+    "timestamp": "2025-12-18T13:28:11.487903",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7547.7,
+    "pdf_total": 7547.7,
+    "record_count": 135,
+    "total_qty": 554,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 28,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 58,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-02-19",
+    "pdf": "pmix/pmix-senso-2025-02-19.pdf",
+    "timestamp": "2025-12-18T13:28:12.209756",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3575.5,
+    "pdf_total": 3575.5,
+    "record_count": 87,
+    "total_qty": 268,
+    "categories": {
+      "(Beer)": 3,
+      "(Disregard)": 1,
+      "(Food)": 21,
+      "(Liquor)": 14,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 37,
+      "(Wine)": 7
+    }
+  },
+  {
+    "date": "2025-02-20",
+    "pdf": "pmix/pmix-senso-2025-02-20.pdf",
+    "timestamp": "2025-12-18T13:28:12.928803",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3387.55,
+    "pdf_total": 3387.55,
+    "record_count": 101,
+    "total_qty": 255,
+    "categories": {
+      "(Beer)": 1,
+      "(Disregard)": 1,
+      "(Food)": 25,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 41,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-02-21",
+    "pdf": "pmix/pmix-senso-2025-02-21.pdf",
+    "timestamp": "2025-12-18T13:28:14.005680",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10389.0,
+    "pdf_total": 10389.0,
+    "record_count": 149,
+    "total_qty": 788,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 28,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 56,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-02-22",
+    "pdf": "pmix/pmix-senso-2025-02-22.pdf",
+    "timestamp": "2025-12-18T13:28:15.275735",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13439.7,
+    "pdf_total": 13439.7,
+    "record_count": 170,
+    "total_qty": 976,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 36,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 60,
+      "(Wine)": 32
+    }
+  },
+  {
+    "date": "2025-02-23",
+    "pdf": "pmix/pmix-senso-2025-02-23.pdf",
+    "timestamp": "2025-12-18T13:28:16.030775",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4427.8,
+    "pdf_total": 4427.8,
+    "record_count": 104,
+    "total_qty": 336,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 27,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 39,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-02-24",
+    "pdf": "pmix/pmix-senso-2025-02-24.pdf",
+    "timestamp": "2025-12-18T13:28:16.649211",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2144.25,
+    "pdf_total": 2144.25,
+    "record_count": 76,
+    "total_qty": 169,
+    "categories": {
+      "(Beer)": 1,
+      "(Food)": 17,
+      "(Liquor)": 9,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 33,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-02-26",
+    "pdf": "pmix/pmix-senso-2025-02-26.pdf",
+    "timestamp": "2025-12-18T13:28:17.406257",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2466.0,
+    "pdf_total": 2466.0,
+    "record_count": 93,
+    "total_qty": 223,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 23,
+      "(Liquor)": 9,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 38,
+      "(Wine)": 12
+    }
+  },
+  {
+    "date": "2025-02-27",
+    "pdf": "pmix/pmix-senso-2025-02-27.pdf",
+    "timestamp": "2025-12-18T13:28:18.604547",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5886.15,
+    "pdf_total": null,
+    "record_count": 117,
+    "total_qty": 427,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 27,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 49,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-02-28",
+    "pdf": "pmix/pmix-senso-2025-02-28.pdf",
+    "timestamp": "2025-12-18T13:28:19.934413",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10885.95,
+    "pdf_total": 10885.95,
+    "record_count": 150,
+    "total_qty": 804,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 27,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 53,
+      "(Wine)": 29
+    }
+  },
+  {
+    "date": "2025-03-01",
+    "pdf": "pmix/pmix-senso-2025-03-01.pdf",
+    "timestamp": "2025-12-18T13:28:21.318360",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13701.3,
+    "pdf_total": 13701.3,
+    "record_count": 162,
+    "total_qty": 1037,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 37,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 56,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-03-02",
+    "pdf": "pmix/pmix-senso-2025-03-02.pdf",
+    "timestamp": "2025-12-18T13:28:22.516278",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5479.8,
+    "pdf_total": null,
+    "record_count": 117,
+    "total_qty": 426,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 28,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 51,
+      "(Wine)": 12
+    }
+  },
+  {
+    "date": "2025-03-03",
+    "pdf": "pmix/pmix-senso-2025-03-03.pdf",
+    "timestamp": "2025-12-18T13:28:23.306421",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 1789.73,
+    "pdf_total": null,
+    "record_count": 66,
+    "total_qty": 135,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 22,
+      "(Liquor)": 10,
+      "(N/A Beverages)": 3,
+      "(Sushi)": 29
+    }
+  },
+  {
+    "date": "2025-03-05",
+    "pdf": "pmix/pmix-senso-2025-03-05.pdf",
+    "timestamp": "2025-12-18T13:28:24.422737",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3457.85,
+    "pdf_total": 3457.85,
+    "record_count": 110,
+    "total_qty": 313,
+    "categories": {
+      "(Beer)": 2,
+      "(Disregard)": 1,
+      "(Food)": 27,
+      "(Liquor)": 14,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 46,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-03-07",
+    "pdf": "pmix/pmix-senso-2025-03-07.pdf",
+    "timestamp": "2025-12-18T13:28:25.774047",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10997.85,
+    "pdf_total": 10997.85,
+    "record_count": 146,
+    "total_qty": 831,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 30,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 53,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-03-08",
+    "pdf": "pmix/pmix-senso-2025-03-08.pdf",
+    "timestamp": "2025-12-18T13:28:27.067993",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12545.4,
+    "pdf_total": 12545.4,
+    "record_count": 159,
+    "total_qty": 898,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 35,
+      "(Liquor)": 30,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 60,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-03-09",
+    "pdf": "pmix/pmix-senso-2025-03-09.pdf",
+    "timestamp": "2025-12-18T13:28:28.019179",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5548.85,
+    "pdf_total": 5548.85,
+    "record_count": 128,
+    "total_qty": 430,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 32,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 49,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-03-10",
+    "pdf": "pmix/pmix-senso-2025-03-10.pdf",
+    "timestamp": "2025-12-18T13:28:29.159752",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4894.6,
+    "pdf_total": 4894.6,
+    "record_count": 123,
+    "total_qty": 399,
+    "categories": {
+      "(Beer)": 2,
+      "(Disregard)": 1,
+      "(Food)": 28,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 55,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-03-12",
+    "pdf": "pmix/pmix-senso-2025-03-12.pdf",
+    "timestamp": "2025-12-18T13:28:30.093356",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4402.55,
+    "pdf_total": 4402.55,
+    "record_count": 109,
+    "total_qty": 358,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 20,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 42,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-03-13",
+    "pdf": "pmix/pmix-senso-2025-03-13.pdf",
+    "timestamp": "2025-12-18T13:28:30.764808",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2944.91,
+    "pdf_total": 2944.91,
+    "record_count": 87,
+    "total_qty": 206,
+    "categories": {
+      "(Beer)": 5,
+      "(Disregard)": 1,
+      "(Food)": 18,
+      "(Liquor)": 11,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 38,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-03-14",
+    "pdf": "pmix/pmix-senso-2025-03-14.pdf",
+    "timestamp": "2025-12-18T13:28:31.697374",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10542.48,
+    "pdf_total": 10542.48,
+    "record_count": 151,
+    "total_qty": 812,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 33,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 59,
+      "(Wine)": 20
+    }
+  },
+  {
+    "date": "2025-03-15",
+    "pdf": "pmix/pmix-senso-2025-03-15.pdf",
+    "timestamp": "2025-12-18T13:28:32.720627",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11247.2,
+    "pdf_total": null,
+    "record_count": 170,
+    "total_qty": 830,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 40,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 67,
+      "(Wine)": 22
+    }
+  },
+  {
+    "date": "2025-03-16",
+    "pdf": "pmix/pmix-senso-2025-03-16.pdf",
+    "timestamp": "2025-12-18T13:28:33.340299",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3111.75,
+    "pdf_total": 3111.75,
+    "record_count": 82,
+    "total_qty": 233,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 26,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 33,
+      "(Wine)": 4
+    }
+  },
+  {
+    "date": "2025-03-17",
+    "pdf": "pmix/pmix-senso-2025-03-17.pdf",
+    "timestamp": "2025-12-18T13:28:34.141803",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3681.25,
+    "pdf_total": 3681.25,
+    "record_count": 96,
+    "total_qty": 311,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 25,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 35,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-03-19",
+    "pdf": "pmix/pmix-senso-2025-03-19.pdf",
+    "timestamp": "2025-12-18T13:28:35.175915",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4573.96,
+    "pdf_total": 4573.96,
+    "record_count": 106,
+    "total_qty": 338,
+    "categories": {
+      "(Beer)": 3,
+      "(Disregard)": 1,
+      "(Food)": 26,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 39,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-03-20",
+    "pdf": "pmix/pmix-senso-2025-03-20.pdf",
+    "timestamp": "2025-12-18T13:28:36.015151",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4023.3,
+    "pdf_total": 4023.3,
+    "record_count": 91,
+    "total_qty": 316,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 25,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 37,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-03-21",
+    "pdf": "pmix/pmix-senso-2025-03-21.pdf",
+    "timestamp": "2025-12-18T13:28:37.047841",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11198.9,
+    "pdf_total": 11198.9,
+    "record_count": 158,
+    "total_qty": 839,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 34,
+      "(Liquor)": 30,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 64,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-03-22",
+    "pdf": "pmix/pmix-senso-2025-03-22.pdf",
+    "timestamp": "2025-12-18T13:28:38.119846",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14365.45,
+    "pdf_total": 14365.45,
+    "record_count": 162,
+    "total_qty": 1093,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 31,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 57,
+      "(Wine)": 32
+    }
+  },
+  {
+    "date": "2025-03-23",
+    "pdf": "pmix/pmix-senso-2025-03-23.pdf",
+    "timestamp": "2025-12-18T13:28:39.169867",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5518.5,
+    "pdf_total": 5518.5,
+    "record_count": 133,
+    "total_qty": 409,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 37,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 56,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-03-24",
+    "pdf": "pmix/pmix-senso-2025-03-24.pdf",
+    "timestamp": "2025-12-18T13:28:39.952393",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2821.2,
+    "pdf_total": 2821.2,
+    "record_count": 96,
+    "total_qty": 194,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 24,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 38,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-03-26",
+    "pdf": "pmix/pmix-senso-2025-03-26.pdf",
+    "timestamp": "2025-12-18T13:28:40.974763",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4872.4,
+    "pdf_total": 4872.4,
+    "record_count": 111,
+    "total_qty": 406,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 28,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 41,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-03-27",
+    "pdf": "pmix/pmix-senso-2025-03-27.pdf",
+    "timestamp": "2025-12-18T13:28:42.029083",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3701.25,
+    "pdf_total": 3701.25,
+    "record_count": 97,
+    "total_qty": 291,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 27,
+      "(Liquor)": 14,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 39,
+      "(Wine)": 7
+    }
+  },
+  {
+    "date": "2025-03-28",
+    "pdf": "pmix/pmix-senso-2025-03-28.pdf",
+    "timestamp": "2025-12-18T13:28:43.230643",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11847.5,
+    "pdf_total": 11847.5,
+    "record_count": 158,
+    "total_qty": 893,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 31,
+      "(Liquor)": 31,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 57,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-03-29",
+    "pdf": "pmix/pmix-senso-2025-03-29.pdf",
+    "timestamp": "2025-12-18T13:28:44.657327",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12857.6,
+    "pdf_total": 12857.6,
+    "record_count": 167,
+    "total_qty": 939,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 37,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 60,
+      "(Wine)": 31
+    }
+  },
+  {
+    "date": "2025-03-30",
+    "pdf": "pmix/pmix-senso-2025-03-30.pdf",
+    "timestamp": "2025-12-18T13:28:45.972085",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7088.6,
+    "pdf_total": 7088.6,
+    "record_count": 139,
+    "total_qty": 556,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 42,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 51,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-03-31",
+    "pdf": "pmix/pmix-senso-2025-03-31.pdf",
+    "timestamp": "2025-12-18T13:28:47.209725",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3354.85,
+    "pdf_total": 3354.85,
+    "record_count": 109,
+    "total_qty": 263,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 35,
+      "(Liquor)": 10,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 47,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-04-09",
+    "pdf": "pmix/pmix-senso-2025-04-09.pdf",
+    "timestamp": "2025-12-18T13:28:48.178148",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2688.65,
+    "pdf_total": 2688.65,
+    "record_count": 88,
+    "total_qty": 215,
+    "categories": {
+      "(Beer)": 3,
+      "(Disregard)": 1,
+      "(Food)": 25,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 34,
+      "(Wine)": 8
+    }
+  },
+  {
+    "date": "2025-04-12",
+    "pdf": "pmix/pmix-senso-2025-04-12.pdf",
+    "timestamp": "2025-12-18T13:28:50.115582",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12988.83,
+    "pdf_total": 12988.83,
+    "record_count": 182,
+    "total_qty": 995,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 42,
+      "(Liquor)": 36,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 62,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-04-19",
+    "pdf": "pmix/pmix-senso-2025-04-19.pdf",
+    "timestamp": "2025-12-18T13:28:51.583359",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11380.68,
+    "pdf_total": 11380.68,
+    "record_count": 161,
+    "total_qty": 858,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 36,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 57,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-04-20",
+    "pdf": "pmix/pmix-senso-2025-04-20.pdf",
+    "timestamp": "2025-12-18T13:28:53.004049",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2924.9,
+    "pdf_total": 2924.9,
+    "record_count": 116,
+    "total_qty": 241,
+    "categories": {
+      "(Beer)": 1,
+      "(Food)": 37,
+      "(Liquor)": 8,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 54,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-04-21",
+    "pdf": "pmix/pmix-senso-2025-04-21.pdf",
+    "timestamp": "2025-12-18T13:28:54.125330",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2902.05,
+    "pdf_total": 2902.05,
+    "record_count": 96,
+    "total_qty": 240,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 24,
+      "(Liquor)": 11,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 47,
+      "(Wine)": 6
+    }
+  },
+  {
+    "date": "2025-04-26",
+    "pdf": "pmix/pmix-senso-2025-04-26.pdf",
+    "timestamp": "2025-12-18T13:28:56.081828",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11291.2,
+    "pdf_total": 11291.2,
+    "record_count": 177,
+    "total_qty": 846,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 35,
+      "(Liquor)": 36,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 66,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-04-27",
+    "pdf": "pmix/pmix-senso-2025-04-27.pdf",
+    "timestamp": "2025-12-18T13:28:57.279369",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2940.75,
+    "pdf_total": 2940.75,
+    "record_count": 101,
+    "total_qty": 223,
+    "categories": {
+      "(Beer)": 1,
+      "(Food)": 32,
+      "(Liquor)": 11,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 46,
+      "(Wine)": 6
+    }
+  },
+  {
+    "date": "2025-04-30",
+    "pdf": "pmix/pmix-senso-2025-04-30.pdf",
+    "timestamp": "2025-12-18T13:28:58.302955",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2385.5,
+    "pdf_total": 2385.5,
+    "record_count": 95,
+    "total_qty": 175,
+    "categories": {
+      "(Beer)": 1,
+      "(Food)": 30,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 38,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-05-02",
+    "pdf": "pmix/pmix-senso-2025-05-02.pdf",
+    "timestamp": "2025-12-18T13:28:59.914053",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11945.25,
+    "pdf_total": 11945.25,
+    "record_count": 193,
+    "total_qty": 915,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 46,
+      "(Liquor)": 36,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 68,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-05-04",
+    "pdf": "pmix/pmix-senso-2025-05-04.pdf",
+    "timestamp": "2025-12-18T13:29:01.029074",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4341.25,
+    "pdf_total": 4341.25,
+    "record_count": 104,
+    "total_qty": 341,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 25,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 49,
+      "(Wine)": 4
+    }
+  },
+  {
+    "date": "2025-05-05",
+    "pdf": "pmix/pmix-senso-2025-05-05.pdf",
+    "timestamp": "2025-12-18T13:29:01.694232",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 1473.9,
+    "pdf_total": 1473.9,
+    "record_count": 66,
+    "total_qty": 114,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 21,
+      "(Liquor)": 11,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 21,
+      "(Wine)": 3
+    }
+  },
+  {
+    "date": "2025-05-07",
+    "pdf": "pmix/pmix-senso-2025-05-07.pdf",
+    "timestamp": "2025-12-18T13:29:02.579811",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4041.4,
+    "pdf_total": 4041.4,
+    "record_count": 108,
+    "total_qty": 327,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 27,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 43,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-05-08",
+    "pdf": "pmix/pmix-senso-2025-05-08.pdf",
+    "timestamp": "2025-12-18T13:29:03.626764",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3568.35,
+    "pdf_total": 3568.35,
+    "record_count": 117,
+    "total_qty": 285,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 33,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 45,
+      "(Wine)": 15
+    }
+  },
+  {
+    "date": "2025-05-09",
+    "pdf": "pmix/pmix-senso-2025-05-09.pdf",
+    "timestamp": "2025-12-18T13:29:04.981041",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11707.8,
+    "pdf_total": 11707.8,
+    "record_count": 170,
+    "total_qty": 881,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 36,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 60,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-05-10",
+    "pdf": "pmix/pmix-senso-2025-05-10.pdf",
+    "timestamp": "2025-12-18T13:29:06.609935",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14626.25,
+    "pdf_total": null,
+    "record_count": 199,
+    "total_qty": 1117,
+    "categories": {
+      "(Beer)": 5,
+      "(Disregard)": 1,
+      "(Food)": 48,
+      "(Liquor)": 40,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 67,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-05-11",
+    "pdf": "pmix/pmix-senso-2025-05-11.pdf",
+    "timestamp": "2025-12-18T13:29:08.503862",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15587.75,
+    "pdf_total": null,
+    "record_count": 172,
+    "total_qty": 1161,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 38,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 11,
+      "(Sushi)": 55,
+      "(Wine)": 30
+    }
+  },
+  {
+    "date": "2025-05-14",
+    "pdf": "pmix/pmix-senso-2025-05-14.pdf",
+    "timestamp": "2025-12-18T13:29:09.888452",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4927.15,
+    "pdf_total": 4927.15,
+    "record_count": 124,
+    "total_qty": 380,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 33,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 49,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-05-15",
+    "pdf": "pmix/pmix-senso-2025-05-15.pdf",
+    "timestamp": "2025-12-18T13:29:11.106149",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5538.5,
+    "pdf_total": 5538.5,
+    "record_count": 120,
+    "total_qty": 437,
+    "categories": {
+      "(Beer)": 4,
+      "(Disregard)": 1,
+      "(Food)": 34,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 44,
+      "(Wine)": 8
+    }
+  },
+  {
+    "date": "2025-05-19",
+    "pdf": "pmix/pmix-senso-2025-05-19.pdf",
+    "timestamp": "2025-12-18T13:29:12.161409",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3299.25,
+    "pdf_total": 3299.25,
+    "record_count": 107,
+    "total_qty": 242,
+    "categories": {
+      "(Beer)": 3,
+      "(Disregard)": 1,
+      "(Food)": 28,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 43,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-05-22",
+    "pdf": "pmix/pmix-senso-2025-05-22.pdf",
+    "timestamp": "2025-12-18T13:29:13.354953",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4369.1,
+    "pdf_total": 4369.1,
+    "record_count": 133,
+    "total_qty": 360,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 29,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 55,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-05-23",
+    "pdf": "pmix/pmix-senso-2025-05-23.pdf",
+    "timestamp": "2025-12-18T13:29:15.390809",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14274.45,
+    "pdf_total": null,
+    "record_count": 211,
+    "total_qty": 1010,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 53,
+      "(Liquor)": 38,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 79,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-05-24",
+    "pdf": "pmix/pmix-senso-2025-05-24.pdf",
+    "timestamp": "2025-12-18T13:29:16.923928",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10887.0,
+    "pdf_total": 10887.0,
+    "record_count": 171,
+    "total_qty": 832,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 41,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 63,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-05-25",
+    "pdf": "pmix/pmix-senso-2025-05-25.pdf",
+    "timestamp": "2025-12-18T13:29:17.974477",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7635.65,
+    "pdf_total": 7635.65,
+    "record_count": 136,
+    "total_qty": 550,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 33,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 52,
+      "(Wine)": 15
+    }
+  },
+  {
+    "date": "2025-05-28",
+    "pdf": "pmix/pmix-senso-2025-05-28.pdf",
+    "timestamp": "2025-12-18T13:29:19.084777",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7149.4,
+    "pdf_total": 7149.4,
+    "record_count": 135,
+    "total_qty": 500,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 26,
+      "(Liquor)": 28,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 48,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-05-29",
+    "pdf": "pmix/pmix-senso-2025-05-29.pdf",
+    "timestamp": "2025-12-18T13:29:20.424368",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6069.2,
+    "pdf_total": 6069.2,
+    "record_count": 134,
+    "total_qty": 496,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 36,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 2,
+      "(Sushi)": 53,
+      "(Wine)": 15
+    }
+  },
+  {
+    "date": "2025-05-30",
+    "pdf": "pmix/pmix-senso-2025-05-30.pdf",
+    "timestamp": "2025-12-18T13:29:22.360416",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11483.15,
+    "pdf_total": 11483.15,
+    "record_count": 176,
+    "total_qty": 827,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 37,
+      "(Liquor)": 31,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 68,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-05-31",
+    "pdf": "pmix/pmix-senso-2025-05-31.pdf",
+    "timestamp": "2025-12-18T13:29:24.702905",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13634.25,
+    "pdf_total": null,
+    "record_count": 211,
+    "total_qty": 1052,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 51,
+      "(Liquor)": 30,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 85,
+      "(Wine)": 29
+    }
+  },
+  {
+    "date": "2025-06-02",
+    "pdf": "pmix/pmix-senso-2025-06-02.pdf",
+    "timestamp": "2025-12-18T13:29:25.989629",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5028.6,
+    "pdf_total": 5028.6,
+    "record_count": 117,
+    "total_qty": 379,
+    "categories": {
+      "(Beer)": 5,
+      "(Disregard)": 1,
+      "(Food)": 29,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 48,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-06-04",
+    "pdf": "pmix/pmix-senso-2025-06-04.pdf",
+    "timestamp": "2025-12-18T13:29:27.259038",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6057.95,
+    "pdf_total": 6057.95,
+    "record_count": 137,
+    "total_qty": 473,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 35,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 54,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-06-06",
+    "pdf": "pmix/pmix-senso-2025-06-06.pdf",
+    "timestamp": "2025-12-18T13:29:28.915091",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14040.5,
+    "pdf_total": null,
+    "record_count": 175,
+    "total_qty": 1044,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 41,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 68,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-06-07",
+    "pdf": "pmix/pmix-senso-2025-06-07.pdf",
+    "timestamp": "2025-12-18T13:29:30.863084",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11140.8,
+    "pdf_total": 11140.8,
+    "record_count": 184,
+    "total_qty": 838,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 44,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 70,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-06-08",
+    "pdf": "pmix/pmix-senso-2025-06-08.pdf",
+    "timestamp": "2025-12-18T13:29:32.745296",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 9758.63,
+    "pdf_total": 9758.63,
+    "record_count": 169,
+    "total_qty": 774,
+    "categories": {
+      "(Beer)": 9,
+      "(Disregard)": 1,
+      "(Food)": 43,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 62,
+      "(Wine)": 22
+    }
+  },
+  {
+    "date": "2025-06-09",
+    "pdf": "pmix/pmix-senso-2025-06-09.pdf",
+    "timestamp": "2025-12-18T13:29:33.888500",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2644.6,
+    "pdf_total": 2644.6,
+    "record_count": 101,
+    "total_qty": 247,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 26,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 42,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-06-10",
+    "pdf": "pmix/pmix-senso-2025-06-10.pdf",
+    "timestamp": "2025-12-18T13:29:35.084980",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3641.6,
+    "pdf_total": 3641.6,
+    "record_count": 103,
+    "total_qty": 306,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 26,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 43,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-06-11",
+    "pdf": "pmix/pmix-senso-2025-06-11.pdf",
+    "timestamp": "2025-12-18T13:29:36.606491",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7077.7,
+    "pdf_total": 7077.7,
+    "record_count": 149,
+    "total_qty": 533,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 31,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 65,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-06-14",
+    "pdf": "pmix/pmix-senso-2025-06-14.pdf",
+    "timestamp": "2025-12-18T13:29:38.063077",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13106.94,
+    "pdf_total": 13106.94,
+    "record_count": 179,
+    "total_qty": 954,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 44,
+      "(Liquor)": 34,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 65,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-06-16",
+    "pdf": "pmix/pmix-senso-2025-06-16.pdf",
+    "timestamp": "2025-12-18T13:29:39.413110",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5699.3,
+    "pdf_total": 5699.3,
+    "record_count": 123,
+    "total_qty": 454,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 28,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 42,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-06-17",
+    "pdf": "pmix/pmix-senso-2025-06-17.pdf",
+    "timestamp": "2025-12-18T13:29:40.631880",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3609.95,
+    "pdf_total": 3609.95,
+    "record_count": 107,
+    "total_qty": 276,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 28,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 49,
+      "(Wine)": 6
+    }
+  },
+  {
+    "date": "2025-06-18",
+    "pdf": "pmix/pmix-senso-2025-06-18.pdf",
+    "timestamp": "2025-12-18T13:29:42.093263",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6182.69,
+    "pdf_total": 6182.69,
+    "record_count": 138,
+    "total_qty": 532,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 36,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 54,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-06-25",
+    "pdf": "pmix/pmix-senso-2025-06-25.pdf",
+    "timestamp": "2025-12-18T13:29:43.194848",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5973.1,
+    "pdf_total": 5973.1,
+    "record_count": 120,
+    "total_qty": 454,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 27,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 49,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-06-27",
+    "pdf": "pmix/pmix-senso-2025-06-27.pdf",
+    "timestamp": "2025-12-18T13:29:45.319399",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13845.03,
+    "pdf_total": null,
+    "record_count": 196,
+    "total_qty": 1016,
+    "categories": {
+      "(Beer)": 6,
+      "(Disregard)": 1,
+      "(Food)": 48,
+      "(Liquor)": 30,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 75,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-06-28",
+    "pdf": "pmix/pmix-senso-2025-06-28.pdf",
+    "timestamp": "2025-12-18T13:29:47.221122",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10372.91,
+    "pdf_total": 10372.91,
+    "record_count": 177,
+    "total_qty": 789,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 44,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 67,
+      "(Wine)": 22
+    }
+  },
+  {
+    "date": "2025-06-29",
+    "pdf": "pmix/pmix-senso-2025-06-29.pdf",
+    "timestamp": "2025-12-18T13:29:48.920743",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6176.05,
+    "pdf_total": 6176.05,
+    "record_count": 157,
+    "total_qty": 521,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 48,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 63,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-06-30",
+    "pdf": "pmix/pmix-senso-2025-06-30.pdf",
+    "timestamp": "2025-12-18T13:29:50.569178",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6374.6,
+    "pdf_total": 6374.6,
+    "record_count": 149,
+    "total_qty": 545,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 33,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 59,
+      "(Wine)": 20
+    }
+  },
+  {
+    "date": "2025-07-02",
+    "pdf": "pmix/pmix-senso-2025-07-02.pdf",
+    "timestamp": "2025-12-18T13:29:51.986613",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6470.35,
+    "pdf_total": 6470.35,
+    "record_count": 127,
+    "total_qty": 528,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 31,
+      "(Liquor)": 23,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 43,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-07-03",
+    "pdf": "pmix/pmix-senso-2025-07-03.pdf",
+    "timestamp": "2025-12-18T13:29:53.626560",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 8029.4,
+    "pdf_total": 8029.4,
+    "record_count": 153,
+    "total_qty": 636,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 36,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 54,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-07-05",
+    "pdf": "pmix/pmix-senso-2025-07-05.pdf",
+    "timestamp": "2025-12-18T13:29:55.040142",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12305.0,
+    "pdf_total": 12305.0,
+    "record_count": 170,
+    "total_qty": 937,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 36,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 63,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-07-09",
+    "pdf": "pmix/pmix-senso-2025-07-09.pdf",
+    "timestamp": "2025-12-18T13:29:56.305390",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7278.35,
+    "pdf_total": 7278.35,
+    "record_count": 157,
+    "total_qty": 575,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 37,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 57,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-07-12",
+    "pdf": "pmix/pmix-senso-2025-07-12.pdf",
+    "timestamp": "2025-12-18T13:29:57.727373",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13111.5,
+    "pdf_total": null,
+    "record_count": 159,
+    "total_qty": 1014,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 31,
+      "(Liquor)": 33,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 54,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-07-13",
+    "pdf": "pmix/pmix-senso-2025-07-13.pdf",
+    "timestamp": "2025-12-18T13:29:59.094754",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10999.71,
+    "pdf_total": 10999.71,
+    "record_count": 140,
+    "total_qty": 890,
+    "categories": {
+      "(Beer)": 6,
+      "(Disregard)": 1,
+      "(Food)": 27,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 44,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-07-15",
+    "pdf": "pmix/pmix-senso-2025-07-15.pdf",
+    "timestamp": "2025-12-18T13:30:00.086434",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5817.28,
+    "pdf_total": 5817.28,
+    "record_count": 119,
+    "total_qty": 489,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 25,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 43,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-07-17",
+    "pdf": "pmix/pmix-senso-2025-07-17.pdf",
+    "timestamp": "2025-12-18T13:30:01.181368",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6711.45,
+    "pdf_total": 6711.45,
+    "record_count": 139,
+    "total_qty": 502,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 33,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 47,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-07-18",
+    "pdf": "pmix/pmix-senso-2025-07-18.pdf",
+    "timestamp": "2025-12-18T13:30:02.855006",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 16872.66,
+    "pdf_total": null,
+    "record_count": 212,
+    "total_qty": 1249,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 51,
+      "(Liquor)": 39,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 77,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-07-19",
+    "pdf": "pmix/pmix-senso-2025-07-19.pdf",
+    "timestamp": "2025-12-18T13:30:04.391509",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13415.0,
+    "pdf_total": null,
+    "record_count": 191,
+    "total_qty": 1013,
+    "categories": {
+      "(Beer)": 8,
+      "(Disregard)": 1,
+      "(Food)": 44,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 70,
+      "(Wine)": 29
+    }
+  },
+  {
+    "date": "2025-07-20",
+    "pdf": "pmix/pmix-senso-2025-07-20.pdf",
+    "timestamp": "2025-12-18T13:30:05.547054",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6479.01,
+    "pdf_total": 6479.01,
+    "record_count": 133,
+    "total_qty": 497,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 36,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 50,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-07-21",
+    "pdf": "pmix/pmix-senso-2025-07-21.pdf",
+    "timestamp": "2025-12-18T13:30:06.705427",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6081.15,
+    "pdf_total": 6081.15,
+    "record_count": 127,
+    "total_qty": 503,
+    "categories": {
+      "(Beer)": 8,
+      "(Disregard)": 1,
+      "(Food)": 33,
+      "(Liquor)": 23,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 39,
+      "(Wine)": 15
+    }
+  },
+  {
+    "date": "2025-07-26",
+    "pdf": "pmix/pmix-senso-2025-07-26.pdf",
+    "timestamp": "2025-12-18T13:30:08.471652",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14021.98,
+    "pdf_total": null,
+    "record_count": 200,
+    "total_qty": 1016,
+    "categories": {
+      "(Beer)": 10,
+      "(Disregard)": 1,
+      "(Food)": 47,
+      "(Liquor)": 37,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 73,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-07-27",
+    "pdf": "pmix/pmix-senso-2025-07-27.pdf",
+    "timestamp": "2025-12-18T13:30:09.639684",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6741.55,
+    "pdf_total": 6741.55,
+    "record_count": 140,
+    "total_qty": 522,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 38,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 57,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-07-28",
+    "pdf": "pmix/pmix-senso-2025-07-28.pdf",
+    "timestamp": "2025-12-18T13:30:10.606680",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3918.0,
+    "pdf_total": 3918.0,
+    "record_count": 111,
+    "total_qty": 307,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 32,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 44,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-07-29",
+    "pdf": "pmix/pmix-senso-2025-07-29.pdf",
+    "timestamp": "2025-12-18T13:30:12.172310",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7936.0,
+    "pdf_total": 7936.0,
+    "record_count": 150,
+    "total_qty": 666,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 37,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 55,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-07-30",
+    "pdf": "pmix/pmix-senso-2025-07-30.pdf",
+    "timestamp": "2025-12-18T13:30:13.593075",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6007.75,
+    "pdf_total": 6007.75,
+    "record_count": 142,
+    "total_qty": 473,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 35,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 49,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-07-31",
+    "pdf": "pmix/pmix-senso-2025-07-31.pdf",
+    "timestamp": "2025-12-18T13:30:14.925389",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 9240.2,
+    "pdf_total": 9240.2,
+    "record_count": 147,
+    "total_qty": 708,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 34,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 45,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-08-01",
+    "pdf": "pmix/pmix-senso-2025-08-01.pdf",
+    "timestamp": "2025-12-18T13:30:16.877706",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11729.6,
+    "pdf_total": 11729.6,
+    "record_count": 187,
+    "total_qty": 898,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 40,
+      "(Liquor)": 27,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 73,
+      "(Wine)": 32
+    }
+  },
+  {
+    "date": "2025-08-02",
+    "pdf": "pmix/pmix-senso-2025-08-02.pdf",
+    "timestamp": "2025-12-18T13:30:18.789670",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15364.05,
+    "pdf_total": null,
+    "record_count": 196,
+    "total_qty": 1124,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 43,
+      "(Liquor)": 40,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 68,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-08-03",
+    "pdf": "pmix/pmix-senso-2025-08-03.pdf",
+    "timestamp": "2025-12-18T13:30:20.573751",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10282.45,
+    "pdf_total": 10282.45,
+    "record_count": 178,
+    "total_qty": 801,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 49,
+      "(Liquor)": 28,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 69,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-08-04",
+    "pdf": "pmix/pmix-senso-2025-08-04.pdf",
+    "timestamp": "2025-12-18T13:30:21.676365",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6072.6,
+    "pdf_total": 6072.6,
+    "record_count": 125,
+    "total_qty": 485,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 31,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 43,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-08-05",
+    "pdf": "pmix/pmix-senso-2025-08-05.pdf",
+    "timestamp": "2025-12-18T13:30:22.978157",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5708.35,
+    "pdf_total": 5708.35,
+    "record_count": 129,
+    "total_qty": 432,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 39,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 41,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-08-06",
+    "pdf": "pmix/pmix-senso-2025-08-06.pdf",
+    "timestamp": "2025-12-18T13:30:24.604301",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6711.45,
+    "pdf_total": 6711.45,
+    "record_count": 146,
+    "total_qty": 529,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 39,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 56,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-08-07",
+    "pdf": "pmix/pmix-senso-2025-08-07.pdf",
+    "timestamp": "2025-12-18T13:30:26.278090",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 8123.45,
+    "pdf_total": 8123.45,
+    "record_count": 151,
+    "total_qty": 630,
+    "categories": {
+      "(Beer)": 2,
+      "(Disregard)": 1,
+      "(Food)": 39,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 59,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-08-08",
+    "pdf": "pmix/pmix-senso-2025-08-08.pdf",
+    "timestamp": "2025-12-18T13:30:28.440382",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13972.2,
+    "pdf_total": null,
+    "record_count": 199,
+    "total_qty": 1092,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 47,
+      "(Liquor)": 39,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 73,
+      "(Wine)": 22
+    }
+  },
+  {
+    "date": "2025-08-09",
+    "pdf": "pmix/pmix-senso-2025-08-09.pdf",
+    "timestamp": "2025-12-18T13:30:30.604699",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15069.95,
+    "pdf_total": null,
+    "record_count": 210,
+    "total_qty": 1152,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 54,
+      "(Liquor)": 33,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 79,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-08-10",
+    "pdf": "pmix/pmix-senso-2025-08-10.pdf",
+    "timestamp": "2025-12-18T13:30:32.255824",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 8661.45,
+    "pdf_total": 8661.45,
+    "record_count": 149,
+    "total_qty": 690,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 39,
+      "(Liquor)": 25,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 56,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-08-11",
+    "pdf": "pmix/pmix-senso-2025-08-11.pdf",
+    "timestamp": "2025-12-18T13:30:33.859324",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5196.5,
+    "pdf_total": 5196.5,
+    "record_count": 144,
+    "total_qty": 410,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 33,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 57,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-08-12",
+    "pdf": "pmix/pmix-senso-2025-08-12.pdf",
+    "timestamp": "2025-12-18T13:30:35.337397",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5086.15,
+    "pdf_total": 5086.15,
+    "record_count": 124,
+    "total_qty": 383,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 36,
+      "(Liquor)": 19,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 43,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-08-13",
+    "pdf": "pmix/pmix-senso-2025-08-13.pdf",
+    "timestamp": "2025-12-18T13:30:37.044199",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6910.95,
+    "pdf_total": 6910.95,
+    "record_count": 154,
+    "total_qty": 549,
+    "categories": {
+      "(Beer)": 4,
+      "(Disregard)": 1,
+      "(Food)": 40,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 55,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-08-14",
+    "pdf": "pmix/pmix-senso-2025-08-14.pdf",
+    "timestamp": "2025-12-18T13:30:38.556714",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6886.45,
+    "pdf_total": 6886.45,
+    "record_count": 134,
+    "total_qty": 552,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 27,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 47,
+      "(Wine)": 26
+    }
+  },
+  {
+    "date": "2025-08-15",
+    "pdf": "pmix/pmix-senso-2025-08-15.pdf",
+    "timestamp": "2025-12-18T13:30:40.786619",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13692.6,
+    "pdf_total": null,
+    "record_count": 205,
+    "total_qty": 1058,
+    "categories": {
+      "(Beer)": 8,
+      "(Disregard)": 1,
+      "(Food)": 49,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 84,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-08-17",
+    "pdf": "pmix/pmix-senso-2025-08-17.pdf",
+    "timestamp": "2025-12-18T13:30:42.531573",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 7393.95,
+    "pdf_total": 7393.95,
+    "record_count": 152,
+    "total_qty": 564,
+    "categories": {
+      "(Beer)": 4,
+      "(Disregard)": 1,
+      "(Food)": 43,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 58,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-08-19",
+    "pdf": "pmix/pmix-senso-2025-08-19.pdf",
+    "timestamp": "2025-12-18T13:30:43.924921",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4779.0,
+    "pdf_total": 4779.0,
+    "record_count": 115,
+    "total_qty": 378,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 32,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 42,
+      "(Wine)": 12
+    }
+  },
+  {
+    "date": "2025-08-20",
+    "pdf": "pmix/pmix-senso-2025-08-20.pdf",
+    "timestamp": "2025-12-18T13:30:45.249123",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5647.7,
+    "pdf_total": 5647.7,
+    "record_count": 143,
+    "total_qty": 474,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 31,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 55,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-08-21",
+    "pdf": "pmix/pmix-senso-2025-08-21.pdf",
+    "timestamp": "2025-12-18T13:30:46.492394",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6342.15,
+    "pdf_total": 6342.15,
+    "record_count": 147,
+    "total_qty": 524,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 34,
+      "(Liquor)": 28,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 45,
+      "(Wine)": 28
+    }
+  },
+  {
+    "date": "2025-08-22",
+    "pdf": "pmix/pmix-senso-2025-08-22.pdf",
+    "timestamp": "2025-12-18T13:30:48.154528",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15974.95,
+    "pdf_total": null,
+    "record_count": 207,
+    "total_qty": 1269,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 54,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 78,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-08-23",
+    "pdf": "pmix/pmix-senso-2025-08-23.pdf",
+    "timestamp": "2025-12-18T13:30:50.031421",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 16131.0,
+    "pdf_total": null,
+    "record_count": 219,
+    "total_qty": 1207,
+    "categories": {
+      "(Beer)": 8,
+      "(Disregard)": 1,
+      "(Food)": 47,
+      "(Liquor)": 41,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 79,
+      "(Wine)": 34
+    }
+  },
+  {
+    "date": "2025-08-24",
+    "pdf": "pmix/pmix-senso-2025-08-24.pdf",
+    "timestamp": "2025-12-18T13:30:51.704956",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 9120.5,
+    "pdf_total": 9120.5,
+    "record_count": 149,
+    "total_qty": 718,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 38,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 54,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-08-25",
+    "pdf": "pmix/pmix-senso-2025-08-25.pdf",
+    "timestamp": "2025-12-18T13:30:52.902588",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2697.95,
+    "pdf_total": 2697.95,
+    "record_count": 99,
+    "total_qty": 213,
+    "categories": {
+      "(Food)": 29,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 44,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-08-26",
+    "pdf": "pmix/pmix-senso-2025-08-26.pdf",
+    "timestamp": "2025-12-18T13:30:53.874029",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2946.55,
+    "pdf_total": 2946.55,
+    "record_count": 82,
+    "total_qty": 227,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 19,
+      "(Liquor)": 14,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 28,
+      "(Wine)": 14
+    }
+  },
+  {
+    "date": "2025-08-27",
+    "pdf": "pmix/pmix-senso-2025-08-27.pdf",
+    "timestamp": "2025-12-18T13:30:55.553908",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6142.25,
+    "pdf_total": 6142.25,
+    "record_count": 160,
+    "total_qty": 508,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 38,
+      "(Liquor)": 24,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 51,
+      "(Wine)": 32
+    }
+  },
+  {
+    "date": "2025-08-28",
+    "pdf": "pmix/pmix-senso-2025-08-28.pdf",
+    "timestamp": "2025-12-18T13:30:56.536987",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4240.8,
+    "pdf_total": 4240.8,
+    "record_count": 87,
+    "total_qty": 348,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 17,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 22,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-08-29",
+    "pdf": "pmix/pmix-senso-2025-08-29.pdf",
+    "timestamp": "2025-12-18T13:30:57.696343",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 8496.9,
+    "pdf_total": 8496.9,
+    "record_count": 124,
+    "total_qty": 671,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 20,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 30,
+      "(Wine)": 29
+    }
+  },
+  {
+    "date": "2025-08-30",
+    "pdf": "pmix/pmix-senso-2025-08-30.pdf",
+    "timestamp": "2025-12-18T13:30:58.837376",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14041.4,
+    "pdf_total": null,
+    "record_count": 140,
+    "total_qty": 1106,
+    "categories": {
+      "(Beer)": 11,
+      "(Food)": 21,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 34,
+      "(Wine)": 32
+    }
+  },
+  {
+    "date": "2025-08-31",
+    "pdf": "pmix/pmix-senso-2025-08-31.pdf",
+    "timestamp": "2025-12-18T13:31:00.548883",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13380.45,
+    "pdf_total": null,
+    "record_count": 155,
+    "total_qty": 1031,
+    "categories": {
+      "(Beer)": 9,
+      "(Disregard)": 1,
+      "(Food)": 28,
+      "(Liquor)": 28,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 53,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-09-02",
+    "pdf": "pmix/pmix-senso-2025-09-02.pdf",
+    "timestamp": "2025-12-18T13:31:01.801908",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3344.05,
+    "pdf_total": 3344.05,
+    "record_count": 109,
+    "total_qty": 278,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 30,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 41,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-09-03",
+    "pdf": "pmix/pmix-senso-2025-09-03.pdf",
+    "timestamp": "2025-12-18T13:31:03.046872",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3634.7,
+    "pdf_total": 3634.7,
+    "record_count": 115,
+    "total_qty": 270,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 28,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 45,
+      "(Wine)": 21
+    }
+  },
+  {
+    "date": "2025-09-04",
+    "pdf": "pmix/pmix-senso-2025-09-04.pdf",
+    "timestamp": "2025-12-18T13:31:04.659137",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5990.55,
+    "pdf_total": 5990.55,
+    "record_count": 139,
+    "total_qty": 501,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 33,
+      "(Liquor)": 17,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 55,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-09-05",
+    "pdf": "pmix/pmix-senso-2025-09-05.pdf",
+    "timestamp": "2025-12-18T13:31:06.400750",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 10841.85,
+    "pdf_total": 10841.85,
+    "record_count": 164,
+    "total_qty": 791,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 37,
+      "(Liquor)": 28,
+      "(N/A Beverages)": 11,
+      "(Sushi)": 57,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-09-06",
+    "pdf": "pmix/pmix-senso-2025-09-06.pdf",
+    "timestamp": "2025-12-18T13:31:08.512188",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12715.35,
+    "pdf_total": 12715.35,
+    "record_count": 196,
+    "total_qty": 964,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 43,
+      "(Liquor)": 34,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 77,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-09-07",
+    "pdf": "pmix/pmix-senso-2025-09-07.pdf",
+    "timestamp": "2025-12-18T13:31:09.808932",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6012.35,
+    "pdf_total": 6012.35,
+    "record_count": 134,
+    "total_qty": 467,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 40,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 48,
+      "(Wine)": 16
+    }
+  },
+  {
+    "date": "2025-09-08",
+    "pdf": "pmix/pmix-senso-2025-09-08.pdf",
+    "timestamp": "2025-12-18T13:31:10.717371",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2661.35,
+    "pdf_total": 2661.35,
+    "record_count": 95,
+    "total_qty": 217,
+    "categories": {
+      "(Beer)": 1,
+      "(Food)": 25,
+      "(Liquor)": 10,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 44,
+      "(Wine)": 9
+    }
+  },
+  {
+    "date": "2025-09-09",
+    "pdf": "pmix/pmix-senso-2025-09-09.pdf",
+    "timestamp": "2025-12-18T13:31:11.652092",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 2563.35,
+    "pdf_total": 2563.35,
+    "record_count": 92,
+    "total_qty": 220,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 23,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 4,
+      "(Sushi)": 35,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-09-10",
+    "pdf": "pmix/pmix-senso-2025-09-10.pdf",
+    "timestamp": "2025-12-18T13:31:12.928386",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5835.75,
+    "pdf_total": 5835.75,
+    "record_count": 128,
+    "total_qty": 512,
+    "categories": {
+      "(Beer)": 8,
+      "(Food)": 29,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 41,
+      "(Wine)": 24
+    }
+  },
+  {
+    "date": "2025-09-11",
+    "pdf": "pmix/pmix-senso-2025-09-11.pdf",
+    "timestamp": "2025-12-18T13:31:14.376172",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5231.3,
+    "pdf_total": 5231.3,
+    "record_count": 124,
+    "total_qty": 408,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 30,
+      "(Liquor)": 16,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 47,
+      "(Wine)": 19
+    }
+  },
+  {
+    "date": "2025-09-12",
+    "pdf": "pmix/pmix-senso-2025-09-12.pdf",
+    "timestamp": "2025-12-18T13:31:16.507270",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 12467.95,
+    "pdf_total": 12467.95,
+    "record_count": 197,
+    "total_qty": 989,
+    "categories": {
+      "(Beer)": 9,
+      "(Disregard)": 1,
+      "(Food)": 50,
+      "(Liquor)": 26,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 73,
+      "(Wine)": 29
+    }
+  },
+  {
+    "date": "2025-09-13",
+    "pdf": "pmix/pmix-senso-2025-09-13.pdf",
+    "timestamp": "2025-12-18T13:31:18.536001",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15189.75,
+    "pdf_total": null,
+    "record_count": 190,
+    "total_qty": 1163,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 50,
+      "(Liquor)": 34,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 64,
+      "(Wine)": 25
+    }
+  },
+  {
+    "date": "2025-09-14",
+    "pdf": "pmix/pmix-senso-2025-09-14.pdf",
+    "timestamp": "2025-12-18T13:31:19.624308",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5234.8,
+    "pdf_total": 5234.8,
+    "record_count": 131,
+    "total_qty": 412,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 32,
+      "(Liquor)": 22,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 49,
+      "(Wine)": 18
+    }
+  },
+  {
+    "date": "2025-09-15",
+    "pdf": "pmix/pmix-senso-2025-09-15.pdf",
+    "timestamp": "2025-12-18T13:31:20.811338",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3042.5,
+    "pdf_total": 3042.5,
+    "record_count": 102,
+    "total_qty": 253,
+    "categories": {
+      "(Beer)": 3,
+      "(Food)": 27,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 42,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-09-16",
+    "pdf": "pmix/pmix-senso-2025-09-16.pdf",
+    "timestamp": "2025-12-18T13:31:22.214312",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3816.05,
+    "pdf_total": 3816.05,
+    "record_count": 118,
+    "total_qty": 322,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 27,
+      "(Liquor)": 18,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 47,
+      "(Wine)": 17
+    }
+  },
+  {
+    "date": "2025-09-17",
+    "pdf": "pmix/pmix-senso-2025-09-17.pdf",
+    "timestamp": "2025-12-18T13:31:23.490305",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4941.0,
+    "pdf_total": 4941.0,
+    "record_count": 123,
+    "total_qty": 396,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 35,
+      "(Liquor)": 21,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 44,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-09-18",
+    "pdf": "pmix/pmix-senso-2025-09-18.pdf",
+    "timestamp": "2025-12-18T13:31:25.077793",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4565.9,
+    "pdf_total": 4565.9,
+    "record_count": 141,
+    "total_qty": 401,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 34,
+      "(Liquor)": 23,
+      "(N/A Beverages)": 7,
+      "(Sushi)": 49,
+      "(Wine)": 23
+    }
+  },
+  {
+    "date": "2025-09-19",
+    "pdf": "pmix/pmix-senso-2025-09-19.pdf",
+    "timestamp": "2025-12-18T13:31:27.239426",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 13163.65,
+    "pdf_total": null,
+    "record_count": 193,
+    "total_qty": 1040,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 42,
+      "(Liquor)": 32,
+      "(N/A Beverages)": 10,
+      "(Sushi)": 71,
+      "(Wine)": 30
+    }
+  },
+  {
+    "date": "2025-09-20",
+    "pdf": "pmix/pmix-senso-2025-09-20.pdf",
+    "timestamp": "2025-12-18T13:31:29.260387",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 11857.3,
+    "pdf_total": 11857.3,
+    "record_count": 188,
+    "total_qty": 898,
+    "categories": {
+      "(Beer)": 7,
+      "(Disregard)": 1,
+      "(Food)": 42,
+      "(Liquor)": 33,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 70,
+      "(Wine)": 27
+    }
+  },
+  {
+    "date": "2025-09-22",
+    "pdf": "pmix/pmix-senso-2025-09-22.pdf",
+    "timestamp": "2025-12-18T13:31:30.661946",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3098.2,
+    "pdf_total": 3098.2,
+    "record_count": 113,
+    "total_qty": 252,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 33,
+      "(Liquor)": 15,
+      "(N/A Beverages)": 5,
+      "(Sushi)": 46,
+      "(Wine)": 10
+    }
+  },
+  {
+    "date": "2025-09-23",
+    "pdf": "pmix/pmix-senso-2025-09-23.pdf",
+    "timestamp": "2025-12-18T13:31:31.870600",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 3672.95,
+    "pdf_total": 3672.95,
+    "record_count": 105,
+    "total_qty": 288,
+    "categories": {
+      "(Beer)": 2,
+      "(Food)": 29,
+      "(Liquor)": 12,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 45,
+      "(Wine)": 11
+    }
+  },
+  {
+    "date": "2025-09-24",
+    "pdf": "pmix/pmix-senso-2025-09-24.pdf",
+    "timestamp": "2025-12-18T13:31:33.375312",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 5522.85,
+    "pdf_total": 5522.85,
+    "record_count": 140,
+    "total_qty": 467,
+    "categories": {
+      "(Beer)": 7,
+      "(Food)": 38,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 6,
+      "(Sushi)": 54,
+      "(Wine)": 15
+    }
+  },
+  {
+    "date": "2025-09-25",
+    "pdf": "pmix/pmix-senso-2025-09-25.pdf",
+    "timestamp": "2025-12-18T13:31:34.822152",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 4671.85,
+    "pdf_total": 4671.85,
+    "record_count": 138,
+    "total_qty": 376,
+    "categories": {
+      "(Beer)": 5,
+      "(Food)": 41,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 51,
+      "(Wine)": 13
+    }
+  },
+  {
+    "date": "2025-09-26",
+    "pdf": "pmix/pmix-senso-2025-09-26.pdf",
+    "timestamp": "2025-12-18T13:31:37.011149",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 14016.8,
+    "pdf_total": null,
+    "record_count": 202,
+    "total_qty": 1103,
+    "categories": {
+      "(Beer)": 6,
+      "(Food)": 47,
+      "(Liquor)": 29,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 81,
+      "(Wine)": 30
+    }
+  },
+  {
+    "date": "2025-09-27",
+    "pdf": "pmix/pmix-senso-2025-09-27.pdf",
+    "timestamp": "2025-12-18T13:31:39.107027",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 15065.35,
+    "pdf_total": null,
+    "record_count": 193,
+    "total_qty": 1113,
+    "categories": {
+      "(Beer)": 9,
+      "(Food)": 37,
+      "(Liquor)": 34,
+      "(N/A Beverages)": 8,
+      "(Sushi)": 72,
+      "(Wine)": 33
+    }
+  },
+  {
+    "date": "2025-09-28",
+    "pdf": "pmix/pmix-senso-2025-09-28.pdf",
+    "timestamp": "2025-12-18T13:31:40.893955",
+    "status": "approved",
+    "issues": [],
+    "calculated_total": 6656.25,
+    "pdf_total": 6656.25,
+    "record_count": 157,
+    "total_qty": 516,
+    "categories": {
+      "(Beer)": 4,
+      "(Food)": 44,
+      "(Liquor)": 20,
+      "(N/A Beverages)": 9,
+      "(Sushi)": 66,
+      "(Wine)": 14
+    }
+  }
+]

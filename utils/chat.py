@@ -11,7 +11,10 @@ import streamlit as st
 
 def handle_text_response(resp):
   parts = getattr(resp, 'parts')
-  st.markdown(''.join(parts))
+  text = ''.join(parts)
+  # Escape $ signs to render as literal dollar signs, not LaTeX
+  text = text.replace('$', '\\$')
+  st.markdown(text)
 
 def display_schema(data):
   fields = getattr(data, 'fields')
