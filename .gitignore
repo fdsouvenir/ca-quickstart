@@ -86,3 +86,6 @@ dmypy.json
 
 # Streamlit
 .streamlit/secrets.toml
+
+# PMIX PDFs (local data files)
+pmix/
