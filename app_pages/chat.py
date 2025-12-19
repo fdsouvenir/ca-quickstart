@@ -113,8 +113,11 @@ def conversations_main():
     user_input = st.chat_input("What would you like to know?")
 
     if user_input:
-        if len(state.convos) == 0:
+        if state.current_convo is None:
             handle_create_convo()
+        if state.current_convo is None:
+            st.error("Failed to create conversation. Please try again.")
+            st.stop()
         # Record user message
         state.convo_messages.append(geminidataanalytics.Message(user_message={"text": user_input}))
         with st.chat_message("user"):
