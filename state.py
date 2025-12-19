@@ -1,6 +1,17 @@
 import streamlit as st
 from google.cloud import geminidataanalytics
 from google.api_core import exceptions as google_exceptions
+from google.oauth2 import service_account
+
+
+def get_credentials():
+    """Get GCP credentials from Streamlit secrets or ADC."""
+    if "gcp_service_account" in st.secrets:
+        return service_account.Credentials.from_service_account_info(
+            dict(st.secrets["gcp_service_account"]),
+            scopes=["https://www.googleapis.com/auth/cloud-platform"]
+        )
+    return None  # Local dev: use ADC
 
 # Only runs once for whole session
 def init_state():
@@ -10,8 +21,9 @@ def init_state():
     state.convos = []
     state.convo_messages = []
 
-    state.agent_client = geminidataanalytics.DataAgentServiceClient()
-    state.chat_client = geminidataanalytics.DataChatServiceClient()
+    credentials = get_credentials()
+    state.agent_client = geminidataanalytics.DataAgentServiceClient(credentials=credentials)
+    state.chat_client = geminidataanalytics.DataChatServiceClient(credentials=credentials)
 
     fetch_agents_state(rerun=False)
 
