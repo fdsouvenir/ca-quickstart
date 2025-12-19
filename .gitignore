@@ -89,3 +89,10 @@ dmypy.json
 
 # PMIX PDFs (local data files)
 pmix/
+
+# Implementation plans and docs (local reference only)
+POC_IMPLEMENTATION_PLAN.md
+PMIX_PARSER_PLAN.md
+
+# Screenshots
+screenshots/
