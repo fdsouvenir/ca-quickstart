@@ -74,20 +74,6 @@ def generate_date_range(start_date: str, end_date: str) -> list[str]:
     return dates
 
 
-def create_closed_placeholder(date: str) -> dict:
-    """Create a placeholder record for a closed/missing day."""
-    return {
-        "customer_id": "senso-sushi",
-        "report_date": date,
-        "primary_category": None,
-        "category": None,
-        "item_name": "[CLOSED]",
-        "quantity_sold": 0,
-        "net_sales": 0.0,
-        "discount": 0.0
-    }
-
-
 def write_ndjson(records: list[dict], output_path: str):
     """Write records as newline-delimited JSON."""
     with open(output_path, "w") as f:
@@ -170,14 +156,18 @@ def validate_parsed(records: list[dict], grand_total: float | None, date: str, p
     return log_entry
 
 
-def run_bq_command(cmd: str, dry_run: bool = False) -> bool:
-    """Run a bq command."""
+def run_bq_command(cmd: str | list, dry_run: bool = False) -> bool:
+    """Run a bq command (can be string for shell=True or list for shell=False)."""
     if dry_run:
         print(f"[DRY RUN] Would execute: {cmd}")
         return True
 
-    print(f"Executing: {cmd}")
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    if isinstance(cmd, list):
+        print(f"Executing: {' '.join(cmd)}")
+        result = subprocess.run(cmd, capture_output=True, text=True)
+    else:
+        print(f"Executing: {cmd}")
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
 
     if result.returncode != 0:
         print(f"Error: {result.stderr}", file=sys.stderr)
@@ -238,9 +228,9 @@ def main():
     total_qty = 0
     total_sales = 0.0
     parsed_count = 0
-    closed_count = 0
     error_count = 0
     flagged_count = 0
+    skipped_count = 0
 
     for date in expected_dates:
         if date in dates_with_pdfs:
@@ -271,22 +261,18 @@ def main():
                     if args.verbose:
                         print(f"  {date}: {len(records)} items, {day_qty} qty, ${day_sales:.2f}")
                 else:
-                    # PDF exists but no data - treat as closed
-                    all_records.append(create_closed_placeholder(date))
-                    closed_count += 1
+                    # PDF exists but no data - skip (closed days inferred from missing dates)
+                    skipped_count += 1
                     if args.verbose:
-                        print(f"  {date}: No data (closed)")
+                        print(f"  {date}: No data (skipped)")
             except Exception as e:
                 print(f"Error parsing {pdf_path}: {e}", file=sys.stderr)
                 error_count += 1
-                # Create placeholder for error case
-                all_records.append(create_closed_placeholder(date))
         else:
-            # No PDF - create closed placeholder
-            all_records.append(create_closed_placeholder(date))
-            closed_count += 1
+            # No PDF - skip (closed days inferred from missing dates)
+            skipped_count += 1
             if args.verbose:
-                print(f"  {date}: No PDF (closed)")
+                print(f"  {date}: No PDF (skipped)")
 
     # Summary
     print()
@@ -295,7 +281,7 @@ def main():
     print("=" * 50)
     print(f"Total records: {len(all_records)}")
     print(f"Days parsed: {parsed_count}")
-    print(f"Days closed/missing: {closed_count}")
+    print(f"Days skipped (no data/PDF): {skipped_count}")
     print(f"Errors: {error_count}")
     if not args.skip_validation:
         print(f"Flagged for review: {flagged_count}")
@@ -326,22 +312,20 @@ def main():
     print(f"Wrote {len(all_records)} records to {output_path}")
 
     # Delete existing data for date range
-    delete_sql = f"""
-        DELETE FROM `fdsanalytics.insights.top_items`
-        WHERE report_date BETWEEN '{start_date}' AND '{end_date}'
-        AND customer_id = 'senso-sushi'
-    """
+    delete_sql = f"DELETE FROM `fdsanalytics.restaurant_analytics.item_sales` WHERE report_date BETWEEN '{start_date}' AND '{end_date}' AND location = 'senso-sushi'"
 
     print()
     print("Deleting existing data...")
-    if not run_bq_command(f'bq query --nouse_legacy_sql "{delete_sql}"'):
+    delete_cmd = ['bq', 'query', '--nouse_legacy_sql', delete_sql]
+    if not run_bq_command(delete_cmd):
         print("Failed to delete existing data", file=sys.stderr)
         sys.exit(1)
 
     # Load new data
     print()
     print("Loading new data...")
-    load_cmd = f'bq load --source_format=NEWLINE_DELIMITED_JSON fdsanalytics:insights.top_items {output_path}'
+    load_cmd = ['bq', 'load', '--source_format=NEWLINE_DELIMITED_JSON',
+                'fdsanalytics:restaurant_analytics.item_sales', output_path]
     if not run_bq_command(load_cmd):
         print("Failed to load data", file=sys.stderr)
         sys.exit(1)

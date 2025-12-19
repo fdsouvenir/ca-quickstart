@@ -78,7 +78,7 @@ def find_data_table(pdf) -> list | None:
     return all_rows if all_rows else None
 
 
-def parse_from_table(table_rows: list, report_date: str, verbose: bool = False) -> tuple[list[dict], float | None]:
+def parse_from_table(table_rows: list, report_date: str, pdf_path: str, verbose: bool = False) -> tuple[list[dict], float | None]:
     """
     Parse records from table extraction (old format).
 
@@ -163,21 +163,22 @@ def parse_from_table(table_rows: list, report_date: str, verbose: bool = False) 
         discount = parse_currency(str(row[5]) if len(row) > 5 and row[5] else '0')
 
         record = {
-            "customer_id": "senso-sushi",
             "report_date": report_date,
+            "location": "senso-sushi",
             "primary_category": current_primary_category,
             "category": category,
             "item_name": item_name,
             "quantity_sold": qty,
             "net_sales": round(net_sales, 2),
-            "discount": round(discount, 2)
+            "discount": round(discount, 2),
+            "data_source": f"pmix-pdf:{Path(pdf_path).name}"
         }
         records.append(record)
 
     return records, grand_total_from_pdf
 
 
-def parse_from_words(pdf, report_date: str, verbose: bool = False) -> tuple[list[dict], float | None]:
+def parse_from_words(pdf, report_date: str, pdf_path: str, verbose: bool = False) -> tuple[list[dict], float | None]:
     """
     Parse records using word position extraction (new format).
 
@@ -282,14 +283,15 @@ def parse_from_words(pdf, report_date: str, verbose: bool = False) -> tuple[list
 
             # Regular item row
             record = {
-                "customer_id": "senso-sushi",
                 "report_date": report_date,
+                "location": "senso-sushi",
                 "primary_category": current_primary_category,
                 "category": category_text,
                 "item_name": item_name,
                 "quantity_sold": qty,
                 "net_sales": round(net_sales, 2),
-                "discount": round(discount, 2)
+                "discount": round(discount, 2),
+                "data_source": f"pmix-pdf:{Path(pdf_path).name}"
             }
             records.append(record)
 
@@ -324,11 +326,11 @@ def parse_pmix_pdf(pdf_path: str, verbose: bool = False) -> tuple[list[dict], fl
         if table_rows:
             if verbose:
                 print(f"  Using table extraction (old format)", file=sys.stderr)
-            return parse_from_table(table_rows, report_date, verbose)
+            return parse_from_table(table_rows, report_date, pdf_path, verbose)
         else:
             if verbose:
                 print(f"  Using word position extraction (new format)", file=sys.stderr)
-            return parse_from_words(pdf, report_date, verbose)
+            return parse_from_words(pdf, report_date, pdf_path, verbose)
 
 
 def validate_totals(records: list[dict], grand_total_from_pdf: float | None, verbose: bool = False) -> bool:
