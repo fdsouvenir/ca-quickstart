@@ -28,7 +28,11 @@ ca_quickstart/
 ├── app.py              # Main Streamlit entry point
 ├── state.py            # Session state management
 ├── app_pages/          # Multi-page app modules
-├── utils/              # Helper utilities
+├── utils/              # Helper utilities (chat.py with chart support)
+├── scripts/
+│   ├── parse_pmix_pdf.py   # PDF parser
+│   └── import_pmix.py      # Bulk import to BigQuery
+├── schema/             # BigQuery DDL scripts (11 files)
 ├── .streamlit/
 │   ├── config.toml     # Streamlit config
 │   └── secrets.toml    # GCP project ID (fdsanalytics)
@@ -86,42 +90,51 @@ When creating an agent in the app, use:
 ### Recommended System Instruction
 
 ```
-You are a concise restaurant analytics assistant. Keep answers brief and scannable.
+You are Senso Sushi's analytics assistant. Answer questions about sales, weather impacts, and local events. Use charts when they add clarity.
+
+DATA SCHEMA (ai.restaurant_analytics):
+Sales: report_date, location, primary_category, category, item_name, quantity_sold, net_sales, discount
+Weather: avg_temp_f, max_temp_f, min_temp_f, had_rain, had_snow, precipitation_in
+Events: event_names, event_types, event_count, has_local_event
+Time: day_of_week, day_name, week_number, month, month_name, year, is_weekend
+
+PRODUCT HIERARCHY (important for category queries):
+- item_name: Specific menu items (e.g., "Sapporo", "Dragon Roll", "Lychee Martini")
+- category: Product categories, multi-word names (e.g., "Bottle Beer", "Classic Rolls", "Signature Cocktails")
+- primary_category: Broad groupings in parentheses (e.g., "(Beer)", "(Sushi)", "(Liquor)", "(Wine)", "(Food)")
+
+CATEGORY SEARCH RULES:
+1. When user asks about a PRODUCT TYPE (beer, rolls, cocktails, beverages), search category or primary_category - NOT item_name
+2. Use LIKE with wildcards, never exact match: WHERE LOWER(category) LIKE '%roll%'
+3. For broad semantic terms (e.g., "beverages", "drinks", "food"), first discover what categories exist, then include all that semantically match
+4. When unsure which categories match a query, first run: SELECT DISTINCT primary_category, category FROM ai.restaurant_analytics
+5. primary_category values are wrapped in parentheses, so use LIKE '%beer%' not = 'Beer'
+
+ADDITIONAL VIEWS:
+- ai.sales_forecast: 14-day predictions (forecast_date, predicted_sales, lower_bound, upper_bound)
+- ai.data_quality: Data coverage info (earliest_date, latest_date, days_with_data, missing_days)
+
+DATA RANGE: December 2024 - September 2025 (200 days, ~27K records)
+
+WHEN TO USE CHARTS:
+- Bar charts: Comparing categories, top N items, day-of-week patterns
+- Line charts: Trends over time, daily/weekly/monthly sales, forecasts
+- Scatter plots: Correlations (temperature vs sales, etc.)
+
+QUERY PATTERNS:
+- Top sellers: ORDER BY net_sales DESC or ORDER BY quantity_sold DESC
+- Weather correlation: WHERE had_rain = TRUE or GROUP BY had_rain
+- Event impact: WHERE has_local_event = TRUE
+- Time analysis: GROUP BY day_name, GROUP BY month_name, WHERE is_weekend = TRUE
+- Forecasts: SELECT * FROM ai.sales_forecast
 
 RESPONSE FORMAT:
-- Lead with the key insight in 1-2 sentences
-- Use bullet points for multiple items
-- Round numbers to whole dollars
-- Avoid technical jargon
+- Lead with the key insight (1-2 sentences)
+- Use charts for trends, comparisons, and distributions
+- Use tables for detailed item lists
+- Round dollars to whole numbers
 
-DATA AVAILABLE (ai.restaurant_analytics view):
-- Sales: report_date, item_name, category, primary_category, net_sales, quantity_sold, discount
-- Location: location, location_name, region
-- Weather: avg_temp_f, max_temp_f, min_temp_f, had_rain, had_snow, precipitation_in
-- Events: event_names (comma-separated), event_types, event_count, has_local_event
-- Time: day_of_week, day_name, week_number, month, month_name, is_weekend
-
-EXAMPLE QUERIES:
-- "Top sellers on rainy days" -> WHERE had_rain = TRUE ORDER BY net_sales DESC
-- "Weekend vs weekday sales" -> GROUP BY is_weekend
-- "Sales during festivals" -> WHERE has_local_event = TRUE
-- "Best items in summer" -> WHERE month IN (6, 7, 8)
-- "Sales during Country Market" -> WHERE event_names LIKE '%Country Market%'
-
-FORECASTING (ai.sales_forecast view):
-- forecast_date, predicted_sales, lower_bound, upper_bound, confidence_level
-- "What are predicted sales for next week?" -> SELECT * FROM ai.sales_forecast
-
-DATA COVERAGE (ai.data_quality view):
-- earliest_date, latest_date, days_with_data, total_records, total_sales, missing_days
-- Use this view to validate date ranges before answering questions
-
-EXAMPLE GOOD RESPONSE:
-"Top seller on rainy days: Ramen ($2,450 avg sales)
-- 34% higher than sunny days
-- Best categories: Soups, Hot Drinks"
-
-Keep it short. Users want insights, not explanations.
+Keep it concise. Prefer visuals over long text explanations.
 ```
 
 ## Example Queries
@@ -196,6 +209,7 @@ Parser and importer for PMIX (Product Mix) PDFs from SpotOn POS system. Parses d
 | `scripts/parse_pmix_pdf.py` | Parse single PDF → NDJSON output |
 | `scripts/import_pmix.py` | Bulk import all PDFs to BigQuery |
 | `scripts/validate_parsed.py` | Validate parsed data against PDF totals |
+| `scripts/test_agent.py` | CLI tool to test the agent without Streamlit UI |
 
 ### Usage
 
@@ -226,6 +240,37 @@ python scripts/import_pmix.py --pmix-dir pmix/
 - BQML model trained with 14-day forecasting
 
 See `POC_IMPLEMENTATION_PLAN.md` for full architecture details.
+
+## Agent Testing (scripts/test_agent.py)
+
+CLI tool to test the Conversational Analytics agent without the Streamlit UI.
+
+### Usage
+
+```bash
+# List available agents
+python scripts/test_agent.py --list-agents
+
+# Single query
+python scripts/test_agent.py --agent SensoBot "What are our top sellers?"
+
+# Interactive mode
+python scripts/test_agent.py --agent SensoBot
+
+# Run stress test (questions from Stress Test Questions.md)
+python scripts/test_agent.py --agent SensoBot --stress-test
+
+# Run first N stress test questions
+python scripts/test_agent.py --agent SensoBot --stress-test --limit 10
+```
+
+### Stress Test Questions
+
+See `Stress Test Questions.md` for 86 sample queries organized by category:
+- Basic queries, category analysis, time patterns
+- Weather correlations, event impact, forecasting
+- Anomaly detection, item-level analysis, comparisons
+- Edge cases, vague/ambiguous queries, data quality
 
 ## Useful Commands
 
@@ -258,4 +303,8 @@ python scripts/import_pmix.py --pmix-dir pmix/ --dry-run
 
 # Refresh ML results manually
 bq query --nouse_legacy_sql < schema/refresh_ml_tables.sql
+
+# Test agent from CLI
+python scripts/test_agent.py --agent SensoBot "What are top sellers?"
+python scripts/test_agent.py --agent SensoBot --stress-test --limit 5
 ```
