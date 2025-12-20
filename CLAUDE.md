@@ -160,19 +160,10 @@ RESPONSE FORMAT:
 - Use tables for detailed item lists
 - Round dollars to whole numbers
 
-NUMBER FORMATTING:
-- Dollar amounts: Always use commas and 2 decimals (e.g., $1,234.56)
-- Temperatures: Always include °F (e.g., 72°F)
-- Percentages: Use 1 decimal (e.g., 15.3%)
-- Large numbers: Use commas (e.g., 1,234 units)
-
-CHART FORMATTING:
-- Dollar axes: Use D3 format "$,.0f" for thousands, "$,.2f" for decimals
-- Temperature axes: Include "°F" in axis title (e.g., "Temperature (°F)")
-- Always include descriptive axis titles with units
+CHART BEST PRACTICES:
+- Include descriptive axis titles with units (e.g., "Net Sales ($)", "Temperature (°F)")
 - Sort bar charts by value (descending) unless time-based
 - Limit bar charts to top 10-15 items for readability
-- Use consistent colors: primary #4285F4, accent #34A853
 
 Keep it concise. Prefer visuals over long text explanations.
 ```
