@@ -65,13 +65,26 @@ ca_quickstart/
 
 | View | Description |
 |------|-------------|
-| `ai.restaurant_analytics` | **Primary LLM view** - pre-joins sales, weather, events |
+| `ai.restaurant_analytics` | **Primary LLM view** - pre-joins sales, weather, events (item-level grain) |
+| `ai.daily_summary` | **Day/location grain** - USE FOR weather correlations, daily trends, scatter plots |
 | `ai.restaurant_analytics_extended` | Extended view with anomaly data |
 | `ai.sales_forecast` | 14-day sales forecast |
 | `ai.data_quality` | Data coverage metadata for AI self-validation |
 | `insights.expanded_events` | Expands recurring events to individual dates |
 | `insights.daily_totals` | Materialized view - daily aggregations |
 | `insights.category_daily` | Materialized view - category-level aggregations |
+
+### ai.daily_summary Columns
+
+Pre-aggregated table to prevent weather column multiplication bugs. One row per day per location.
+
+```
+Grain: report_date, location, location_name, region
+Sales: total_net_sales, total_quantity_sold, total_discount, unique_items_sold, line_item_count
+Weather: avg_temp_f, max_temp_f, min_temp_f, precipitation_in, had_rain, had_snow
+Events: event_names, event_types, event_count, has_local_event
+Time: day_of_week, day_name, week_number, month, month_name, year, is_weekend
+```
 
 ### BQML Model
 
@@ -92,7 +105,19 @@ When creating an agent in the app, use:
 ```
 You are Senso Sushi's analytics assistant. Answer questions about sales, weather impacts, and local events. Use charts when they add clarity.
 
-DATA SCHEMA (ai.restaurant_analytics):
+MANDATORY VIEW SELECTION:
+- For ANY query involving weather (precipitation, temperature, rain, snow) or daily aggregations/correlations:
+  → MUST use ai.daily_summary
+- For item-level queries (top sellers, category breakdowns, specific menu items):
+  → Use ai.restaurant_analytics
+
+ai.daily_summary columns (day/location grain, 200 rows):
+report_date, location, location_name, region, total_net_sales, total_quantity_sold,
+total_discount, unique_items_sold, line_item_count, avg_temp_f, max_temp_f, min_temp_f,
+precipitation_in, had_rain, had_snow, event_names, event_types, event_count,
+has_local_event, day_of_week, day_name, week_number, month, month_name, year, is_weekend
+
+ai.restaurant_analytics columns (item-level grain, 27K rows):
 Sales: report_date, location, primary_category, category, item_name, quantity_sold, net_sales, discount
 Weather: avg_temp_f, max_temp_f, min_temp_f, had_rain, had_snow, precipitation_in
 Events: event_names, event_types, event_count, has_local_event
@@ -111,6 +136,7 @@ CATEGORY SEARCH RULES:
 5. primary_category values are wrapped in parentheses, so use LIKE '%beer%' not = 'Beer'
 
 ADDITIONAL VIEWS:
+- ai.daily_summary: Day/location grain for weather correlations and daily trends (see columns above)
 - ai.sales_forecast: 14-day predictions (forecast_date, predicted_sales, lower_bound, upper_bound)
 - ai.data_quality: Data coverage info (earliest_date, latest_date, days_with_data, missing_days)
 
@@ -133,6 +159,20 @@ RESPONSE FORMAT:
 - Use charts for trends, comparisons, and distributions
 - Use tables for detailed item lists
 - Round dollars to whole numbers
+
+NUMBER FORMATTING:
+- Dollar amounts: Always use commas and 2 decimals (e.g., $1,234.56)
+- Temperatures: Always include °F (e.g., 72°F)
+- Percentages: Use 1 decimal (e.g., 15.3%)
+- Large numbers: Use commas (e.g., 1,234 units)
+
+CHART FORMATTING:
+- Dollar axes: Use D3 format "$,.0f" for thousands, "$,.2f" for decimals
+- Temperature axes: Include "°F" in axis title (e.g., "Temperature (°F)")
+- Always include descriptive axis titles with units
+- Sort bar charts by value (descending) unless time-based
+- Limit bar charts to top 10-15 items for readability
+- Use consistent colors: primary #4285F4, accent #34A853
 
 Keep it concise. Prefer visuals over long text explanations.
 ```
@@ -257,20 +297,43 @@ python scripts/test_agent.py --agent SensoBot "What are our top sellers?"
 # Interactive mode
 python scripts/test_agent.py --agent SensoBot
 
-# Run stress test (questions from Stress Test Questions.md)
+# Run stress test (original mode - new conversation every 10 questions)
 python scripts/test_agent.py --agent SensoBot --stress-test
 
-# Run first N stress test questions
-python scripts/test_agent.py --agent SensoBot --stress-test --limit 10
+# Run grouped stress test (one conversation per category, tests follow-up context)
+python scripts/test_agent.py --agent SensoBot --stress-test --grouped
+
+# Run grouped stress test with file logging
+python scripts/test_agent.py --agent SensoBot --stress-test --grouped --log
+
+# Limit to first N questions
+python scripts/test_agent.py --agent SensoBot --stress-test --grouped --log --limit 10
 ```
+
+### Stress Test Modes
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| `--stress-test` | New conversation every 10 questions | Quick batch testing |
+| `--stress-test --grouped` | One conversation per category + context switching test | Tests follow-up context within topics |
+| `--stress-test --grouped --log` | Same + writes to `logs/stress_test_YYYYMMDD_HHMMSS.log` | Full test run with audit trail |
 
 ### Stress Test Questions
 
-See `Stress Test Questions.md` for 86 sample queries organized by category:
+See `Stress Test Questions.md` for 87 sample queries organized by 16 categories:
 - Basic queries, category analysis, time patterns
 - Weather correlations, event impact, forecasting
 - Anomaly detection, item-level analysis, comparisons
 - Edge cases, vague/ambiguous queries, data quality
+
+Plus a **Context Switching Test** (9 unrelated questions in one conversation) to test topic transitions.
+
+### Test Results (2025-12-19)
+
+- **96 questions** (87 from categories + 9 context switching)
+- **95/96 passed** (99% success rate)
+- **Duration**: ~25 minutes
+- **Verified**: Weather queries correctly use `ai.daily_summary`
 
 ## Useful Commands
 

@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-import altair as alt
+import copy
 
 import proto
 from google.protobuf.json_format import MessageToDict
@@ -8,6 +8,89 @@ from google.protobuf.json_format import MessageToDict
 import streamlit as st
 
 # Based off documentation: https://cloud.google.com/gemini/docs/conversational-analytics-api/build-agent-sdk#define_helper_functions
+
+# ============================================================================
+# Column Formatting
+# ============================================================================
+
+def detect_column_format(col_name):
+    """Detect format based on column name patterns."""
+    col = col_name.lower()
+
+    # Dollar patterns: ends with sales/revenue/discount/cost/price, or contains 'bound'
+    if any(col.endswith(s) for s in ('_sales', 'sales', '_revenue', '_discount', '_cost', '_price')):
+        return "$ %.2f"
+    if 'bound' in col or col == 'predicted_sales':  # forecast bounds
+        return "$ %.2f"
+
+    # Temperature patterns: contains 'temp'
+    if 'temp' in col:
+        return "%.1f°F"
+
+    # Precipitation patterns: ends with '_in' (inches)
+    if col.endswith('_in'):
+        return '%.2f"'
+
+    # Quantity patterns: contains quantity/count/sold/items
+    if any(x in col for x in ('quantity', 'count', 'sold', 'items')):
+        return "%d"
+
+    return None  # No special formatting
+
+
+def build_column_config(df):
+    """Build Streamlit column_config from DataFrame columns."""
+    config = {}
+    for col in df.columns:
+        fmt = detect_column_format(col)
+        if fmt:
+            config[col] = st.column_config.NumberColumn(col, format=fmt)
+    return config
+
+
+# ============================================================================
+# Chart Theming
+# ============================================================================
+
+CHART_THEME = {
+    "config": {
+        "padding": {"left": 20, "right": 20, "top": 20, "bottom": 20},
+        "title": {"fontSize": 16, "anchor": "start"},
+        "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "gridColor": "#e8eaed",
+            "domainColor": "#dadce0"
+        },
+        "view": {"stroke": "transparent"},
+        "bar": {"color": "#4285F4"},
+        "line": {"color": "#4285F4", "strokeWidth": 2},
+        "point": {"color": "#4285F4", "size": 60}
+    }
+}
+
+
+def apply_chart_theme(vega_spec):
+    """Merge theme config into Vega-Lite spec, preserving agent's config."""
+    themed = copy.deepcopy(vega_spec)
+    existing = themed.get("config", {})
+
+    for key, value in CHART_THEME["config"].items():
+        if key not in existing:
+            existing[key] = value
+        elif isinstance(value, dict) and isinstance(existing.get(key), dict):
+            # Merge nested dicts (theme is default, agent values override)
+            existing[key] = {**value, **existing[key]}
+
+    themed["config"] = existing
+
+    # Ensure chart has reasonable dimensions
+    if "width" not in themed:
+        themed["width"] = "container"
+    if "height" not in themed:
+        themed["height"] = 400
+
+    return themed
 
 def handle_text_response(resp):
   parts = getattr(resp, 'parts')
@@ -76,9 +159,9 @@ def handle_data_response(resp):
         else:
           d[field] = [el[field]]
 
-    df = pd.DataFrame(d) 
+    df = pd.DataFrame(d)
 
-    st.dataframe(df)
+    st.dataframe(df, column_config=build_column_config(df), use_container_width=True)
     st.session_state.lastDataFrame = df
 
 def handle_chart_response(resp):
@@ -95,13 +178,9 @@ def handle_chart_response(resp):
   if 'query' in resp:
     st.markdown(resp.query.instructions)
   elif 'result' in resp:
-    # Hack from https://github.com/streamlit/streamlit/issues/6269
-    # TODO: Make use of st.altair_chart when either issues below are resolved:
-    # https://github.com/streamlit/streamlit/issues/6269
-    # https://github.com/streamlit/streamlit/issues/1196 
-    # Then we can make use of the altair example in our python sdk documentation
-    chart = alt.Chart.from_dict(_convert(resp.result.vega_config))
-    st.vega_lite_chart(json.loads(chart.to_json()))
+    vega_spec = _convert(resp.result.vega_config)
+    themed_spec = apply_chart_theme(vega_spec)
+    st.vega_lite_chart(themed_spec, use_container_width=True)
 
 def show_message(msg):
   m = msg.system_message
