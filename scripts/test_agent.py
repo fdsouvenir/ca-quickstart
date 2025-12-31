@@ -9,8 +9,17 @@ Usage:
     # Single query
     python scripts/test_agent.py "What are our top 10 selling items?"
 
-    # Run stress test questions
+    # Run stress test questions (original mode - new conversation every 10 questions)
     python scripts/test_agent.py --stress-test
+
+    # Run grouped stress test (one conversation per category, tests context)
+    python scripts/test_agent.py --stress-test --grouped
+
+    # Run grouped stress test with file logging
+    python scripts/test_agent.py --stress-test --grouped --log
+
+    # Limit to first N questions
+    python scripts/test_agent.py --stress-test --grouped --log --limit 10
 
     # List available agents
     python scripts/test_agent.py --list-agents
@@ -21,6 +30,7 @@ import json
 import re
 import sys
 import os
+from datetime import datetime
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -165,6 +175,102 @@ def load_stress_test_questions(file_path=None):
     return matches
 
 
+def load_stress_test_questions_grouped(file_path=None):
+    """Load questions from markdown file, grouped by section headers."""
+    if file_path is None:
+        file_path = Path(__file__).parent.parent / "Stress Test Questions.md"
+
+    if not file_path.exists():
+        print(f"{Colors.RED}Stress test file not found: {file_path}{Colors.ENDC}")
+        return []
+
+    with open(file_path, 'r') as f:
+        content = f.read()
+
+    groups = []
+    current_section = None
+    current_questions = []
+
+    for line in content.split('\n'):
+        # Check for section headers (## Header)
+        header_match = re.match(r'^## (.+)$', line)
+        if header_match:
+            # Save previous section
+            if current_section and current_questions:
+                groups.append((current_section, current_questions))
+            current_section = header_match.group(1).strip()
+            current_questions = []
+            continue
+
+        # Check for numbered questions with quotes
+        question_match = re.match(r'\d+\.\s+"([^"]+)"', line)
+        if question_match and current_section:
+            current_questions.append(question_match.group(1))
+
+    # Save last section
+    if current_section and current_questions:
+        groups.append((current_section, current_questions))
+
+    return groups
+
+
+# Mixed-topic conversation to test context switching
+MIXED_TOPIC_QUESTIONS = [
+    "What are our top 10 selling items?",           # Basic
+    "How do sales compare on rainy days vs sunny days?",  # Weather
+    "What are predicted sales for next week?",      # Forecasting
+    "How has Salmon Roll performed over time?",     # Item-Level
+    "Do we have any data for October 2025?",        # Edge Case
+    "How are we doing?",                            # Vague
+    "How do sales perform during Country Market?",  # Events
+    "How much have we discounted in total?",        # Discount
+    "How many days of data do we have?",            # Data Quality
+]
+
+
+def setup_logging(log_dir="logs"):
+    """Create logs directory and return timestamped log file path."""
+    log_path = Path(__file__).parent.parent / log_dir
+    log_path.mkdir(exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = log_path / f"stress_test_{timestamp}.log"
+    return log_file
+
+
+class LogWriter:
+    """Writes to both console and file."""
+    def __init__(self, log_file=None, use_colors=True):
+        self.log_file = log_file
+        self.use_colors = use_colors
+        self.file_handle = None
+        if log_file:
+            self.file_handle = open(log_file, 'w', encoding='utf-8')
+
+    def write(self, text, color=None):
+        """Write text to console (with optional color) and file (plain)."""
+        # Console output with color
+        if color and self.use_colors:
+            print(f"{color}{text}{Colors.ENDC}", end='')
+        else:
+            print(text, end='')
+
+        # File output without color
+        if self.file_handle:
+            # Strip ANSI codes for file
+            plain_text = re.sub(r'\033\[[0-9;]*m', '', text)
+            self.file_handle.write(plain_text)
+            self.file_handle.flush()
+
+    def writeln(self, text="", color=None):
+        """Write text with newline."""
+        self.write(text + "\n", color)
+
+    def close(self):
+        if self.file_handle:
+            self.file_handle.close()
+
+
 def interactive_mode(chat_client, agent_client, project_id, agent, verbose=False):
     """Run interactive chat session."""
     print(f"\n{Colors.GREEN}Starting interactive session with: {agent.display_name}{Colors.ENDC}")
@@ -277,6 +383,171 @@ def run_stress_test(chat_client, agent_client, project_id, agent, limit=None, ve
     return results
 
 
+def run_stress_test_grouped(chat_client, agent_client, project_id, agent,
+                            limit=None, verbose=False, log_file=None):
+    """Run stress test with conversation-per-group strategy and optional file logging."""
+    start_time = datetime.now()
+
+    # Setup logging
+    use_colors = sys.stdout.isatty()
+    log = LogWriter(log_file=log_file, use_colors=use_colors)
+
+    # Load grouped questions
+    groups = load_stress_test_questions_grouped()
+    if not groups:
+        log.writeln("No question groups found in stress test file", Colors.RED)
+        log.close()
+        return []
+
+    # Add mixed-topic group for context switching test
+    groups.append(("Context Switching Test", MIXED_TOPIC_QUESTIONS))
+
+    # Count total questions
+    total_questions = sum(len(qs) for _, qs in groups)
+    if limit:
+        # Apply limit across all questions
+        remaining = limit
+        limited_groups = []
+        for group_name, questions in groups:
+            if remaining <= 0:
+                break
+            take = min(len(questions), remaining)
+            limited_groups.append((group_name, questions[:take]))
+            remaining -= take
+        groups = limited_groups
+        total_questions = sum(len(qs) for _, qs in groups)
+
+    # Header
+    log.writeln("=" * 80)
+    log.writeln("STRESS TEST RESULTS", Colors.BOLD)
+    log.writeln(f"Agent: {getattr(agent, 'display_name', agent.name.split('/')[-1])}")
+    log.writeln(f"Date: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    log.writeln(f"Total Questions: {total_questions}")
+    log.writeln(f"Conversation Groups: {len(groups)}")
+    if log_file:
+        log.writeln(f"Log File: {log_file}")
+    log.writeln("=" * 80)
+    log.writeln()
+
+    results = []
+    question_num = 0
+
+    for group_idx, (group_name, questions) in enumerate(groups, 1):
+        # Create new conversation for each group
+        conversation = create_conversation(chat_client, project_id, agent.name)
+
+        log.writeln()
+        log.writeln(f"## {group_name} (Conversation {group_idx})", Colors.HEADER)
+        log.writeln("-" * 80)
+
+        for q_idx, question in enumerate(questions, 1):
+            question_num += 1
+            log.writeln()
+            log.writeln(f"[{question_num}/{total_questions}] {question}", Colors.BOLD)
+            log.writeln("-" * 60)
+
+            try:
+                responses = send_message(chat_client, project_id, agent.name,
+                                        conversation.name, question)
+
+                response_text = ""
+                sql_text = ""
+                has_chart = False
+
+                for response in responses:
+                    formatted = format_response(response, verbose)
+                    if formatted:
+                        response_text += formatted
+
+                    # Extract SQL for logging
+                    if hasattr(response, 'system_message'):
+                        sys_msg = response.system_message
+                        if hasattr(sys_msg, 'data') and sys_msg.data:
+                            if hasattr(sys_msg.data, 'generated_sql') and sys_msg.data.generated_sql:
+                                sql_text = sys_msg.data.generated_sql
+                        if hasattr(sys_msg, 'chart') and sys_msg.chart:
+                            chart_str = str(sys_msg.chart)
+                            if chart_str and len(chart_str) > 10:
+                                has_chart = True
+
+                # Write response
+                if sql_text:
+                    log.writeln(f"SQL: {sql_text[:200]}{'...' if len(sql_text) > 200 else ''}", Colors.CYAN)
+                if response_text:
+                    # Truncate very long responses for readability
+                    display_text = response_text[:500] + "..." if len(response_text) > 500 else response_text
+                    log.writeln(display_text, Colors.GREEN)
+                if has_chart:
+                    log.writeln("[Chart generated]", Colors.YELLOW)
+
+                log.writeln("Status: SUCCESS", Colors.GREEN)
+
+                results.append({
+                    "group": group_name,
+                    "question": question,
+                    "status": "success",
+                    "response_length": len(response_text),
+                    "has_sql": bool(sql_text),
+                    "has_chart": has_chart
+                })
+
+            except google_exceptions.GoogleAPICallError as e:
+                log.writeln(f"API Error: {e}", Colors.RED)
+                log.writeln("Status: FAILED", Colors.RED)
+                results.append({
+                    "group": group_name,
+                    "question": question,
+                    "status": "api_error",
+                    "error": str(e)
+                })
+            except Exception as e:
+                log.writeln(f"Error: {e}", Colors.RED)
+                log.writeln("Status: FAILED", Colors.RED)
+                results.append({
+                    "group": group_name,
+                    "question": question,
+                    "status": "error",
+                    "error": str(e)
+                })
+
+    # Summary
+    end_time = datetime.now()
+    duration = end_time - start_time
+
+    success = sum(1 for r in results if r["status"] == "success")
+    failed = [r for r in results if r["status"] != "success"]
+
+    log.writeln()
+    log.writeln("=" * 80)
+    log.writeln("SUMMARY", Colors.BOLD)
+    log.writeln("=" * 80)
+    log.writeln(f"Total: {len(results)}")
+    log.writeln(f"Success: {success}", Colors.GREEN)
+    log.writeln(f"Failed: {len(failed)}", Colors.RED if failed else None)
+    log.writeln(f"Duration: {duration}")
+
+    if failed:
+        log.writeln()
+        log.writeln("Failed questions:", Colors.RED)
+        for r in failed:
+            log.writeln(f"  - [{r['group']}] {r['question']}")
+            if 'error' in r:
+                log.writeln(f"    Error: {r['error'][:100]}")
+
+    # Questions with SQL that used daily_summary (for verification)
+    daily_summary_questions = [r for r in results if r.get('has_sql') and 'daily_summary' in str(r)]
+    if daily_summary_questions:
+        log.writeln()
+        log.writeln("Note: Check SQL in Weather Correlations group for ai.daily_summary usage")
+
+    log.writeln()
+    log.writeln("=" * 80)
+
+    log.close()
+
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Test the Conversational Analytics agent from CLI",
@@ -298,6 +569,10 @@ Examples:
     parser.add_argument("--list-agents", "-l", action="store_true", help="List available agents and exit")
     parser.add_argument("--stress-test", "-s", action="store_true", help="Run stress test questions")
     parser.add_argument("--limit", "-n", type=int, help="Limit number of stress test questions")
+    parser.add_argument("--grouped", "-g", action="store_true",
+                        help="Group questions by category (one conversation per group)")
+    parser.add_argument("--log", "-o", action="store_true",
+                        help="Log output to timestamped file in logs/")
     parser.add_argument("--no-color", action="store_true", help="Disable colored output")
     parser.add_argument("--verbose", "-v", action="store_true", help="Show verbose output including raw messages")
 
@@ -363,7 +638,16 @@ Examples:
 
     # Execute based on mode
     if args.stress_test:
-        run_stress_test(chat_client, agent_client, args.project, agent, args.limit, args.verbose)
+        if args.grouped:
+            # Grouped mode with optional logging
+            log_file = setup_logging() if args.log else None
+            if log_file:
+                print(f"{Colors.DIM}Logging to: {log_file}{Colors.ENDC}")
+            run_stress_test_grouped(chat_client, agent_client, args.project, agent,
+                                   args.limit, args.verbose, log_file)
+        else:
+            # Original mode (batch of 10)
+            run_stress_test(chat_client, agent_client, args.project, agent, args.limit, args.verbose)
     elif args.query:
         # Single query mode
         conversation = create_conversation(chat_client, args.project, agent.name)

@@ -55,7 +55,9 @@ def list_drive_pdfs(drive_service) -> list[dict]:
             spaces='drive',
             fields='nextPageToken, files(id, name, modifiedTime)',
             pageToken=page_token,
-            pageSize=100
+            pageSize=100,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True
         ).execute()
 
         for file in response.get('files', []):

@@ -96,3 +96,6 @@ PMIX_PARSER_PLAN.md
 
 # Screenshots
 screenshots/logs-*.txt
+
+# Stress test logs
+logs/

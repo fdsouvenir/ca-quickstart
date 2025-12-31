@@ -19,7 +19,8 @@ source venv/bin/activate
 streamlit run app.py
 ```
 
-Access at: http://localhost:8501
+- **Local**: http://localhost:8501
+- **Production**: https://sensobot.streamlit.app/chat
 
 ## Project Structure
 
@@ -32,11 +33,13 @@ ca_quickstart/
 ├── scripts/
 │   ├── parse_pmix_pdf.py   # PDF parser
 │   ├── import_pmix.py      # Bulk import to BigQuery
+│   ├── backfill_openmeteo_weather.py  # One-time weather backfill
 │   └── test_agent.py       # CLI agent testing tool
 ├── cloud_functions/    # GCP Cloud Functions
 │   ├── sync_drive_to_gcs/  # HTTP-triggered: syncs Drive → GCS
 │   ├── process_pmix/       # GCS-triggered: parses PDF → BigQuery
-│   └── send_daily_report/  # HTTP-triggered: sends daily email report
+│   ├── send_daily_report/  # HTTP-triggered: sends daily email report
+│   └── fetch_openmeteo_weather/  # HTTP-triggered: fetches weather from Open-Meteo
 ├── deploy/
 │   └── deploy_cloud_functions.sh  # Deployment script
 ├── schema/             # BigQuery DDL scripts
@@ -64,8 +67,10 @@ ca_quickstart/
 | `restaurant_analytics.item_sales` | Denormalized fact table - one row per item per day (partitioned by date) |
 | `restaurant_analytics.locations` | Dimension table mapping locations to regions |
 | `insights.local_events` | Local events by region (replaces frankfort_events) |
-| `insights.local_weather` | Daily weather from Joliet Regional Airport |
-| `insights.sales_forecast_results` | BQML 14-day forecast (refreshed daily) |
+| `insights.local_weather` | Daily weather from Open-Meteo (historical actuals) |
+| `insights.weather_forecast` | 14-day weather forecast from Open-Meteo (refreshed daily) |
+| `insights.weather_import_log` | Tracks weather fetch operations (status, record counts) |
+| `insights.sales_forecast_results` | BQML 14-day forecast (refreshed daily, uses weather regressors) |
 | `insights.sales_anomaly_results` | BQML anomaly detection (refreshed daily) |
 | `insights.primary_category_*_forecast_results` | Category-level forecasts (sales + quantity, refreshed daily) |
 | `insights.*_anomaly_results` | Category-level anomaly detection (refreshed daily) |
@@ -81,6 +86,7 @@ ca_quickstart/
 | `ai.daily_summary` | **Day/location grain** - USE FOR weather correlations, daily trends, scatter plots |
 | `ai.restaurant_analytics_extended` | Extended view with anomaly data |
 | `ai.sales_forecast` | 14-day sales forecast |
+| `ai.weather_forecast` | **14-day weather predictions** from Open-Meteo (refreshed daily at 5:45 AM CT) |
 | `ai.primary_category_forecast` | **Category forecasts** - 14-day forecast by primary category (sales + quantity) |
 | `ai.category_forecast` | **Fine category forecasts** - 14-day forecast by detailed category |
 | `ai.category_anomalies` | **Category anomalies** - unusual patterns by category (sales + quantity) |
@@ -89,6 +95,9 @@ ca_quickstart/
 | `insights.expanded_events` | Expands recurring events to individual dates |
 | `insights.daily_totals` | Materialized view - daily aggregations |
 | `insights.category_daily` | Materialized view - category-level aggregations |
+| `insights.daily_sales_with_weather` | Training view for BQML - daily sales with weather features |
+| `insights.future_weather_regressors` | 14-day weather forecast formatted for ML.FORECAST |
+| `insights.category_sales_with_weather` | Category-level training view (for future XREG models) |
 
 ### ai.daily_summary Columns
 
@@ -106,20 +115,42 @@ Time: day_of_week, day_name, week_number, month, month_name, year, is_weekend
 
 | Model | Description |
 |-------|-------------|
-| `insights.sales_model` | ARIMA_PLUS model for total sales forecasting and anomaly detection |
+| `insights.sales_model` | **ARIMA_PLUS_XREG** with weather regressors (temp, precip, rain/snow, weekend) |
 | `insights.primary_category_sales_model` | Multi-series ARIMA_PLUS for primary category sales (6 series) |
 | `insights.primary_category_qty_model` | Multi-series ARIMA_PLUS for primary category quantity (6 series) |
 | `insights.category_sales_model` | Multi-series ARIMA_PLUS for fine category sales (~20 series) |
 | `insights.category_qty_model` | Multi-series ARIMA_PLUS for fine category quantity (~20 series) |
 
-### Scheduled Queries
+**Weather Regressors**: The sales_model uses external regressors from `insights.weather_forecast` for predictions:
+- `avg_temp_f` - Average temperature
+- `precipitation_in` - Precipitation amount
+- `is_rainy` - Rain flag (1/0)
+- `is_snowy` - Snow flag (1/0)
+- `is_weekend` - Weekend flag (1/0)
 
-BigQuery scheduled queries refresh ML results automatically. Service account: `bq-scheduled-queries@fdsanalytics.iam.gserviceaccount.com`
+Training view: `insights.daily_sales_with_weather`
+
+### Scheduled Jobs
+
+**Cloud Scheduler Jobs** (Cloud Functions):
+
+| Job | Schedule | Function | Description |
+|-----|----------|----------|-------------|
+| `weather-daily-fetch` | 5:45 AM CT (11:45 UTC) | `fetch-openmeteo-weather` | Fetches yesterday's weather + 14-day forecast |
+| `sync-pmix-from-drive` | Every 15 min | `sync-drive-to-gcs` | Syncs PMIX PDFs from Drive |
+| `daily-analytics-report` | 7:00 AM CT (13:00 UTC) | `send-daily-report` | Sends daily email report |
+
+**BigQuery Scheduled Queries** (service account: `bq-scheduled-queries@fdsanalytics.iam.gserviceaccount.com`):
 
 | Query | Schedule | Description |
 |-------|----------|-------------|
-| Daily ML Tables Refresh | 6:00 AM CT (12:00 UTC) | Refreshes all forecast and anomaly tables |
+| Daily ML Tables Refresh | 6:00 AM CT (12:00 UTC) | Refreshes all forecast and anomaly tables (uses weather data) |
 | Weekly Model Retraining | Sunday 2:00 AM CT (08:00 UTC) | Retrains all models (sales + category) to capture new data |
+
+**Daily Refresh Order**:
+1. 5:45 AM CT - Weather fetch (Open-Meteo → BigQuery)
+2. 6:00 AM CT - ML refresh (uses fresh weather forecasts)
+3. 7:00 AM CT - Daily email report
 
 To check scheduled query status:
 ```bash
@@ -150,7 +181,7 @@ MANDATORY VIEW SELECTION:
 - For item-level queries (top sellers, category breakdowns, specific menu items):
   → Use ai.restaurant_analytics
 
-ai.daily_summary columns (day/location grain, 289 rows):
+ai.daily_summary columns (day/location grain, 290 rows):
 report_date, location, location_name, region, total_net_sales, total_quantity_sold,
 total_discount, unique_items_sold, line_item_count, avg_temp_f, max_temp_f, min_temp_f,
 precipitation_in, had_rain, had_snow, event_names, event_types, event_count,
@@ -176,8 +207,14 @@ CATEGORY SEARCH RULES:
 
 ADDITIONAL VIEWS:
 - ai.daily_summary: Day/location grain for weather correlations and daily trends (see columns above)
-- ai.sales_forecast: 14-day predictions (forecast_date, predicted_sales, lower_bound, upper_bound)
+- ai.sales_forecast: 14-day sales predictions (forecast_date, predicted_sales, lower_bound, upper_bound)
+- ai.weather_forecast: 14-day weather predictions (forecast_date, weather_condition, high_temp_f, low_temp_f, rain_likely, snow_likely)
 - ai.data_quality: Data coverage info (earliest_date, latest_date, days_with_data, missing_days)
+
+WEATHER FORECAST QUERIES:
+- "Will it snow today?" → SELECT * FROM ai.weather_forecast WHERE forecast_date = CURRENT_DATE()
+- "What's the weather tomorrow?" → SELECT * FROM ai.weather_forecast WHERE forecast_date = DATE_ADD(CURRENT_DATE(), INTERVAL 1 DAY)
+- "Show me the 7-day forecast" → SELECT * FROM ai.weather_forecast LIMIT 7
 
 CATEGORY-LEVEL FORECASTING:
 - ai.primary_category_forecast: 14-day forecast by primary category (Beer, Food, Sushi, Liquor, Wine, N/A Beverages)
@@ -205,7 +242,7 @@ CATEGORY ANOMALY QUERY PATTERNS:
 
 NOTE: All forecasts refresh daily at 6 AM. Models retrain weekly (Sunday 2 AM) to incorporate new data.
 
-DATA RANGE: December 2024 - December 2025 (289 days, ~39K records)
+DATA RANGE: December 2024 - December 2025 (290 days, ~39K records)
 
 WHEN TO USE CHARTS:
 - Bar charts: Comparing categories, top N items, day-of-week patterns
@@ -256,22 +293,45 @@ gcloud auth application-default set-quota-project fdsanalytics
 
 ## Weather Data Source
 
-Weather data comes from NOAA GSOD (Global Surface Summary of Day):
-- **Station**: Joliet Regional Airport (725345)
-- **Location**: ~10 miles from Frankfort, IL
-- **Coverage**: 2024-01-01 to 2025-08-25 (337 days)
+Weather data comes from **Open-Meteo API** (free, no API key required):
+- **Location**: Frankfort, IL (41.1958, -87.8487)
+- **Historical**: `insights.local_weather` - 387 days (2024-12-08 to present)
+- **Forecast**: `insights.weather_forecast` - 14-day predictions (refreshed daily)
+- **Schedule**: Cloud Function `fetch-openmeteo-weather` runs at 5:45 AM CT (before ML refresh)
+- **Weather-aware forecasting**: Sales model (ARIMA_PLUS_XREG) uses forecast weather as regressors
 
-To refresh weather data:
+### Weather Tables
+
+**insights.local_weather** (historical actuals):
+```
+weather_date, avg_temp_f, max_temp_f, min_temp_f, precipitation_in,
+had_rain, had_snow, wind_speed_mph, wind_gust_mph, weather_code,
+weather_condition, cloud_cover_pct, humidity_pct, uv_index
+```
+
+**insights.weather_forecast** (14-day forecast, refreshed daily):
+```
+forecast_date, updated_at, high_temp_f, low_temp_f, avg_temp_f,
+precipitation_in, precipitation_probability_pct, rain_likely, snow_likely,
+wind_speed_mph, wind_gust_mph, weather_code, weather_condition,
+cloud_cover_pct, humidity_pct, uv_index
+```
+
+### Weather Commands
+
 ```bash
-# Export from public dataset
-bq query --nouse_legacy_sql --format=json --max_rows=1000 "
-SELECT FORMAT_DATE('%Y-%m-%d', date) AS weather_date, temp AS avg_temp_f, ...
-FROM \`bigquery-public-data.noaa_gsod.gsod2025\`
-WHERE stn = '725345'" > /tmp/weather.json
+# Test weather fetch manually
+curl $(gcloud functions describe fetch-openmeteo-weather --region=us-central1 --format='value(serviceConfig.uri)')
 
-# Convert and load
-python3 -c "import json; ..." # Convert to NDJSON
-bq load --source_format=NEWLINE_DELIMITED_JSON fdsanalytics:insights.local_weather /tmp/weather.json
+# Check weather import log
+bq query --nouse_legacy_sql "SELECT * FROM insights.weather_import_log ORDER BY processed_at DESC LIMIT 10"
+
+# Check forecast data
+bq query --nouse_legacy_sql "SELECT * FROM insights.weather_forecast ORDER BY forecast_date"
+
+# Backfill historical weather (one-time)
+python scripts/backfill_openmeteo_weather.py --dry-run   # Preview
+python scripts/backfill_openmeteo_weather.py             # Execute
 ```
 
 ## Events Data Source
@@ -290,10 +350,9 @@ Recurrence types: `'single'` (one day), `'daily'` (every day in range), `'weekly
 
 ## Known Issues
 
-1. **Weather data gaps**: Weather data only goes to Aug 2025; queries for later dates won't have weather context
-2. **NOAA data loading**: Cannot create views directly referencing `bigquery-public-data` - must copy data to local table
-3. **BQML anomaly detection**: Total sales anomalies use ML.DETECT_ANOMALIES; category-level anomalies use z-score (2.5σ threshold) because ML.DETECT_ANOMALIES returns NULL bounds for multi-series ARIMA models
-4. **Scheduled query timezone**: BigQuery scheduled queries use UTC. Times are configured as 12:00 UTC (6 AM CT) and 08:00 UTC (2 AM CT)
+1. **BQML anomaly detection**: Total sales anomalies use ML.DETECT_ANOMALIES; category-level anomalies use z-score (2.5σ threshold) because ML.DETECT_ANOMALIES returns NULL bounds for multi-series ARIMA models
+2. **Scheduled query timezone**: BigQuery scheduled queries use UTC. Times are configured as 12:00 UTC (6 AM CT) and 08:00 UTC (2 AM CT)
+3. **Weather forecast refresh**: Weather must be fetched before ML refresh. If weather fetch fails, forecasts will use stale regressor values
 
 ## PMIX PDF Parser (scripts/)
 
@@ -306,6 +365,7 @@ Parser and importer for PMIX (Product Mix) PDFs from SpotOn POS system. Parses d
 | `scripts/parse_pmix_pdf.py` | Parse single PDF → NDJSON output |
 | `scripts/import_pmix.py` | Bulk import all PDFs to BigQuery |
 | `scripts/validate_parsed.py` | Validate parsed data against PDF totals |
+| `scripts/backfill_openmeteo_weather.py` | One-time weather backfill from Open-Meteo |
 | `scripts/test_agent.py` | CLI tool to test the agent without Streamlit UI |
 
 ### Usage
@@ -325,15 +385,15 @@ python scripts/import_pmix.py --pmix-dir pmix/
 
 - **PDF location**: `pmix/` directory
 - **File pattern**: `pmix-senso-YYYY-MM-DD.pdf`
-- **Date range**: 2024-12-15 to 2025-12-29 (303 PDFs)
+- **Date range**: 2024-12-15 to 2025-12-30 (290 days imported)
 - **Two PDF formats**: Old (Dec 2024 - Mar 2025) uses table extraction, New (Apr 2025+) uses word-position extraction
 - **Output table**: `fdsanalytics.restaurant_analytics.item_sales`
 - **Validation log**: `pmix/validation_log.json`
 
-### Parser Status (as of 2025-12-30)
+### Parser Status (as of 2025-12-31)
 
-- 289 days parsed and imported successfully
-- 39,172 records, $2,085,490.24 total sales
+- 290 days parsed and imported successfully
+- ~39,300 records, ~$2,091,000 total sales
 - BQML model trained with 14-day forecasting
 
 See `POC_IMPLEMENTATION_PLAN.md` for full architecture details.
@@ -354,11 +414,14 @@ External App          sync-drive-to-gcs      insights.pmix_import_log
 
 ### Cloud Functions
 
-| Function | Trigger | Purpose |
-|----------|---------|---------|
-| `sync-drive-to-gcs` | HTTP (webhook) | Syncs new PDFs from Drive folder to GCS bucket |
-| `process-pmix` | GCS object finalized | Parses PDF, validates, loads to BigQuery |
-| `send-daily-report` | HTTP (triggered by process-pmix or scheduler) | Sends daily analytics email via SendGrid |
+| Function | Trigger | Auth | Purpose |
+|----------|---------|------|---------|
+| `sync-drive-to-gcs` | HTTP (webhook) | Public (API key in code) | Syncs new PDFs from Drive folder to GCS bucket |
+| `process-pmix` | GCS event | N/A | Parses PDF, validates, loads to BigQuery |
+| `send-daily-report` | HTTP | Public | Sends daily analytics email via SendGrid |
+| `fetch-openmeteo-weather` | HTTP (scheduler) | OIDC | Fetches weather data from Open-Meteo API |
+
+**Note**: `sync-drive-to-gcs` uses `supportsAllDrives=True` to access shared Drive folders.
 
 ### Triggering the Sync
 
@@ -417,6 +480,9 @@ To redeploy after code changes:
 ./deploy/deploy_cloud_functions.sh
 ```
 
+**Note**: The deployment script uses `--allow-unauthenticated` for `sync-drive-to-gcs` and `send-daily-report`
+(external webhook and inter-function calls). Security is handled via API key validation in code.
+
 ## Daily Email Report (Cloud Function)
 
 Automated daily analytics email triggered after PMIX import completes.
@@ -443,6 +509,7 @@ Email sent (duplicate check prevents re-sends)
 - **Top 5 Items**: Best-selling menu items for the day
 - **Anomaly Alerts**: Unusual sales/quantity spikes or drops (max 5, grouped by category)
 - **5-Day Forecast**: Predicted sales with confidence ranges
+- **Call-to-Action**: "Talk to Your Data" button linking to https://sensobot.streamlit.app/chat
 
 ### Configuration
 
@@ -591,10 +658,28 @@ gcloud logging read 'resource.labels.function_name="process-pmix"' --limit=10 --
 gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=10 --project=fdsanalytics
 
 # List Cloud Functions
-gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive OR name~daily-report"
+gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive OR name~daily-report OR name~weather"
 
 # Daily Email Report (test with specific date)
 curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2025-12-29"
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 5"
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE active = TRUE"
+
+# Weather Pipeline
+curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+  $(gcloud functions describe fetch-openmeteo-weather --region=us-central1 --format='value(serviceConfig.uri)')
+bq query --nouse_legacy_sql "SELECT * FROM insights.weather_import_log ORDER BY processed_at DESC LIMIT 10"
+bq query --nouse_legacy_sql "SELECT * FROM insights.weather_forecast ORDER BY forecast_date"
+bq query --nouse_legacy_sql "SELECT weather_date, avg_temp_f, weather_condition FROM insights.local_weather ORDER BY weather_date DESC LIMIT 5"
+python scripts/backfill_openmeteo_weather.py --dry-run
+
+# Weather-aware sales forecast
+bq query --nouse_legacy_sql "
+SELECT f.forecast_date, ROUND(f.predicted_sales) as sales, w.weather_condition, ROUND(w.high_temp_f) as high_temp
+FROM insights.sales_forecast_results f
+LEFT JOIN insights.weather_forecast w ON f.forecast_date = w.forecast_date
+ORDER BY f.forecast_date"
+
+# Check Cloud Scheduler jobs
+gcloud scheduler jobs list --location=us-central1 --project=fdsanalytics
 ```

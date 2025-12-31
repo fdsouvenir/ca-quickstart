@@ -1,177 +1,64 @@
--- Script to refresh ML result tables
--- Run daily via scheduled query at 6 AM (after weather fetch at 5:45 AM)
--- DELETE+INSERT pattern (could use MERGE for atomic upsert in future)
+-- Daily ML Refresh Script
+-- Runs at 6 AM America/Chicago
 
--- Refresh forecast results (with weather regressors)
--- Note: sales_model is ARIMA_PLUS_XREG, requires future regressor values
+-- Refresh total sales forecast
 DELETE FROM insights.sales_forecast_results WHERE TRUE;
-
 INSERT INTO insights.sales_forecast_results
-SELECT
-  DATE(forecast_timestamp) as forecast_date,
-  forecast_value as predicted_sales,
-  prediction_interval_lower_bound as lower_bound,
-  prediction_interval_upper_bound as upper_bound,
-  confidence_level,
-  CURRENT_TIMESTAMP() as refreshed_at
-FROM ML.FORECAST(
-  MODEL insights.sales_model,
-  STRUCT(14 AS horizon, 0.9 AS confidence_level),
-  (
-    -- Future regressor values from weather forecast table
-    SELECT
-      forecast_date as report_date,
-      COALESCE(avg_temp_f, 50.0) as avg_temp_f,
-      COALESCE(precipitation_in, 0.0) as precipitation_in,
-      CASE WHEN rain_likely THEN 1 ELSE 0 END as is_rainy,
-      CASE WHEN snow_likely THEN 1 ELSE 0 END as is_snowy,
-      CASE WHEN EXTRACT(DAYOFWEEK FROM forecast_date) IN (1, 7) THEN 1 ELSE 0 END as is_weekend
-    FROM insights.weather_forecast
-    WHERE forecast_date > CURRENT_DATE()
-    ORDER BY forecast_date
-    LIMIT 14
-  )
-);
+SELECT DATE(forecast_timestamp) as forecast_date, forecast_value as predicted_sales,
+  prediction_interval_lower_bound as lower_bound, prediction_interval_upper_bound as upper_bound,
+  confidence_level, CURRENT_TIMESTAMP() as refreshed_at
+FROM ML.FORECAST(MODEL insights.sales_model, STRUCT(14 AS horizon, 0.9 AS confidence_level));
 
--- Refresh anomaly results (with weather regressors)
+-- Refresh total sales anomalies
 DELETE FROM insights.sales_anomaly_results WHERE TRUE;
-
 INSERT INTO insights.sales_anomaly_results
-SELECT
-  DATE(report_date) as report_date,
-  total_sales as actual_sales,
-  -- predicted_sales not directly available, use midpoint of bounds
+SELECT DATE(report_date) as report_date, total_sales as actual_sales,
   (COALESCE(lower_bound, total_sales) + COALESCE(upper_bound, total_sales)) / 2 as predicted_sales,
-  lower_bound,
-  upper_bound,
-  anomaly_probability,
-  is_anomaly,
-  CASE
-    WHEN is_anomaly = TRUE AND total_sales > upper_bound THEN 'spike'
-    WHEN is_anomaly = TRUE AND total_sales < lower_bound THEN 'drop'
-    ELSE 'normal'
-  END as anomaly_type,
+  lower_bound, upper_bound, anomaly_probability, is_anomaly,
+  CASE WHEN is_anomaly = TRUE AND total_sales > upper_bound THEN 'spike'
+       WHEN is_anomaly = TRUE AND total_sales < lower_bound THEN 'drop' ELSE 'normal' END as anomaly_type,
   CURRENT_TIMESTAMP() as refreshed_at
-FROM ML.DETECT_ANOMALIES(
-  MODEL insights.sales_model,
-  STRUCT(0.90 AS anomaly_prob_threshold),
-  (
-    -- Use training view which includes weather features
-    SELECT
-      report_date,
-      total_sales,
-      avg_temp_f,
-      precipitation_in,
-      is_rainy,
-      is_snowy,
-      is_weekend
-    FROM insights.daily_sales_with_weather
-  )
-);
+FROM ML.DETECT_ANOMALIES(MODEL insights.sales_model, STRUCT(0.90 AS anomaly_prob_threshold),
+  (SELECT report_date, SUM(net_sales) as total_sales FROM restaurant_analytics.item_sales WHERE location = 'senso-sushi' GROUP BY report_date));
 
--- Refresh daily summary table (for weather/event correlations)
-CREATE OR REPLACE TABLE `fdsanalytics.ai.daily_summary` AS
-SELECT
-  report_date,
-  location,
-  location_name,
-  region,
-  SUM(quantity_sold) as total_quantity_sold,
-  SUM(net_sales) as total_net_sales,
-  SUM(discount) as total_discount,
-  COUNT(DISTINCT item_name) as unique_items_sold,
-  COUNT(*) as line_item_count,
-  MAX(avg_temp_f) as avg_temp_f,
-  MAX(max_temp_f) as max_temp_f,
-  MAX(min_temp_f) as min_temp_f,
-  MAX(precipitation_in) as precipitation_in,
-  MAX(had_rain) as had_rain,
-  MAX(had_snow) as had_snow,
-  MAX(event_names) as event_names,
-  MAX(event_types) as event_types,
-  MAX(event_count) as event_count,
-  MAX(has_local_event) as has_local_event,
-  MAX(day_of_week) as day_of_week,
-  MAX(day_name) as day_name,
-  MAX(week_number) as week_number,
-  MAX(month) as month,
-  MAX(month_name) as month_name,
-  MAX(year) as year,
-  MAX(is_weekend) as is_weekend
-FROM `fdsanalytics.ai.restaurant_analytics`
-GROUP BY report_date, location, location_name, region;
+-- Refresh daily summary
+CREATE OR REPLACE TABLE ai.daily_summary AS
+SELECT report_date, location, location_name, region,
+  SUM(quantity_sold) as total_quantity_sold, SUM(net_sales) as total_net_sales, SUM(discount) as total_discount,
+  COUNT(DISTINCT item_name) as unique_items_sold, COUNT(*) as line_item_count,
+  MAX(avg_temp_f) as avg_temp_f, MAX(max_temp_f) as max_temp_f, MAX(min_temp_f) as min_temp_f,
+  MAX(precipitation_in) as precipitation_in, MAX(had_rain) as had_rain, MAX(had_snow) as had_snow,
+  MAX(event_names) as event_names, MAX(event_types) as event_types, MAX(event_count) as event_count,
+  MAX(has_local_event) as has_local_event, MAX(day_of_week) as day_of_week, MAX(day_name) as day_name,
+  MAX(week_number) as week_number, MAX(month) as month, MAX(month_name) as month_name,
+  MAX(year) as year, MAX(is_weekend) as is_weekend
+FROM ai.restaurant_analytics GROUP BY report_date, location, location_name, region;
 
--- =====================================================
--- CATEGORY-LEVEL FORECASTS
--- =====================================================
-
--- Refresh Primary Category Sales Forecasts
+-- Primary Category Forecasts
 DELETE FROM insights.primary_category_sales_forecast_results WHERE TRUE;
-
 INSERT INTO insights.primary_category_sales_forecast_results
-SELECT
-  DATE(forecast_timestamp) as forecast_date,
-  primary_category,
-  forecast_value as predicted_sales,
-  prediction_interval_lower_bound as lower_bound,
-  prediction_interval_upper_bound as upper_bound,
-  confidence_level,
-  CURRENT_TIMESTAMP() as refreshed_at
-FROM ML.FORECAST(
-  MODEL insights.primary_category_sales_model,
-  STRUCT(14 AS horizon, 0.9 AS confidence_level)
-);
+SELECT DATE(forecast_timestamp), primary_category, forecast_value, prediction_interval_lower_bound,
+  prediction_interval_upper_bound, confidence_level, CURRENT_TIMESTAMP()
+FROM ML.FORECAST(MODEL insights.primary_category_sales_model, STRUCT(14 AS horizon, 0.9 AS confidence_level));
 
--- Refresh Primary Category Quantity Forecasts
 DELETE FROM insights.primary_category_qty_forecast_results WHERE TRUE;
-
 INSERT INTO insights.primary_category_qty_forecast_results
-SELECT
-  DATE(forecast_timestamp) as forecast_date,
-  primary_category,
-  forecast_value as predicted_quantity,
-  prediction_interval_lower_bound as lower_bound,
-  prediction_interval_upper_bound as upper_bound,
-  confidence_level,
-  CURRENT_TIMESTAMP() as refreshed_at
-FROM ML.FORECAST(
-  MODEL insights.primary_category_qty_model,
-  STRUCT(14 AS horizon, 0.9 AS confidence_level)
-);
+SELECT DATE(forecast_timestamp), primary_category, forecast_value, prediction_interval_lower_bound,
+  prediction_interval_upper_bound, confidence_level, CURRENT_TIMESTAMP()
+FROM ML.FORECAST(MODEL insights.primary_category_qty_model, STRUCT(14 AS horizon, 0.9 AS confidence_level));
 
--- Refresh Fine Category Sales Forecasts
+-- Fine Category Forecasts
 DELETE FROM insights.category_sales_forecast_results WHERE TRUE;
-
 INSERT INTO insights.category_sales_forecast_results
-SELECT
-  DATE(forecast_timestamp) as forecast_date,
-  category,
-  forecast_value as predicted_sales,
-  prediction_interval_lower_bound as lower_bound,
-  prediction_interval_upper_bound as upper_bound,
-  confidence_level,
-  CURRENT_TIMESTAMP() as refreshed_at
-FROM ML.FORECAST(
-  MODEL insights.category_sales_model,
-  STRUCT(14 AS horizon, 0.9 AS confidence_level)
-);
+SELECT DATE(forecast_timestamp), category, forecast_value, prediction_interval_lower_bound,
+  prediction_interval_upper_bound, confidence_level, CURRENT_TIMESTAMP()
+FROM ML.FORECAST(MODEL insights.category_sales_model, STRUCT(14 AS horizon, 0.9 AS confidence_level));
 
--- Refresh Fine Category Quantity Forecasts
 DELETE FROM insights.category_qty_forecast_results WHERE TRUE;
-
 INSERT INTO insights.category_qty_forecast_results
-SELECT
-  DATE(forecast_timestamp) as forecast_date,
-  category,
-  forecast_value as predicted_quantity,
-  prediction_interval_lower_bound as lower_bound,
-  prediction_interval_upper_bound as upper_bound,
-  confidence_level,
-  CURRENT_TIMESTAMP() as refreshed_at
-FROM ML.FORECAST(
-  MODEL insights.category_qty_model,
-  STRUCT(14 AS horizon, 0.9 AS confidence_level)
-);
+SELECT DATE(forecast_timestamp), category, forecast_value, prediction_interval_lower_bound,
+  prediction_interval_upper_bound, confidence_level, CURRENT_TIMESTAMP()
+FROM ML.FORECAST(MODEL insights.category_qty_model, STRUCT(14 AS horizon, 0.9 AS confidence_level));
 
 -- =====================================================
 -- CATEGORY-LEVEL ANOMALY DETECTION (Z-Score Based)
@@ -179,7 +66,7 @@ FROM ML.FORECAST(
 -- which doesn't work well with multi-series ARIMA models
 -- =====================================================
 
--- Refresh Primary Category Anomalies
+-- Primary Category Anomalies
 DELETE FROM insights.primary_category_anomaly_results WHERE TRUE;
 
 -- Primary Category Sales Anomalies
@@ -228,7 +115,7 @@ SELECT report_date, primary_category, 'quantity' as metric_type,
   CURRENT_TIMESTAMP() as refreshed_at
 FROM with_zscore;
 
--- Refresh Fine Category Anomalies
+-- Fine Category Anomalies
 DELETE FROM insights.category_anomaly_results WHERE TRUE;
 
 -- Fine Category Sales Anomalies

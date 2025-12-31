@@ -159,6 +159,32 @@
       color: #4285F4;
       text-decoration: none;
     }
+    .cta-section {
+      padding: 32px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, #f8f9fa, #e8f4f8);
+    }
+    .cta-section p {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      color: #555;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #4285F4, #34A853);
+      color: white !important;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -318,6 +344,12 @@
       {% else %}
       <p style="color: #666; font-style: italic;">Forecast temporarily unavailable. ML model refresh in progress.</p>
       {% endif %}
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+      <p>Have questions about your data? Ask SensoBot!</p>
+      <a href="https://sensobot.streamlit.app/chat" class="cta-button">Talk to Your Data</a>
     </div>
 
     <!-- Footer -->
