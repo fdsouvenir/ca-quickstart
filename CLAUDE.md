@@ -31,8 +31,14 @@ ca_quickstart/
 ├── utils/              # Helper utilities (chat.py with chart support)
 ├── scripts/
 │   ├── parse_pmix_pdf.py   # PDF parser
-│   └── import_pmix.py      # Bulk import to BigQuery
-├── schema/             # BigQuery DDL scripts (11 files)
+│   ├── import_pmix.py      # Bulk import to BigQuery
+│   └── test_agent.py       # CLI agent testing tool
+├── cloud_functions/    # GCP Cloud Functions
+│   ├── sync_drive_to_gcs/  # HTTP-triggered: syncs Drive → GCS
+│   └── process_pmix/       # GCS-triggered: parses PDF → BigQuery
+├── deploy/
+│   └── deploy_cloud_functions.sh  # Deployment script
+├── schema/             # BigQuery DDL scripts
 ├── .streamlit/
 │   ├── config.toml     # Streamlit config
 │   └── secrets.toml    # GCP project ID (fdsanalytics)
@@ -60,6 +66,9 @@ ca_quickstart/
 | `insights.local_weather` | Daily weather from Joliet Regional Airport |
 | `insights.sales_forecast_results` | BQML 14-day forecast (refreshed daily) |
 | `insights.sales_anomaly_results` | BQML anomaly detection (refreshed daily) |
+| `insights.primary_category_*_forecast_results` | Category-level forecasts (sales + quantity, refreshed daily) |
+| `insights.*_anomaly_results` | Category-level anomaly detection (refreshed daily) |
+| `insights.pmix_import_log` | Tracks automated PMIX PDF imports (status, record counts, errors) |
 
 ### Views
 
@@ -69,6 +78,10 @@ ca_quickstart/
 | `ai.daily_summary` | **Day/location grain** - USE FOR weather correlations, daily trends, scatter plots |
 | `ai.restaurant_analytics_extended` | Extended view with anomaly data |
 | `ai.sales_forecast` | 14-day sales forecast |
+| `ai.primary_category_forecast` | **Category forecasts** - 14-day forecast by primary category (sales + quantity) |
+| `ai.category_forecast` | **Fine category forecasts** - 14-day forecast by detailed category |
+| `ai.category_anomalies` | **Category anomalies** - unusual patterns by category (sales + quantity) |
+| `ai.category_forecast_quality` | Data quality metadata for category forecasts |
 | `ai.data_quality` | Data coverage metadata for AI self-validation |
 | `insights.expanded_events` | Expands recurring events to individual dates |
 | `insights.daily_totals` | Materialized view - daily aggregations |
@@ -86,11 +99,34 @@ Events: event_names, event_types, event_count, has_local_event
 Time: day_of_week, day_name, week_number, month, month_name, year, is_weekend
 ```
 
-### BQML Model
+### BQML Models
 
 | Model | Description |
 |-------|-------------|
-| `insights.sales_model` | ARIMA_PLUS model for forecasting and anomaly detection |
+| `insights.sales_model` | ARIMA_PLUS model for total sales forecasting and anomaly detection |
+| `insights.primary_category_sales_model` | Multi-series ARIMA_PLUS for primary category sales (6 series) |
+| `insights.primary_category_qty_model` | Multi-series ARIMA_PLUS for primary category quantity (6 series) |
+| `insights.category_sales_model` | Multi-series ARIMA_PLUS for fine category sales (~20 series) |
+| `insights.category_qty_model` | Multi-series ARIMA_PLUS for fine category quantity (~20 series) |
+
+### Scheduled Queries
+
+BigQuery scheduled queries refresh ML results automatically. Service account: `bq-scheduled-queries@fdsanalytics.iam.gserviceaccount.com`
+
+| Query | Schedule | Description |
+|-------|----------|-------------|
+| Daily ML Tables Refresh | 6:00 AM CT (12:00 UTC) | Refreshes all forecast and anomaly tables |
+| Weekly Category Model Retraining | Sunday 2:00 AM CT (08:00 UTC) | Retrains category models to capture new categories |
+
+To check scheduled query status:
+```bash
+bq ls --transfer_config --transfer_location=us-central1 --project_id=fdsanalytics
+```
+
+To trigger a manual run:
+```bash
+bq mk --transfer_run --run_time="$(date -u +%Y-%m-%dT%H:%M:%SZ)" 'projects/111874159771/locations/us-central1/transferConfigs/<config_id>'
+```
 
 ## Agent Configuration
 
@@ -111,13 +147,13 @@ MANDATORY VIEW SELECTION:
 - For item-level queries (top sellers, category breakdowns, specific menu items):
   → Use ai.restaurant_analytics
 
-ai.daily_summary columns (day/location grain, 200 rows):
+ai.daily_summary columns (day/location grain, 289 rows):
 report_date, location, location_name, region, total_net_sales, total_quantity_sold,
 total_discount, unique_items_sold, line_item_count, avg_temp_f, max_temp_f, min_temp_f,
 precipitation_in, had_rain, had_snow, event_names, event_types, event_count,
 has_local_event, day_of_week, day_name, week_number, month, month_name, year, is_weekend
 
-ai.restaurant_analytics columns (item-level grain, 27K rows):
+ai.restaurant_analytics columns (item-level grain, 39K rows):
 Sales: report_date, location, primary_category, category, item_name, quantity_sold, net_sales, discount
 Weather: avg_temp_f, max_temp_f, min_temp_f, had_rain, had_snow, precipitation_in
 Events: event_names, event_types, event_count, has_local_event
@@ -140,7 +176,33 @@ ADDITIONAL VIEWS:
 - ai.sales_forecast: 14-day predictions (forecast_date, predicted_sales, lower_bound, upper_bound)
 - ai.data_quality: Data coverage info (earliest_date, latest_date, days_with_data, missing_days)
 
-DATA RANGE: December 2024 - September 2025 (200 days, ~27K records)
+CATEGORY-LEVEL FORECASTING:
+- ai.primary_category_forecast: 14-day forecast by primary category (Beer, Food, Sushi, Liquor, Wine, N/A Beverages)
+  Columns: forecast_date, primary_category, day_name, is_weekend, predicted_sales, sales_lower_bound,
+           sales_upper_bound, predicted_quantity, quantity_lower_bound, quantity_upper_bound, confidence_level
+- ai.category_forecast: 14-day forecast by detailed category (Classic Rolls, Bottle Beer, Signature Cocktails, etc.)
+  Columns: forecast_date, category, primary_category, day_name, is_weekend, predicted_sales, predicted_quantity, bounds
+- ai.category_forecast_quality: Shows which categories have enough data for reliable forecasting
+
+CATEGORY FORECAST QUERY PATTERNS:
+- "How many beers should I sell tomorrow?" → SELECT * FROM ai.primary_category_forecast WHERE primary_category LIKE '%Beer%' AND forecast_date = DATE_ADD(CURRENT_DATE(), INTERVAL 1 DAY)
+- "Forecast sushi sales for next week" → SELECT * FROM ai.primary_category_forecast WHERE primary_category LIKE '%Sushi%' ORDER BY forecast_date
+- "Predict Classic Rolls for Saturday" → SELECT * FROM ai.category_forecast WHERE category = 'Classic Rolls' AND day_name = 'Saturday'
+- "Compare beer vs liquor forecast" → SELECT * FROM ai.primary_category_forecast WHERE primary_category IN ('(Beer)', '(Liquor)')
+
+CATEGORY ANOMALY DETECTION:
+- ai.category_anomalies: Unusual sales or quantity patterns by category (both primary and fine-grained)
+  Columns: granularity ('primary_category' or 'category'), category_name, parent_category, report_date, day_name,
+           metric_type ('sales' or 'quantity'), actual_value, predicted_value, is_anomaly, anomaly_type ('spike'/'drop'/'normal')
+
+CATEGORY ANOMALY QUERY PATTERNS:
+- "Any unusual sales days?" → SELECT * FROM ai.category_anomalies WHERE is_anomaly = TRUE ORDER BY report_date DESC LIMIT 10
+- "Beer sales anomalies" → SELECT * FROM ai.category_anomalies WHERE category_name LIKE '%Beer%' AND is_anomaly = TRUE
+- "Which categories spiked recently?" → SELECT * FROM ai.category_anomalies WHERE anomaly_type = 'spike' ORDER BY report_date DESC
+
+NOTE: Category forecasts refresh daily at 6 AM. Models retrain weekly to capture new categories.
+
+DATA RANGE: December 2024 - December 2025 (289 days, ~39K records)
 
 WHEN TO USE CHARTS:
 - Bar charts: Comparing categories, top N items, day-of-week patterns
@@ -227,7 +289,8 @@ Recurrence types: `'single'` (one day), `'daily'` (every day in range), `'weekly
 
 1. **Weather data gaps**: Weather data only goes to Aug 2025; queries for later dates won't have weather context
 2. **NOAA data loading**: Cannot create views directly referencing `bigquery-public-data` - must copy data to local table
-3. **BQML anomaly detection**: May return NULL for anomaly_probability when data has gaps; improves with continuous data
+3. **BQML anomaly detection**: Total sales anomalies use ML.DETECT_ANOMALIES; category-level anomalies use z-score (2.5σ threshold) because ML.DETECT_ANOMALIES returns NULL bounds for multi-series ARIMA models
+4. **Scheduled query timezone**: BigQuery scheduled queries use UTC. Times are configured as 12:00 UTC (6 AM CT) and 08:00 UTC (2 AM CT)
 
 ## PMIX PDF Parser (scripts/)
 
@@ -259,18 +322,96 @@ python scripts/import_pmix.py --pmix-dir pmix/
 
 - **PDF location**: `pmix/` directory
 - **File pattern**: `pmix-senso-YYYY-MM-DD.pdf`
-- **Date range**: 2024-12-15 to 2025-09-28 (213 PDFs)
+- **Date range**: 2024-12-15 to 2025-12-29 (303 PDFs)
 - **Two PDF formats**: Old (Dec 2024 - Mar 2025) uses table extraction, New (Apr 2025+) uses word-position extraction
 - **Output table**: `fdsanalytics.restaurant_analytics.item_sales`
 - **Validation log**: `pmix/validation_log.json`
 
-### Parser Status (as of 2025-12-18)
+### Parser Status (as of 2025-12-30)
 
-- 200 days parsed and imported successfully
-- 27,163 records, $1,535,454.82 total sales
+- 289 days parsed and imported successfully
+- 39,172 records, $2,085,490.24 total sales
 - BQML model trained with 14-day forecasting
 
 See `POC_IMPLEMENTATION_PLAN.md` for full architecture details.
+
+## Automated PMIX Pipeline (Cloud Functions)
+
+Automated pipeline that syncs PMIX PDFs from Google Drive to BigQuery.
+
+### Architecture
+
+```
+Google Drive          Cloud Storage           Cloud Function          BigQuery
+(Shared Folder)  →    (pmix-uploads)    →    (process-pmix)    →    item_sales
+      ↑                     ↑                       ↓
+External App          sync-drive-to-gcs      insights.pmix_import_log
+(webhook call)        (HTTP trigger)
+```
+
+### Cloud Functions
+
+| Function | Trigger | Purpose |
+|----------|---------|---------|
+| `sync-drive-to-gcs` | HTTP (webhook) | Syncs new PDFs from Drive folder to GCS bucket |
+| `process-pmix` | GCS object finalized | Parses PDF, validates, loads to BigQuery |
+
+### Triggering the Sync
+
+The sync is triggered via HTTP webhook (not scheduled). Call from your external app after uploading a PDF to Drive:
+
+```bash
+curl -X POST https://sync-drive-to-gcs-nkiogckaga-uc.a.run.app \
+  -H "X-API-Key: <api-key>"
+```
+
+API key stored in Secret Manager: `pmix-sync-api-key`
+
+To retrieve the API key:
+```bash
+gcloud secrets versions access latest --secret=pmix-sync-api-key --project=fdsanalytics
+```
+
+### Configuration
+
+- **Drive Folder ID**: `1MPXgywD-TvvsB1bFVDQ3CocujcF8ucia`
+- **GCS Bucket**: `fdsanalytics-pmix-uploads`
+- **Service Account**: `pmix-processor@fdsanalytics.iam.gserviceaccount.com`
+- **Region**: `us-central1`
+
+### Import Log
+
+Track import status in BigQuery:
+```sql
+-- Recent imports
+SELECT * FROM insights.pmix_import_log ORDER BY processed_at DESC LIMIT 10;
+
+-- Failed imports
+SELECT * FROM insights.pmix_import_log WHERE status = 'failed';
+```
+
+### Retry Failed Imports
+
+1. Fix the issue (or wait for code fix)
+2. Delete the failed record: `DELETE FROM insights.pmix_import_log WHERE report_date = '2025-XX-XX'`
+3. Trigger sync again via webhook
+
+### Monitoring
+
+```bash
+# View function logs
+gcloud logging read 'resource.labels.function_name="process-pmix"' --limit=20 --project=fdsanalytics
+
+# Check sync function logs
+gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=20 --project=fdsanalytics
+```
+
+### Deployment
+
+To redeploy after code changes:
+```bash
+./deploy/deploy_cloud_functions.sh
+```
 
 ## Agent Testing (scripts/test_agent.py)
 
@@ -361,4 +502,28 @@ bq query --nouse_legacy_sql < schema/refresh_ml_tables.sql
 # Test agent from CLI
 python scripts/test_agent.py --agent SensoBot "What are top sellers?"
 python scripts/test_agent.py --agent SensoBot --stress-test --limit 5
+
+# Category forecasts
+bq query --nouse_legacy_sql "SELECT * FROM ai.primary_category_forecast WHERE primary_category LIKE '%Beer%' LIMIT 5"
+bq query --nouse_legacy_sql "SELECT * FROM ai.category_anomalies WHERE is_anomaly = TRUE ORDER BY report_date DESC LIMIT 10"
+
+# Check scheduled queries
+bq ls --transfer_config --transfer_location=us-central1 --project_id=fdsanalytics
+
+# View scheduled query run history
+bq ls --transfer_run --transfer_location=us-central1 --max_results=5 'projects/111874159771/locations/us-central1/transferConfigs/<config_id>'
+
+# Trigger PMIX sync (via webhook)
+API_KEY=$(gcloud secrets versions access latest --secret=pmix-sync-api-key --project=fdsanalytics)
+curl -X POST https://sync-drive-to-gcs-nkiogckaga-uc.a.run.app -H "X-API-Key: $API_KEY"
+
+# Check PMIX import log
+bq query --nouse_legacy_sql "SELECT * FROM insights.pmix_import_log ORDER BY processed_at DESC LIMIT 10"
+
+# View Cloud Function logs
+gcloud logging read 'resource.labels.function_name="process-pmix"' --limit=10 --project=fdsanalytics
+gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=10 --project=fdsanalytics
+
+# List Cloud Functions
+gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive"
 ```
