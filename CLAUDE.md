@@ -353,6 +353,7 @@ Recurrence types: `'single'` (one day), `'daily'` (every day in range), `'weekly
 1. **BQML anomaly detection**: Total sales anomalies use ML.DETECT_ANOMALIES; category-level anomalies use z-score (2.5σ threshold) because ML.DETECT_ANOMALIES returns NULL bounds for multi-series ARIMA models
 2. **Scheduled query timezone**: BigQuery scheduled queries use UTC. Times are configured as 12:00 UTC (6 AM CT) and 08:00 UTC (2 AM CT)
 3. **Weather forecast refresh**: Weather must be fetched before ML refresh. If weather fetch fails, forecasts will use stale regressor values
+4. **Average ticket queries**: "Average ticket by category" queries may fail with SQL COUNT signature errors - the agent sometimes generates invalid `COUNT(date, item)` syntax instead of counting distinct transactions
 
 ## PMIX PDF Parser (scripts/)
 
@@ -585,20 +586,23 @@ python scripts/test_agent.py --agent SensoBot --stress-test --grouped --log --li
 
 ### Stress Test Questions
 
-See `Stress Test Questions.md` for 87 sample queries organized by 16 categories:
+See `Stress Test Questions.md` for 121 sample queries organized by 20 categories:
 - Basic queries, category analysis, time patterns
 - Weather correlations, event impact, forecasting
-- Anomaly detection, item-level analysis, comparisons
+- Weather forecast, category forecasting, anomaly detection
+- Item-level analysis, comparisons, discount analysis
+- Complex/multi-dimensional, visualization requests
 - Edge cases, vague/ambiguous queries, data quality
+- Natural language variations, context switching tests
 
-Plus a **Context Switching Test** (9 unrelated questions in one conversation) to test topic transitions.
+### Test Results (2025-12-31)
 
-### Test Results (2025-12-19)
-
-- **96 questions** (87 from categories + 9 context switching)
-- **95/96 passed** (99% success rate)
-- **Duration**: ~25 minutes
+- **121 questions** across 20 conversation groups
+- **120/121 passed** (99.2% success rate)
+- **Duration**: ~33 minutes
+- **Failed**: "What's our average ticket by category?" (SQL COUNT signature error)
 - **Verified**: Weather queries correctly use `ai.daily_summary`
+- **Verified**: Category forecasting, anomaly detection, weather forecasts all working
 
 ## Useful Commands
 

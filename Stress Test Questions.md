@@ -163,7 +163,7 @@ Sample queries to test the Conversational Analytics agent against the restaurant
 
 ---
 
-## Context Switching Test
+## Context Switching Test (Conversation 19)
 
 *Run these 9 questions consecutively in one conversation to test topic transitions:*
 
@@ -176,6 +176,20 @@ Sample queries to test the Conversational Analytics agent against the restaurant
 110. "Will it snow this week?"
 111. "What's our most discounted item?"
 112. "Create a pie chart of today's category mix"
+
+## Context Switching Test (Conversation 20)
+
+*Final comprehensive context switching test - revisits questions from different categories:*
+
+113. "What are our top 10 selling items?"
+114. "How do sales compare on rainy days vs sunny days?"
+115. "What are predicted sales for next week?"
+116. "How has Salmon Roll performed over time?"
+117. "Do we have any data for October 2025?"
+118. "How are we doing?"
+119. "How do sales perform during Country Market?"
+120. "How much have we discounted in total?"
+121. "How many days of data do we have?"
 
 ---
 
@@ -196,4 +210,5 @@ Sample queries to test the Conversational Analytics agent against the restaurant
 - **Weather**: Historical actuals in `insights.local_weather`, 14-day forecast in `ai.weather_forecast` (refreshed daily)
 - **Granularity**: Daily (no hourly data)
 - **Location**: Single location (Frankfort, IL)
-- **Total questions**: 112 (including 9 context switching questions)
+- **Total questions**: 121 (103 category questions + 18 context switching questions across 2 groups)
+- **Conversation groups**: 20 (18 categories + 2 context switching tests)
