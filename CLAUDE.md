@@ -35,7 +35,8 @@ ca_quickstart/
 │   └── test_agent.py       # CLI agent testing tool
 ├── cloud_functions/    # GCP Cloud Functions
 │   ├── sync_drive_to_gcs/  # HTTP-triggered: syncs Drive → GCS
-│   └── process_pmix/       # GCS-triggered: parses PDF → BigQuery
+│   ├── process_pmix/       # GCS-triggered: parses PDF → BigQuery
+│   └── send_daily_report/  # HTTP-triggered: sends daily email report
 ├── deploy/
 │   └── deploy_cloud_functions.sh  # Deployment script
 ├── schema/             # BigQuery DDL scripts
@@ -69,6 +70,8 @@ ca_quickstart/
 | `insights.primary_category_*_forecast_results` | Category-level forecasts (sales + quantity, refreshed daily) |
 | `insights.*_anomaly_results` | Category-level anomaly detection (refreshed daily) |
 | `insights.pmix_import_log` | Tracks automated PMIX PDF imports (status, record counts, errors) |
+| `insights.email_recipients` | Email recipients for daily report (email, name, active) |
+| `insights.email_report_log` | Tracks daily email sends (report_date, status, recipient_count) |
 
 ### Views
 
@@ -116,7 +119,7 @@ BigQuery scheduled queries refresh ML results automatically. Service account: `b
 | Query | Schedule | Description |
 |-------|----------|-------------|
 | Daily ML Tables Refresh | 6:00 AM CT (12:00 UTC) | Refreshes all forecast and anomaly tables |
-| Weekly Category Model Retraining | Sunday 2:00 AM CT (08:00 UTC) | Retrains category models to capture new categories |
+| Weekly Model Retraining | Sunday 2:00 AM CT (08:00 UTC) | Retrains all models (sales + category) to capture new data |
 
 To check scheduled query status:
 ```bash
@@ -200,7 +203,7 @@ CATEGORY ANOMALY QUERY PATTERNS:
 - "Beer sales anomalies" → SELECT * FROM ai.category_anomalies WHERE category_name LIKE '%Beer%' AND is_anomaly = TRUE
 - "Which categories spiked recently?" → SELECT * FROM ai.category_anomalies WHERE anomaly_type = 'spike' ORDER BY report_date DESC
 
-NOTE: Category forecasts refresh daily at 6 AM. Models retrain weekly to capture new categories.
+NOTE: All forecasts refresh daily at 6 AM. Models retrain weekly (Sunday 2 AM) to incorporate new data.
 
 DATA RANGE: December 2024 - December 2025 (289 days, ~39K records)
 
@@ -355,6 +358,7 @@ External App          sync-drive-to-gcs      insights.pmix_import_log
 |----------|---------|---------|
 | `sync-drive-to-gcs` | HTTP (webhook) | Syncs new PDFs from Drive folder to GCS bucket |
 | `process-pmix` | GCS object finalized | Parses PDF, validates, loads to BigQuery |
+| `send-daily-report` | Cloud Scheduler (7 AM CT) | Sends daily analytics email via SendGrid |
 
 ### Triggering the Sync
 
@@ -411,6 +415,52 @@ gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=
 To redeploy after code changes:
 ```bash
 ./deploy/deploy_cloud_functions.sh
+```
+
+## Daily Email Report (Cloud Function)
+
+Automated daily analytics email sent at 7 AM CT via SendGrid.
+
+### Report Contents
+
+- **Yesterday's Performance**: Total sales, quantity, unique items + week-over-week comparison
+- **7-Day Sales Trend**: Bar chart of recent daily sales
+- **Top Categories**: Pie chart breakdown by primary category
+- **Top 5 Items**: Best-selling menu items for the day
+- **Anomaly Alerts**: Unusual sales/quantity spikes or drops (max 5, grouped by category)
+- **5-Day Forecast**: Predicted sales with confidence ranges
+
+### Configuration
+
+- **Scheduler**: Cloud Scheduler job `daily-analytics-report` at 13:00 UTC (7 AM CT)
+- **SendGrid API Key**: Secret Manager `sendgrid-api-key`
+- **Sender**: analytics@fdsconsulting.com (domain verified)
+- **Recipients**: Stored in `insights.email_recipients` table
+
+### Managing Recipients
+
+```bash
+# Add recipient
+bq query --nouse_legacy_sql "INSERT INTO insights.email_recipients (email, name, active) VALUES ('user@example.com', 'Name', TRUE)"
+
+# Deactivate recipient
+bq query --nouse_legacy_sql "UPDATE insights.email_recipients SET active = FALSE WHERE email = 'user@example.com'"
+
+# List active recipients
+bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE active = TRUE"
+```
+
+### Testing & Monitoring
+
+```bash
+# Test the email function manually
+gcloud functions call send-daily-report --region=us-central1 --project=fdsanalytics
+
+# Check email logs
+bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 10"
+
+# View function logs
+gcloud logging read 'resource.labels.function_name="send-daily-report"' --limit=10 --project=fdsanalytics
 ```
 
 ## Agent Testing (scripts/test_agent.py)
@@ -525,5 +575,10 @@ gcloud logging read 'resource.labels.function_name="process-pmix"' --limit=10 --
 gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=10 --project=fdsanalytics
 
 # List Cloud Functions
-gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive"
+gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive OR name~daily-report"
+
+# Daily Email Report
+gcloud functions call send-daily-report --region=us-central1 --project=fdsanalytics
+bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 5"
+bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE active = TRUE"
 ```
