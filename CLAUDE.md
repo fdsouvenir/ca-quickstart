@@ -358,7 +358,7 @@ External App          sync-drive-to-gcs      insights.pmix_import_log
 |----------|---------|---------|
 | `sync-drive-to-gcs` | HTTP (webhook) | Syncs new PDFs from Drive folder to GCS bucket |
 | `process-pmix` | GCS object finalized | Parses PDF, validates, loads to BigQuery |
-| `send-daily-report` | Cloud Scheduler (7 AM CT) | Sends daily analytics email via SendGrid |
+| `send-daily-report` | HTTP (triggered by process-pmix or scheduler) | Sends daily analytics email via SendGrid |
 
 ### Triggering the Sync
 
@@ -419,7 +419,21 @@ To redeploy after code changes:
 
 ## Daily Email Report (Cloud Function)
 
-Automated daily analytics email sent at 7 AM CT via SendGrid.
+Automated daily analytics email triggered after PMIX import completes.
+
+### Trigger Flow
+
+```
+PMIX Import completes (yesterday's data)
+       ↓
+process-pmix refreshes ai.daily_summary
+       ↓
+process-pmix calls send-daily-report
+       ↓
+Email sent (duplicate check prevents re-sends)
+       ↓
+8:15 AM CT fallback (if not already sent)
+```
 
 ### Report Contents
 
@@ -432,7 +446,9 @@ Automated daily analytics email sent at 7 AM CT via SendGrid.
 
 ### Configuration
 
-- **Scheduler**: Cloud Scheduler job `daily-analytics-report` at 13:00 UTC (7 AM CT)
+- **Primary Trigger**: Automatic after PMIX import (if yesterday's data)
+- **Fallback Scheduler**: Cloud Scheduler job `daily-analytics-report` at 14:15 UTC (8:15 AM CT)
+- **Duplicate Prevention**: Checks `email_report_log` before sending
 - **SendGrid API Key**: Secret Manager `sendgrid-api-key`
 - **Sender**: analytics@fdsconsulting.com (domain verified)
 - **Recipients**: Stored in `insights.email_recipients` table
@@ -453,8 +469,8 @@ bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE activ
 ### Testing & Monitoring
 
 ```bash
-# Test the email function manually
-gcloud functions call send-daily-report --region=us-central1 --project=fdsanalytics
+# Test the email function with specific date
+curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2025-12-29"
 
 # Check email logs
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 10"
@@ -577,8 +593,8 @@ gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=
 # List Cloud Functions
 gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive OR name~daily-report"
 
-# Daily Email Report
-gcloud functions call send-daily-report --region=us-central1 --project=fdsanalytics
+# Daily Email Report (test with specific date)
+curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2025-12-29"
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 5"
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE active = TRUE"
 ```

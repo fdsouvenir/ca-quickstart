@@ -12,9 +12,10 @@ Environment variables:
 import os
 import re
 import traceback
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 import functions_framework
+import requests
 from cloudevents.http import CloudEvent
 from google.cloud import storage, bigquery
 import google.cloud.logging
@@ -120,6 +121,67 @@ def delete_from_gcs(bucket_name: str, blob_name: str):
     blob.delete()
 
 
+def refresh_daily_summary():
+    """Refresh ai.daily_summary table after import."""
+    refresh_sql = """
+    CREATE OR REPLACE TABLE `fdsanalytics.ai.daily_summary` AS
+    SELECT
+      report_date, location, location_name, region,
+      SUM(quantity_sold) as total_quantity_sold,
+      SUM(net_sales) as total_net_sales,
+      SUM(discount) as total_discount,
+      COUNT(DISTINCT item_name) as unique_items_sold,
+      COUNT(*) as line_item_count,
+      MAX(avg_temp_f) as avg_temp_f,
+      MAX(max_temp_f) as max_temp_f,
+      MAX(min_temp_f) as min_temp_f,
+      MAX(precipitation_in) as precipitation_in,
+      MAX(had_rain) as had_rain,
+      MAX(had_snow) as had_snow,
+      MAX(event_names) as event_names,
+      MAX(event_types) as event_types,
+      MAX(event_count) as event_count,
+      MAX(has_local_event) as has_local_event,
+      MAX(day_of_week) as day_of_week,
+      MAX(day_name) as day_name,
+      MAX(week_number) as week_number,
+      MAX(month) as month,
+      MAX(month_name) as month_name,
+      MAX(year) as year,
+      MAX(is_weekend) as is_weekend
+    FROM `fdsanalytics.ai.restaurant_analytics`
+    GROUP BY report_date, location, location_name, region
+    """
+    bq_client.query(refresh_sql).result()
+    log_info("Refreshed ai.daily_summary")
+
+
+def trigger_daily_report(report_date: str):
+    """Trigger daily email report if imported date is yesterday."""
+    yesterday = (date.today() - timedelta(days=1)).isoformat()
+    if report_date != yesterday:
+        print(f"Skipping email: {report_date} is not yesterday ({yesterday})")
+        return
+
+    # Refresh daily_summary first (required for email)
+    try:
+        refresh_daily_summary()
+    except Exception as e:
+        log_error(f"Failed to refresh daily_summary: {e}")
+        return
+
+    # Trigger email function
+    url = "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report"
+    try:
+        response = requests.get(url, params={"test_date": report_date}, timeout=120)
+        result = response.json()
+        log_info(f"Email triggered: {result.get('status')}", report_date=report_date)
+        print(f"Email triggered: {result.get('status')}")
+    except Exception as e:
+        log_error(f"Failed to trigger email: {e}", report_date=report_date)
+        print(f"Failed to trigger email: {e}")
+
+
 @functions_framework.cloud_event
 def process_pmix(cloud_event: CloudEvent):
     """
@@ -193,6 +255,9 @@ def process_pmix(cloud_event: CloudEvent):
         )
 
         print(f"Success: {file_name} -> {record_count} records")
+
+        # Trigger daily email if this is yesterday's data
+        trigger_daily_report(report_date)
 
     except Exception as e:
         # Log failure

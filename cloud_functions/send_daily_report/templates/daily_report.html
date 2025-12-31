@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senso Sushi Daily Report</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+    }
+    .header {
+      background: linear-gradient(135deg, #4285F4, #34A853);
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0 0 8px 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .header p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+    .section {
+      padding: 20px 24px;
+      border-bottom: 1px solid #eee;
+    }
+    .section h2 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      color: #333;
+      font-weight: 600;
+    }
+    .metrics {
+      display: table;
+      width: 100%;
+    }
+    .metric {
+      display: table-cell;
+      width: 33.33%;
+      text-align: center;
+      padding: 8px;
+    }
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+    }
+    .metric-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    .change {
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .change-up {
+      color: #34A853;
+    }
+    .change-down {
+      color: #EA4335;
+    }
+    .change-neutral {
+      color: #666;
+    }
+    .chart-container {
+      text-align: center;
+      margin: 16px 0;
+    }
+    .chart-container img {
+      max-width: 100%;
+      height: auto;
+    }
+    .anomaly {
+      background: #FFF8E1;
+      border-left: 4px solid #FFC107;
+      padding: 12px 16px;
+      margin: 12px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .anomaly-header {
+      font-weight: 600;
+      color: #333;
+    }
+    .anomaly-details {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .anomaly-spike {
+      border-left-color: #34A853;
+      background: #E8F5E9;
+    }
+    .anomaly-drop {
+      border-left-color: #EA4335;
+      background: #FFEBEE;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+    }
+    td {
+      font-size: 14px;
+    }
+    .weekend {
+      background: #f9f9f9;
+    }
+    .weather-info {
+      background: #E3F2FD;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+    .weather-info strong {
+      color: #1976D2;
+    }
+    .no-anomalies {
+      color: #34A853;
+      font-size: 14px;
+      padding: 12px 0;
+    }
+    .footer {
+      padding: 20px 24px;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      background: #fafafa;
+    }
+    .footer a {
+      color: #4285F4;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Senso Sushi Daily Report</h1>
+      <p>{{ report_date_formatted }}</p>
+    </div>
+
+    <!-- Yesterday's Performance -->
+    {% if yesterday %}
+    <div class="section">
+      <h2>Yesterday's Performance</h2>
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-value">${{ yesterday.total_net_sales | format_number }}</div>
+          <div class="metric-label">Total Sales</div>
+          {% if wow and wow.sales_pct_change is not none %}
+          <div class="change {{ 'change-up' if wow.sales_pct_change > 0 else 'change-down' if wow.sales_pct_change < 0 else 'change-neutral' }}">
+            {{ '+' if wow.sales_pct_change > 0 else '' }}{{ wow.sales_pct_change }}% vs last {{ yesterday.day_name }}
+          </div>
+          {% endif %}
+        </div>
+        <div class="metric">
+          <div class="metric-value">{{ yesterday.total_quantity_sold | format_number }}</div>
+          <div class="metric-label">Items Sold</div>
+          {% if wow and wow.quantity_pct_change is not none %}
+          <div class="change {{ 'change-up' if wow.quantity_pct_change > 0 else 'change-down' if wow.quantity_pct_change < 0 else 'change-neutral' }}">
+            {{ '+' if wow.quantity_pct_change > 0 else '' }}{{ wow.quantity_pct_change }}%
+          </div>
+          {% endif %}
+        </div>
+        <div class="metric">
+          <div class="metric-value">{{ yesterday.unique_items_sold }}</div>
+          <div class="metric-label">Unique Items</div>
+        </div>
+      </div>
+
+      {% if yesterday.avg_temp_f is not none %}
+      <div class="weather-info">
+        <strong>Weather:</strong>
+        {{ yesterday.avg_temp_f | round(0) | int }}°F avg
+        ({{ yesterday.min_temp_f | round(0) | int }}° - {{ yesterday.max_temp_f | round(0) | int }}°)
+        {% if yesterday.had_rain %} | Rain{% endif %}
+        {% if yesterday.had_snow %} | Snow{% endif %}
+        {% if yesterday.precipitation_in and yesterday.precipitation_in > 0 %}
+        | {{ yesterday.precipitation_in | round(2) }}" precip
+        {% endif %}
+        {% if yesterday.event_names %}
+        <br><strong>Events:</strong> {{ yesterday.event_names }}
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- 7-Day Sales Trend -->
+    {% if charts.sales_trend %}
+    <div class="section">
+      <h2>7-Day Sales Trend</h2>
+      <div class="chart-container">
+        <img src="{{ charts.sales_trend }}" alt="7-Day Sales Trend" width="500" height="250">
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Top Categories -->
+    {% if charts.category_breakdown %}
+    <div class="section">
+      <h2>Top Categories</h2>
+      <div class="chart-container">
+        <img src="{{ charts.category_breakdown }}" alt="Category Breakdown" width="450" height="250">
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Top Items -->
+    {% if top_items %}
+    <div class="section">
+      <h2>Top 5 Items</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th style="text-align: right;">Qty</th>
+            <th style="text-align: right;">Sales</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in top_items %}
+          <tr>
+            <td>{{ item.item_name }}</td>
+            <td>{{ item.category }}</td>
+            <td style="text-align: right;">{{ item.quantity }}</td>
+            <td style="text-align: right;">${{ item.sales | format_number }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Anomaly Alerts -->
+    <div class="section">
+      <h2>Anomaly Alerts</h2>
+      {% if anomalies %}
+      {% for a in anomalies %}
+      <div class="anomaly {{ 'anomaly-spike' if a.sales_anomaly_type == 'spike' or a.qty_anomaly_type == 'spike' else 'anomaly-drop' if a.sales_anomaly_type == 'drop' or a.qty_anomaly_type == 'drop' else '' }}">
+        <div class="anomaly-header">
+          {{ (a.sales_anomaly_type or a.qty_anomaly_type) | capitalize }} in {{ a.category_name }}
+        </div>
+        <div class="anomaly-details">
+          {% if a.sales_actual %}
+          Sales: ${{ a.sales_actual | format_number }} (expected ~${{ a.sales_predicted | format_number }})
+          {% endif %}
+          {% if a.qty_actual %}
+          {% if a.sales_actual %}<br>{% endif %}
+          Quantity: {{ a.qty_actual | format_number }} (expected ~{{ a.qty_predicted | format_number }})
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p class="no-anomalies">No unusual patterns detected yesterday.</p>
+      {% endif %}
+    </div>
+
+    <!-- 5-Day Forecast -->
+    <div class="section">
+      <h2>5-Day Sales Forecast</h2>
+      {% if forecast %}
+      {% if charts.forecast %}
+      <div class="chart-container">
+        <img src="{{ charts.forecast }}" alt="5-Day Forecast" width="500" height="250">
+      </div>
+      {% endif %}
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Predicted</th>
+            <th>Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in forecast %}
+          <tr class="{{ 'weekend' if f.is_weekend else '' }}">
+            <td>{{ f.day_name[:3] }} {{ f.forecast_date.strftime('%m/%d') }}</td>
+            <td>${{ f.predicted_sales | format_number }}</td>
+            <td>${{ f.lower_bound | format_number }} - ${{ f.upper_bound | format_number }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p style="color: #666; font-style: italic;">Forecast temporarily unavailable. ML model refresh in progress.</p>
+      {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Generated {{ generated_at }}<br>
+      Senso Sushi Analytics | Frankfort, IL
+    </div>
+  </div>
+</body>
+</html>
