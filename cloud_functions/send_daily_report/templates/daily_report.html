@@ -272,12 +272,12 @@
     </div>
     {% endif %}
 
-    <!-- 30-Day Sales Trend -->
+    <!-- 30-Day Sales -->
     {% if charts.sales_trend %}
     <div class="section">
-      <h2>30-Day Sales Trend</h2>
+      <h2>30-Day Sales</h2>
       <div class="chart-container">
-        <img src="{{ charts.sales_trend }}" alt="30-Day Sales Trend" width="550" height="250">
+        <img src="{{ charts.sales_trend }}" alt="30-Day Sales" width="550" height="250">
       </div>
     </div>
     {% endif %}
@@ -289,33 +289,6 @@
       <div class="chart-container">
         <img src="{{ charts.category_breakdown }}" alt="Category Breakdown" width="450" height="250">
       </div>
-    </div>
-    {% endif %}
-
-    <!-- Category Forecast -->
-    {% if category_forecast %}
-    <div class="section">
-      <h2>Category Forecast</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            {% for f in category_forecast[0].forecasts %}
-            <th style="text-align: right;">{{ f.day }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for cat in category_forecast %}
-          <tr>
-            <td>{{ cat.category }}</td>
-            {% for f in cat.forecasts %}
-            <td style="text-align: right;">${{ f.sales | format_number }}</td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
     </div>
     {% endif %}
 

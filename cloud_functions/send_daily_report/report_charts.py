@@ -85,7 +85,7 @@ def build_sales_trend_chart(trend_data: list[dict]) -> str:
                 "legend": {"display": False},
                 "title": {
                     "display": True,
-                    "text": "30-Day Sales Trend",
+                    "text": "30-Day Sales",
                     "font": {"size": 14}
                 }
             },

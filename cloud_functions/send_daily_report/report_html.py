@@ -58,6 +58,5 @@ def render_email_html(data: dict, charts: dict, report_date: date) -> str:
         anomalies=data.get('anomalies', []),
         forecast=data.get('forecast', []),
         trend=data.get('trend', []),
-        category_forecast=data.get('category_forecast', []),
         charts=charts
     )

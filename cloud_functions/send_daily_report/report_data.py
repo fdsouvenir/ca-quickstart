@@ -36,7 +36,6 @@ def fetch_report_data(client: bigquery.Client, report_date: date) -> dict:
         'trend': fetch_30day_trend(client, report_date),
         'top_items': fetch_top_items(client, report_date),
         'top_seller': fetch_top_seller(client, report_date),
-        'category_forecast': fetch_category_forecast(client),
     }
 
 
@@ -273,43 +272,3 @@ def fetch_top_seller(client: bigquery.Client, report_date: date) -> dict | None:
     )
     results = list(client.query(query, job_config=job_config).result())
     return dict(results[0]) if results else None
-
-
-def fetch_category_forecast(client: bigquery.Client) -> list[dict]:
-    """Fetch 5-day forecast for each primary category."""
-    query = """
-        SELECT
-            REPLACE(primary_category, '(', '') as primary_category,
-            forecast_date,
-            day_name,
-            ROUND(predicted_sales, 0) as predicted_sales
-        FROM `fdsanalytics.ai.primary_category_forecast`
-        WHERE forecast_date >= CURRENT_DATE()
-        ORDER BY primary_category, forecast_date
-        LIMIT 30
-    """
-    results = client.query(query).result()
-
-    # Pivot data: group by category with list of daily forecasts
-    categories = {}
-    for row in results:
-        cat = row['primary_category'].rstrip(')')
-        if cat not in categories:
-            categories[cat] = {
-                'category': cat,
-                'forecasts': []
-            }
-        categories[cat]['forecasts'].append({
-            'date': row['forecast_date'],
-            'day': row['day_name'][:3],
-            'sales': row['predicted_sales']
-        })
-
-    # Return list sorted by category, limited to first 5 days per category
-    return [
-        {
-            'category': v['category'],
-            'forecasts': v['forecasts'][:5]
-        }
-        for v in sorted(categories.values(), key=lambda x: x['category'])
-    ]
