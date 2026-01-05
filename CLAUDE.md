@@ -142,10 +142,12 @@ Training view: `insights.daily_sales_with_weather`
 
 **BigQuery Scheduled Queries** (service account: `bq-scheduled-queries@fdsanalytics.iam.gserviceaccount.com`):
 
-| Query | Schedule | Description |
-|-------|----------|-------------|
-| Daily ML Tables Refresh | 6:00 AM CT (12:00 UTC) | Refreshes all forecast and anomaly tables (uses weather data) |
-| Weekly Model Retraining | Sunday 2:00 AM CT (08:00 UTC) | Retrains all models (sales + category) to capture new data |
+| Query | Schedule | Config ID | Description |
+|-------|----------|-----------|-------------|
+| Daily ML Tables Refresh | 6:00 AM CT (12:00 UTC) | `695c6d86-0000-27d4-8339-14223bb225be` | Refreshes all forecast and anomaly tables (uses weather data) |
+| Weekly Model Retraining | Sunday 2:00 AM CT (08:00 UTC) | `695a7740-0000-2038-a6b2-14c14eec4254` | Retrains all models (sales + category) to capture new data |
+
+**Important**: When recreating scheduled queries, do NOT use `--target_dataset` flag since the SQL writes to multiple datasets (`insights` and `ai`).
 
 **Daily Refresh Order**:
 1. 5:45 AM CT - Weather fetch (Open-Meteo → BigQuery)
@@ -159,7 +161,13 @@ bq ls --transfer_config --transfer_location=us-central1 --project_id=fdsanalytic
 
 To trigger a manual run:
 ```bash
-bq mk --transfer_run --run_time="$(date -u +%Y-%m-%dT%H:%M:%SZ)" 'projects/111874159771/locations/us-central1/transferConfigs/<config_id>'
+# Daily ML refresh
+bq mk --transfer_run --run_time="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  'projects/111874159771/locations/us-central1/transferConfigs/695c6d86-0000-27d4-8339-14223bb225be'
+
+# Weekly model retraining
+bq mk --transfer_run --run_time="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  'projects/111874159771/locations/us-central1/transferConfigs/695a7740-0000-2038-a6b2-14c14eec4254'
 ```
 
 ## Agent Configuration
