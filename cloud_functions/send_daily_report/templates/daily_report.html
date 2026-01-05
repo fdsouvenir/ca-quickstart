@@ -198,7 +198,7 @@
     <!-- Yesterday's Performance -->
     {% if yesterday %}
     <div class="section">
-      <h2>Yesterday's Performance</h2>
+      <h2>Performance on {{ report_date.strftime('%b %-d, %Y') }}</h2>
       <div class="metrics">
         <div class="metric">
           <div class="metric-value">${{ yesterday.total_net_sales | format_number }}</div>
@@ -285,7 +285,7 @@
     <!-- Top Categories -->
     {% if charts.category_breakdown %}
     <div class="section">
-      <h2>Top Categories</h2>
+      <h2>Top Categories on {{ report_date.strftime('%b %-d, %Y') }}</h2>
       <div class="chart-container">
         <img src="{{ charts.category_breakdown }}" alt="Category Breakdown" width="450" height="250">
       </div>
@@ -295,7 +295,7 @@
     <!-- Top Items -->
     {% if top_items %}
     <div class="section">
-      <h2>Top 5 Items</h2>
+      <h2>Top 5 Items on {{ report_date.strftime('%b %-d, %Y') }}</h2>
       <table>
         <thead>
           <tr>
@@ -321,12 +321,12 @@
 
     <!-- Anomaly Alerts -->
     <div class="section">
-      <h2>Anomaly Alerts</h2>
+      <h2>Anomaly Alerts for {{ report_date.strftime('%b %-d, %Y') }}</h2>
       {% if anomalies %}
       {% for a in anomalies %}
       <div class="anomaly {{ 'anomaly-spike' if a.sales_anomaly_type == 'spike' or a.qty_anomaly_type == 'spike' else 'anomaly-drop' if a.sales_anomaly_type == 'drop' or a.qty_anomaly_type == 'drop' else '' }}">
         <div class="anomaly-header">
-          {{ (a.sales_anomaly_type or a.qty_anomaly_type) | capitalize }} in {{ a.category_name }}
+          {{ (a.sales_anomaly_type or a.qty_anomaly_type) | capitalize }} in {{ a.category_name }} ({{ a.day_name }})
         </div>
         <div class="anomaly-details">
           {% if a.sales_actual %}
