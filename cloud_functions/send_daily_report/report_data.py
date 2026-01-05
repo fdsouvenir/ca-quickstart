@@ -4,10 +4,12 @@ BigQuery queries for daily email report data.
 Fetches all metrics needed for the daily report:
 - Yesterday's sales summary
 - Top categories
-- Week-over-week comparison
+- Period comparisons (WoW, MoM, YoY)
 - Recent anomalies
 - 5-day forecast
-- 7-day trend for charts
+- 30-day trend for charts
+- Category forecast
+- Top seller
 """
 
 from datetime import date
@@ -28,11 +30,13 @@ def fetch_report_data(client: bigquery.Client, report_date: date) -> dict:
     return {
         'yesterday': fetch_yesterday_summary(client, report_date),
         'top_categories': fetch_top_categories(client, report_date),
-        'wow': fetch_week_over_week(client, report_date),
+        'comparisons': fetch_period_comparisons(client, report_date),
         'anomalies': fetch_recent_anomalies(client, report_date),
         'forecast': fetch_forecast(client),
-        'trend': fetch_7day_trend(client, report_date),
+        'trend': fetch_30day_trend(client, report_date),
         'top_items': fetch_top_items(client, report_date),
+        'top_seller': fetch_top_seller(client, report_date),
+        'category_forecast': fetch_category_forecast(client),
     }
 
 
@@ -91,10 +95,10 @@ def fetch_top_categories(client: bigquery.Client, report_date: date) -> list[dic
     return [dict(row) for row in results]
 
 
-def fetch_week_over_week(client: bigquery.Client, report_date: date) -> dict | None:
-    """Compare report_date to same day last week."""
+def fetch_period_comparisons(client: bigquery.Client, report_date: date) -> dict | None:
+    """Compare report_date to same day last week, last month, and last year."""
     query = """
-        WITH this_week AS (
+        WITH current_day AS (
             SELECT total_net_sales, total_quantity_sold, day_name
             FROM `fdsanalytics.ai.daily_summary`
             WHERE report_date = @report_date
@@ -105,19 +109,42 @@ def fetch_week_over_week(client: bigquery.Client, report_date: date) -> dict | N
             FROM `fdsanalytics.ai.daily_summary`
             WHERE report_date = DATE_SUB(@report_date, INTERVAL 7 DAY)
             LIMIT 1
+        ),
+        last_month AS (
+            SELECT total_net_sales, total_quantity_sold
+            FROM `fdsanalytics.ai.daily_summary`
+            WHERE report_date = DATE_SUB(@report_date, INTERVAL 1 MONTH)
+            LIMIT 1
+        ),
+        last_year AS (
+            SELECT total_net_sales, total_quantity_sold
+            FROM `fdsanalytics.ai.daily_summary`
+            WHERE report_date = DATE_SUB(@report_date, INTERVAL 1 YEAR)
+            LIMIT 1
         )
         SELECT
-            tw.day_name,
-            tw.total_net_sales as this_week_sales,
-            tw.total_quantity_sold as this_week_quantity,
-            lw.total_net_sales as last_week_sales,
-            lw.total_quantity_sold as last_week_quantity,
-            ROUND(100.0 * (tw.total_net_sales - lw.total_net_sales) /
-                  NULLIF(lw.total_net_sales, 0), 1) as sales_pct_change,
-            ROUND(100.0 * (tw.total_quantity_sold - lw.total_quantity_sold) /
-                  NULLIF(lw.total_quantity_sold, 0), 1) as quantity_pct_change
-        FROM this_week tw
-        CROSS JOIN last_week lw
+            cd.day_name,
+            cd.total_net_sales as current_sales,
+            cd.total_quantity_sold as current_quantity,
+            -- Week-over-week
+            ROUND(100.0 * (cd.total_net_sales - lw.total_net_sales) /
+                  NULLIF(lw.total_net_sales, 0), 1) as wow_sales_pct,
+            ROUND(100.0 * (cd.total_quantity_sold - lw.total_quantity_sold) /
+                  NULLIF(lw.total_quantity_sold, 0), 1) as wow_qty_pct,
+            -- Month-over-month
+            ROUND(100.0 * (cd.total_net_sales - lm.total_net_sales) /
+                  NULLIF(lm.total_net_sales, 0), 1) as mom_sales_pct,
+            ROUND(100.0 * (cd.total_quantity_sold - lm.total_quantity_sold) /
+                  NULLIF(lm.total_quantity_sold, 0), 1) as mom_qty_pct,
+            -- Year-over-year
+            ROUND(100.0 * (cd.total_net_sales - ly.total_net_sales) /
+                  NULLIF(ly.total_net_sales, 0), 1) as yoy_sales_pct,
+            ROUND(100.0 * (cd.total_quantity_sold - ly.total_quantity_sold) /
+                  NULLIF(ly.total_quantity_sold, 0), 1) as yoy_qty_pct
+        FROM current_day cd
+        LEFT JOIN last_week lw ON TRUE
+        LEFT JOIN last_month lm ON TRUE
+        LEFT JOIN last_year ly ON TRUE
     """
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
@@ -204,8 +231,8 @@ def fetch_forecast(client: bigquery.Client) -> list[dict]:
     return [dict(row) for row in results]
 
 
-def fetch_7day_trend(client: bigquery.Client, report_date: date) -> list[dict]:
-    """Fetch last 7 days of sales for trend chart."""
+def fetch_30day_trend(client: bigquery.Client, report_date: date) -> list[dict]:
+    """Fetch last 30 days of sales for trend chart."""
     query = """
         SELECT
             report_date,
@@ -214,7 +241,7 @@ def fetch_7day_trend(client: bigquery.Client, report_date: date) -> list[dict]:
             total_quantity_sold,
             avg_temp_f
         FROM `fdsanalytics.ai.daily_summary`
-        WHERE report_date > DATE_SUB(@report_date, INTERVAL 7 DAY)
+        WHERE report_date > DATE_SUB(@report_date, INTERVAL 30 DAY)
             AND report_date <= @report_date
         ORDER BY report_date
     """
@@ -225,3 +252,64 @@ def fetch_7day_trend(client: bigquery.Client, report_date: date) -> list[dict]:
     )
     results = client.query(query, job_config=job_config).result()
     return [dict(row) for row in results]
+
+
+def fetch_top_seller(client: bigquery.Client, report_date: date) -> dict | None:
+    """Fetch the #1 top-selling item by sales for the report date."""
+    query = """
+        SELECT
+            item_name,
+            ROUND(SUM(net_sales), 0) as sales
+        FROM `fdsanalytics.ai.restaurant_analytics`
+        WHERE report_date = @report_date
+        GROUP BY item_name
+        ORDER BY sales DESC
+        LIMIT 1
+    """
+    job_config = bigquery.QueryJobConfig(
+        query_parameters=[
+            bigquery.ScalarQueryParameter("report_date", "DATE", str(report_date))
+        ]
+    )
+    results = list(client.query(query, job_config=job_config).result())
+    return dict(results[0]) if results else None
+
+
+def fetch_category_forecast(client: bigquery.Client) -> list[dict]:
+    """Fetch 5-day forecast for each primary category."""
+    query = """
+        SELECT
+            REPLACE(primary_category, '(', '') as primary_category,
+            forecast_date,
+            day_name,
+            ROUND(predicted_sales, 0) as predicted_sales
+        FROM `fdsanalytics.ai.primary_category_forecast`
+        WHERE forecast_date >= CURRENT_DATE()
+        ORDER BY primary_category, forecast_date
+        LIMIT 30
+    """
+    results = client.query(query).result()
+
+    # Pivot data: group by category with list of daily forecasts
+    categories = {}
+    for row in results:
+        cat = row['primary_category'].rstrip(')')
+        if cat not in categories:
+            categories[cat] = {
+                'category': cat,
+                'forecasts': []
+            }
+        categories[cat]['forecasts'].append({
+            'date': row['forecast_date'],
+            'day': row['day_name'][:3],
+            'sales': row['predicted_sales']
+        })
+
+    # Return list sorted by category, limited to first 5 days per category
+    return [
+        {
+            'category': v['category'],
+            'forecasts': v['forecasts'][:5]
+        }
+        for v in sorted(categories.values(), key=lambda x: x['category'])
+    ]

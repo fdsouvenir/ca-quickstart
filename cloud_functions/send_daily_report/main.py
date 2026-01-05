@@ -172,8 +172,8 @@ def send_daily_report(request):
 
     log_info(f"Starting daily report for {report_date}")
 
-    # Check if already sent (prevent duplicates)
-    if is_already_sent(report_date):
+    # Check if already sent (skip for test mode)
+    if not test_date and is_already_sent(report_date):
         log_info(f"Email already sent for {report_date}", report_date=str(report_date))
         return {
             'status': 'already_sent',
@@ -204,8 +204,11 @@ def send_daily_report(request):
         log_info("Rendering email HTML")
         html_content = render_email_html(data, charts, report_date)
 
-        # Get recipients
-        recipients = get_recipients()
+        # Get recipients (test mode: only send to Fred)
+        if test_date:
+            recipients = ['fred@fdsconsulting.com']
+        else:
+            recipients = get_recipients()
         if not recipients:
             log_info("No active recipients found")
             log_report(report_date, 'no_recipients')

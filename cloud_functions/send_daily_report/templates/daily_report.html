@@ -203,24 +203,54 @@
         <div class="metric">
           <div class="metric-value">${{ yesterday.total_net_sales | format_number }}</div>
           <div class="metric-label">Total Sales</div>
-          {% if wow and wow.sales_pct_change is not none %}
-          <div class="change {{ 'change-up' if wow.sales_pct_change > 0 else 'change-down' if wow.sales_pct_change < 0 else 'change-neutral' }}">
-            {{ '+' if wow.sales_pct_change > 0 else '' }}{{ wow.sales_pct_change }}% vs last {{ yesterday.day_name }}
+          {% if comparisons %}
+          {% if comparisons.wow_sales_pct is not none %}
+          <div class="change {{ 'change-up' if comparisons.wow_sales_pct > 0 else 'change-down' if comparisons.wow_sales_pct < 0 else 'change-neutral' }}">
+            {{ '+' if comparisons.wow_sales_pct > 0 else '' }}{{ comparisons.wow_sales_pct }}% WoW
           </div>
+          {% endif %}
+          {% if comparisons.mom_sales_pct is not none %}
+          <div class="change {{ 'change-up' if comparisons.mom_sales_pct > 0 else 'change-down' if comparisons.mom_sales_pct < 0 else 'change-neutral' }}">
+            {{ '+' if comparisons.mom_sales_pct > 0 else '' }}{{ comparisons.mom_sales_pct }}% MoM
+          </div>
+          {% endif %}
+          {% if comparisons.yoy_sales_pct is not none %}
+          <div class="change {{ 'change-up' if comparisons.yoy_sales_pct > 0 else 'change-down' if comparisons.yoy_sales_pct < 0 else 'change-neutral' }}">
+            {{ '+' if comparisons.yoy_sales_pct > 0 else '' }}{{ comparisons.yoy_sales_pct }}% YoY
+          </div>
+          {% endif %}
           {% endif %}
         </div>
         <div class="metric">
           <div class="metric-value">{{ yesterday.total_quantity_sold | format_number }}</div>
           <div class="metric-label">Items Sold</div>
-          {% if wow and wow.quantity_pct_change is not none %}
-          <div class="change {{ 'change-up' if wow.quantity_pct_change > 0 else 'change-down' if wow.quantity_pct_change < 0 else 'change-neutral' }}">
-            {{ '+' if wow.quantity_pct_change > 0 else '' }}{{ wow.quantity_pct_change }}%
+          {% if comparisons %}
+          {% if comparisons.wow_qty_pct is not none %}
+          <div class="change {{ 'change-up' if comparisons.wow_qty_pct > 0 else 'change-down' if comparisons.wow_qty_pct < 0 else 'change-neutral' }}">
+            {{ '+' if comparisons.wow_qty_pct > 0 else '' }}{{ comparisons.wow_qty_pct }}% WoW
           </div>
+          {% endif %}
+          {% if comparisons.mom_qty_pct is not none %}
+          <div class="change {{ 'change-up' if comparisons.mom_qty_pct > 0 else 'change-down' if comparisons.mom_qty_pct < 0 else 'change-neutral' }}">
+            {{ '+' if comparisons.mom_qty_pct > 0 else '' }}{{ comparisons.mom_qty_pct }}% MoM
+          </div>
+          {% endif %}
+          {% if comparisons.yoy_qty_pct is not none %}
+          <div class="change {{ 'change-up' if comparisons.yoy_qty_pct > 0 else 'change-down' if comparisons.yoy_qty_pct < 0 else 'change-neutral' }}">
+            {{ '+' if comparisons.yoy_qty_pct > 0 else '' }}{{ comparisons.yoy_qty_pct }}% YoY
+          </div>
+          {% endif %}
           {% endif %}
         </div>
         <div class="metric">
-          <div class="metric-value">{{ yesterday.unique_items_sold }}</div>
-          <div class="metric-label">Unique Items</div>
+          {% if top_seller %}
+          <div class="metric-value" style="font-size: 18px;">{{ top_seller.item_name }}</div>
+          <div class="metric-label">Top Seller</div>
+          <div class="change change-neutral">${{ top_seller.sales | format_number }}</div>
+          {% else %}
+          <div class="metric-value">-</div>
+          <div class="metric-label">Top Seller</div>
+          {% endif %}
         </div>
       </div>
 
@@ -242,12 +272,12 @@
     </div>
     {% endif %}
 
-    <!-- 7-Day Sales Trend -->
+    <!-- 30-Day Sales Trend -->
     {% if charts.sales_trend %}
     <div class="section">
-      <h2>7-Day Sales Trend</h2>
+      <h2>30-Day Sales Trend</h2>
       <div class="chart-container">
-        <img src="{{ charts.sales_trend }}" alt="7-Day Sales Trend" width="500" height="250">
+        <img src="{{ charts.sales_trend }}" alt="30-Day Sales Trend" width="550" height="250">
       </div>
     </div>
     {% endif %}
@@ -259,6 +289,33 @@
       <div class="chart-container">
         <img src="{{ charts.category_breakdown }}" alt="Category Breakdown" width="450" height="250">
       </div>
+    </div>
+    {% endif %}
+
+    <!-- Category Forecast -->
+    {% if category_forecast %}
+    <div class="section">
+      <h2>Category Forecast</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            {% for f in category_forecast[0].forecasts %}
+            <th style="text-align: right;">{{ f.day }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for cat in category_forecast %}
+          <tr>
+            <td>{{ cat.category }}</td>
+            {% for f in cat.forecasts %}
+            <td style="text-align: right;">${{ f.sales | format_number }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
     {% endif %}
 

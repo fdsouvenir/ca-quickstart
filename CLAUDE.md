@@ -536,9 +536,13 @@ bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE activ
 
 ### Testing & Monitoring
 
+**Test mode behavior** (when using `?test_date=`):
+- Sends only to `fred@fdsconsulting.com` (not all recipients)
+- Bypasses duplicate check (can re-run tests freely)
+
 ```bash
 # Test the email function with specific date
-curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2025-12-29"
+curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2026-01-04"
 
 # Check email logs
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 10"
@@ -664,8 +668,8 @@ gcloud logging read 'resource.labels.function_name="sync-drive-to-gcs"' --limit=
 # List Cloud Functions
 gcloud functions list --project=fdsanalytics --filter="name~pmix OR name~sync-drive OR name~daily-report OR name~weather"
 
-# Daily Email Report (test with specific date)
-curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2025-12-29"
+# Daily Email Report (test mode: sends only to fred@fdsconsulting.com, bypasses duplicate check)
+curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2026-01-04"
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 5"
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE active = TRUE"
 

@@ -55,19 +55,29 @@ def build_all_charts(data: dict) -> dict:
 
 
 def build_sales_trend_chart(trend_data: list[dict]) -> str:
-    """Build 7-day sales trend bar chart."""
-    labels = [d['day_name'][:3] for d in trend_data]
+    """Build 30-day sales trend line chart."""
+    # Format labels as "Mon 12/15"
+    labels = []
+    for d in trend_data:
+        day_abbr = d['day_name'][:3]
+        date_str = d['report_date'].strftime('%m/%d') if hasattr(d['report_date'], 'strftime') else str(d['report_date'])[5:].replace('-', '/')
+        labels.append(f"{day_abbr} {date_str}")
+
     values = [round(d['total_net_sales'] or 0, 0) for d in trend_data]
 
     config = {
-        "type": "bar",
+        "type": "line",
         "data": {
             "labels": labels,
             "datasets": [{
                 "label": "Sales ($)",
                 "data": values,
-                "backgroundColor": COLOR_PRIMARY,
-                "borderRadius": 4
+                "borderColor": COLOR_PRIMARY,
+                "backgroundColor": "rgba(66, 133, 244, 0.1)",
+                "fill": True,
+                "tension": 0.3,
+                "pointRadius": 2,
+                "pointHoverRadius": 5
             }]
         },
         "options": {
@@ -75,20 +85,28 @@ def build_sales_trend_chart(trend_data: list[dict]) -> str:
                 "legend": {"display": False},
                 "title": {
                     "display": True,
-                    "text": "Last 7 Days Sales",
+                    "text": "30-Day Sales Trend",
                     "font": {"size": 14}
                 }
             },
             "scales": {
+                "x": {
+                    "ticks": {
+                        "maxRotation": 45,
+                        "minRotation": 45,
+                        "autoSkip": True,
+                        "maxTicksLimit": 10
+                    }
+                },
                 "y": {
-                    "beginAtZero": True,
+                    "beginAtZero": False,
                     "ticks": {"callback": "${{value}}"}
                 }
             }
         }
     }
 
-    return build_chart_url(config)
+    return build_chart_url(config, width=550, height=250)
 
 
 def build_category_chart(categories: list[dict]) -> str:

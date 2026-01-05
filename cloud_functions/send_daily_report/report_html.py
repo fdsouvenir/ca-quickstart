@@ -51,11 +51,13 @@ def render_email_html(data: dict, charts: dict, report_date: date) -> str:
         report_date_formatted=report_date_formatted,
         generated_at=generated_at,
         yesterday=data.get('yesterday'),
-        wow=data.get('wow'),
+        comparisons=data.get('comparisons'),
         top_categories=data.get('top_categories'),
         top_items=data.get('top_items', []),
+        top_seller=data.get('top_seller'),
         anomalies=data.get('anomalies', []),
         forecast=data.get('forecast', []),
         trend=data.get('trend', []),
+        category_forecast=data.get('category_forecast', []),
         charts=charts
     )
