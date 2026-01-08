@@ -499,16 +499,18 @@ Automated daily analytics email triggered after PMIX import completes.
 ### Trigger Flow
 
 ```
-PMIX Import completes (yesterday's data)
+PMIX Import completes (any date)
        ↓
-process-pmix refreshes ai.daily_summary
+process-pmix refreshes ai.daily_summary (always, for any import date)
        ↓
-process-pmix calls send-daily-report
-       ↓
-Email sent (duplicate check prevents re-sends)
+If imported date = yesterday:
+  → process-pmix calls send-daily-report
+  → Email sent (duplicate check prevents re-sends)
        ↓
 8:15 AM CT fallback (if not already sent)
 ```
+
+**Note**: `ai.daily_summary` is refreshed after every successful import, regardless of the import date. This ensures late imports (e.g., importing Monday's data on Wednesday) still update the summary table.
 
 ### Report Contents
 
@@ -544,13 +546,23 @@ bq query --nouse_legacy_sql "SELECT * FROM insights.email_recipients WHERE activ
 
 ### Testing & Monitoring
 
-**Test mode behavior** (when using `?test_date=`):
-- Sends only to `fred@fdsconsulting.com` (not all recipients)
-- Bypasses duplicate check (can re-run tests freely)
+**Query parameters**:
+
+| Parameter | Effect |
+|-----------|--------|
+| `test_date=YYYY-MM-DD` | Use specific date, send only to fred@, bypass duplicate check |
+| `force=true` | Send to all recipients, bypass duplicate check |
+| Both combined | Use specific date, send to all recipients, bypass duplicate check |
 
 ```bash
-# Test the email function with specific date
+# Test mode: specific date, only fred@, bypasses duplicate check
 curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2026-01-04"
+
+# Force mode: yesterday's date, all recipients, bypasses duplicate check
+curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?force=true"
+
+# Force + date: specific date, all recipients, bypasses duplicate check
+curl "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report?test_date=2026-01-04&force=true"
 
 # Check email logs
 bq query --nouse_legacy_sql "SELECT * FROM insights.email_report_log ORDER BY sent_at DESC LIMIT 10"
