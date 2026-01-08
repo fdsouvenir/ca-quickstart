@@ -153,8 +153,9 @@ def send_daily_report(request):
     Returns:
         JSON response with status and details
     """
-    # Check for test date override
+    # Check for test date override and force flag
     test_date = request.args.get('test_date') if request else None
+    force_send = request.args.get('force', '').lower() == 'true' if request else False
 
     if test_date:
         try:
@@ -172,8 +173,8 @@ def send_daily_report(request):
 
     log_info(f"Starting daily report for {report_date}")
 
-    # Check if already sent (skip for test mode)
-    if not test_date and is_already_sent(report_date):
+    # Check if already sent (skip for test mode or force mode)
+    if not test_date and not force_send and is_already_sent(report_date):
         log_info(f"Email already sent for {report_date}", report_date=str(report_date))
         return {
             'status': 'already_sent',
@@ -204,8 +205,8 @@ def send_daily_report(request):
         log_info("Rendering email HTML")
         html_content = render_email_html(data, charts, report_date)
 
-        # Get recipients (test mode: only send to Fred)
-        if test_date:
+        # Get recipients (test mode without force: only send to Fred)
+        if test_date and not force_send:
             recipients = ['fred@fdsconsulting.com']
         else:
             recipients = get_recipients()
