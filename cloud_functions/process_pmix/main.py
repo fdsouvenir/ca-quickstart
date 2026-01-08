@@ -163,13 +163,7 @@ def trigger_daily_report(report_date: str):
         print(f"Skipping email: {report_date} is not yesterday ({yesterday})")
         return
 
-    # Refresh daily_summary first (required for email)
-    try:
-        refresh_daily_summary()
-    except Exception as e:
-        log_error(f"Failed to refresh daily_summary: {e}")
-        return
-
+    # daily_summary already refreshed above, just trigger email
     # Trigger email function
     url = "https://us-central1-fdsanalytics.cloudfunctions.net/send-daily-report"
     try:
@@ -255,6 +249,12 @@ def process_pmix(cloud_event: CloudEvent):
         )
 
         print(f"Success: {file_name} -> {record_count} records")
+
+        # Always refresh daily_summary after successful import
+        try:
+            refresh_daily_summary()
+        except Exception as e:
+            log_error(f"Failed to refresh daily_summary: {e}")
 
         # Trigger daily email if this is yesterday's data
         trigger_daily_report(report_date)
